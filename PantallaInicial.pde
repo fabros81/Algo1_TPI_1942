@@ -56,7 +56,7 @@ class PantallaInicial
   void dibujar(){
          if (this.imgInicio != null && this.flecha != null) 
         {background(0);
-          background(this.imgInicio); 
+          background(this.imgInicio); // si hay problemas con el tamaño del fondo "(this.imgInicio,0,0,width, height)"
                contadorParpadeo++; 
          
               if ( contadorParpadeo >= 30 && contadorParpadeo <=50)
