@@ -8,6 +8,7 @@ void setup()
   size(800, 600);
 
   rectMode(CENTER);
+  imageMode(CENTER);
   gm = new GameManager();
   avionJugadorGIF = new Gif(this, "AvionAliado.gif");
   avionJugadorGIF.play();

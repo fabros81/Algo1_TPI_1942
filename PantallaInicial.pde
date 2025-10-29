@@ -56,7 +56,7 @@ class PantallaInicial
   void dibujar(){
          if (this.imgInicio != null && this.flecha != null) 
         {background(0);
-          image(this.imgInicio, 0, 0, width, height); 
+          image(this.imgInicio, width/2, height/2, width, height); 
                contadorParpadeo++; 
          
               if ( contadorParpadeo >= 30 && contadorParpadeo <=50)
@@ -64,7 +64,7 @@ class PantallaInicial
               } else {flechaVisible = false;}
               
               if (flechaVisible == true)
-              {image(flecha, x, y, 30, 30);}
+              {image(flecha, x + 10, y+15, 30, 30);}
               
               if (contadorParpadeo >40) 
               {contadorParpadeo = 0;
