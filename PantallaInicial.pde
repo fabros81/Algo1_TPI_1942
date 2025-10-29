@@ -88,7 +88,9 @@ class PantallaInicial
  
    
   void actualizar()
-  { int tiempoActual = millis();
+  {
+    // ajuste de flecha
+    int tiempoActual = millis();
     if (gm.getDownPressed() && tiempoActual - ultimoMillisTecla >= delayTecla ){
       this.posicionFlecha = this.posicionFlecha +1 ;
         if (this.posicionFlecha >2){this.posicionFlecha = 0;
@@ -97,6 +99,7 @@ class PantallaInicial
       this.y = posiciones[this.posicionFlecha][1];
       ultimoMillisTecla = tiempoActual;
     }
+
      if (gm.getUpPressed() && tiempoActual - ultimoMillisTecla >= delayTecla ){
       this.posicionFlecha = this.posicionFlecha -1 ;
         if (this.posicionFlecha <0){this.posicionFlecha = 2;
@@ -105,7 +108,12 @@ class PantallaInicial
       this.y = posiciones[this.posicionFlecha][1];
       ultimoMillisTecla = tiempoActual;
     }
- }
+    // seleccionar opciones
+    if (gm.getSpacePressed() && this.posicionFlecha == 0){gm.iniciarPartida();}
+    if (gm.getSpacePressed() && this.posicionFlecha ==1 ){ }
+    if (gm.getSpacePressed() && tiempoActual - ultimoMillisTecla >= delayTecla && this.posicionFlecha ==2  ){gm.iniciarEstadistica();}
+
+   }
     
   }
 
