@@ -12,9 +12,9 @@ class AvionAliado extends Avion
   public void dibujar()
   {
     if (!isAlive) return;
-    fill(0,0,255);
-    circle(this.posicion.x,this.posicion.y , this.radio);
-    
+    //fill(0,0,255);
+    // circle(this.posicion.x,this.posicion.y , this.radio);
+    image(avionJugadorGIF, this.posicion.x, this.posicion.y, this.radio, this.radio);
   
   }
   

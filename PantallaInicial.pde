@@ -56,7 +56,7 @@ class PantallaInicial
   void dibujar(){
          if (this.imgInicio != null && this.flecha != null) 
         {background(0);
-          background(this.imgInicio); 
+          image(this.imgInicio, 0, 0, width, height); 
                contadorParpadeo++; 
          
               if ( contadorParpadeo >= 30 && contadorParpadeo <=50)

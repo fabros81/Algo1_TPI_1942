@@ -1,13 +1,16 @@
+import gifAnimation.*;
 GameManager gm;
-
+Gif avionJugadorGIF;
 
 
 void setup()
 {
   size(800, 600);
-  
+
   rectMode(CENTER);
   gm = new GameManager();
+  avionJugadorGIF = new Gif(this, "AvionAliado.gif");
+  avionJugadorGIF.play();
 }
 
 void draw()
@@ -24,3 +27,4 @@ void keyPressed()
 void keyReleased() {
   gm.keyReleased();
 }
+
