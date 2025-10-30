@@ -16,6 +16,7 @@ class Partida {
   boolean mostrandoPantallaNivel = false;
   int tiempoTransicionNivel;
 
+  private int partidaID; // ID de la partida actual
   Partida(GameManager gm) {
     this.gm = gm;
     
@@ -29,7 +30,7 @@ class Partida {
     
     // Cargar o crear tabla de puntajes
     this.table = loadTable("data/prueba.csv", "header");
-    
+    this.partidaID = table.getRowCount(); // ID basado en la cantidad de filas existentes
     // Generar enemigos iniciales
     generarEnemigos();
     
@@ -173,7 +174,7 @@ class Partida {
       
       // Guardar puntaje en CSV
       TableRow newRow = table.addRow();
-      newRow.setInt("id", table.getRowCount());
+      newRow.setInt("id", this.partidaID);
       newRow.setFloat("puntaje", jugador.puntaje);
       newRow.setFloat("tiempo", this.duracion); //carga los milisegundos q duro la partida
       saveTable(table, "data/prueba.csv");
@@ -216,4 +217,5 @@ class Partida {
   
   // ─── getters ────────────────────────────────────────
   public float getPuntos(){return this.puntaje;}
+  public int getPartidaID(){return this.partidaID;}
 }
