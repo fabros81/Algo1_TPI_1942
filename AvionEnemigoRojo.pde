@@ -30,7 +30,7 @@ class AvionEnemigoRojo extends AvionEnemigo
      this.isAlive = false;
    }
  }
- private int tiempoUltimoDisparo = 0;     // Tiempo del último disparo
+ private int tiempoUltimoDisparo = millis() + int(random(-5000, 0));     // Tiempo del último disparo, inicializado aleatoriamente para que no disparen todos juntos
  private int delayDisparo = int(random(1500, 4000));
  public void disparar()
  {
