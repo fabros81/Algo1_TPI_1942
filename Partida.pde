@@ -68,7 +68,6 @@ class Partida {
       // after 2 seconds, resume gameplay
       if (millis() - tiempoTransicionNivel > 2000) {
         mostrandoPantallaNivel = false;
-        tiempoInicio = millis(); // reset timer for next level
         generarEnemigos();       // create new enemies for level 2
       }
       return; // stop here so nothing else is drawn

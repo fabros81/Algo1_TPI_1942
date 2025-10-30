@@ -106,7 +106,8 @@ class PantallaInicial
       ultimoMillisTecla = tiempoActual;
     }
  }
-    
-  }
+  public int getPosicionFlecha(){return this.posicionFlecha;}
+
+}
 
 
