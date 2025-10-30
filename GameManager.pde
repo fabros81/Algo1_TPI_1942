@@ -5,6 +5,7 @@ class GameManager {
   private boolean upPressed = false;
   private boolean downPressed = false;
   private boolean spacePressed = false;
+  private boolean escapePressed = false;
 
 
   // ─── ESTADO DEL JUEGO ─────────────────────────────────
@@ -39,9 +40,9 @@ class GameManager {
       case 2:
         this.fin.actualizar();
         break;
-      /*case 3:
+      case 3:
         this.estadisticas.actualizar();
-        break;*/
+        break;
     }
   }
 
@@ -57,18 +58,37 @@ class GameManager {
      case 2:
         this.fin.dibujar();
         break;
-     /*  case 3:
+       case 3:
         this.estadisticas.dibujar();
-        break;*/
+        break;
+        
     }
   }
 
-  // ─── PARTIDA ─────────────────────────────────────────
+  // ─── PARTIDA 1 player ─────────────────────────────────────────
+  // switch caso 1
   public void iniciarPartida() {
     this.partida = new Partida(this);
     this.juego.setPartida(this.partida);
     this.estado = 1;
   }
+
+  // ____ PARTIDA 2 player ___________________________
+  
+  // switch caso 1 con distinta partida? o caso 4?
+  public void iniciarPartida2(){
+
+  } 
+
+  //__________ Estadistica _________________________
+
+  public void iniciarEstadistica(){
+    this.estadisticas.daleDona();
+    this.estado = 3;
+
+  }
+
+  
 
   // ─── INPUT ────────────────────────────────────────────
   public void keyPressed() {
@@ -78,6 +98,7 @@ class GameManager {
       if (keyCode == UP) this.upPressed = true;
       if (keyCode == DOWN) this.downPressed = true;
       if (key == ' ') this.spacePressed = true;
+      if (key == 'q') this.escapePressed = true;
     
       
     
@@ -92,6 +113,7 @@ class GameManager {
     if (keyCode == UP) this.upPressed = false;
     if (keyCode == DOWN) this.downPressed = false;
     if (key == ' ') this.spacePressed = false;
+    if (key == 'q') this.escapePressed = false;
     
     
   }
@@ -102,7 +124,11 @@ class GameManager {
   public boolean getUpPressed() { return this.upPressed; }
   public boolean getDownPressed() { return this.downPressed; }
   public boolean getSpacePressed() { return this.spacePressed; }
+  public boolean getEscapePressed() { return this.escapePressed;}
   
   
   public Partida getPartida() {return this.partida;}
+
+  public int getEstado(){return this.estado;}
+  public void setEstado(int e) {this.estado = e;}
 }
