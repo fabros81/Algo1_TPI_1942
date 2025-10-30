@@ -15,7 +15,7 @@ class AvionAliado extends Avion
     //fill(0,0,255);
     // circle(this.posicion.x,this.posicion.y , this.radio);
     image(avionJugadorGIF, this.posicion.x, this.posicion.y, this.radio, this.radio);
-  
+    dibujarBarraSalud();
   }
   
   public void mover()
@@ -41,5 +41,40 @@ class AvionAliado extends Avion
       tiempoUltimoDisparo = tiempoActual;
     }
   }
+
+  // dibuja una barra de salud bajo el avión
+private void dibujarBarraSalud() {
+  
+  float barAncho = 46;              
+  float barAltura = 6;               
+  float x = this.posicion.x; 
+  float y = this.posicion.y + this.radio;
+
+  float porcentajeSalud = constrain(this.hp / 100, 0, 1);
+
+  // --- colors (green → yellow → red) ---
+  int green  = color(  0, 200,   0);
+  int yellow = color(255, 200,   0);
+  int red    = color(255,   0,   0);
+
+  int fillCol = (porcentajeSalud >= 0.5)
+  //funciona como un if
+      ? lerpColor(yellow, green, map(porcentajeSalud, 0.5, 1, 0, 1)) //si hp >= 50% 
+      : lerpColor(red,  yellow, map(porcentajeSalud, 0, 0.5, 0, 1)); //si hp < 50%
+
+  pushStyle();
+  noStroke();
+
+  // background bar
+  fill(GRAY);
+  rect(x, y, barAncho, barAltura, 2); // el 2 hace las esquinas redondeadas
+
+  // barra de salud
+  fill(fillCol);
+  rect(x, y, barAncho * porcentajeSalud, barAltura, 2);
+
+  
+  popStyle();
+}
 
 }
