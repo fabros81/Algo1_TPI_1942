@@ -66,7 +66,7 @@ private void dibujarBarraSalud() {
   noStroke();
 
   // background bar
-  fill(255,255,255);
+  fill(GRAY);
   rect(x, y, barAncho, barAltura, 2); // el 2 hace las esquinas redondeadas
 
   // barra de salud
