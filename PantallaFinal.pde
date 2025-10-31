@@ -4,7 +4,6 @@ class PantallaFinal
   PFont fontTitulo;
   PFont fontTexto;
   PFont fontOpciones;
-  private PImage imgFinal;
   private PImage flecha;
   private boolean flechaVisible;
   private int contadorParpadeo;
@@ -57,14 +56,9 @@ class PantallaFinal
   void dibujar()
   {
     // Fondo
-    if (this.imgFinal != null) {
-      background(0);
-      tint(255, 100);
-      image(this.imgFinal, width/2, height/2, width, height);
-      noTint();
-    } else {
-      background(0);
-    }
+    
+    background(0);
+    
     
     // Overlay oscuro
     fill(0, 0, 0, 200);
