@@ -40,16 +40,15 @@ class Partida {
   }
 
   // ─── CREACIÓN DE BALAS ───────────────────────────────
-  public void crearBalasAliadas(float x, float y) {
-    Bala b = new Bala(x - 10, y, -1, 8, 9, 10);
-    Bala b1 = new Bala(x + 10, y, -1, 8, 9, 10);
+  public void crearBalasAliadas(float x, float y, int direccionX, int direccionY, float velocidad, float radio, float daño) {
+    Bala b = new Bala(x, y, direccionX, direccionY, velocidad, radio, daño);
     listaBalasAliadas.add(b);
-    listaBalasAliadas.add(b1);
+    
   }
   
-  public void crearBalasEnemigas(float x, float y)
+  public void crearBalasEnemigas(float x, float y, int direccionX, int direccionY, float velocidad, float radio, float daño)
   {
-    Bala b = new Bala(x, y, 1, 5, 9, 33.4);
+    Bala b = new Bala(x, y, direccionX, direccionY, velocidad, radio, daño);
     listaBalasEnemigas.add(b);
   }
 
@@ -94,7 +93,20 @@ class Partida {
     // Mover y disparar jugador
     jugador.mover();
     jugador.disparar();
-    
+    //String[] opciones = {this.jugador.activarMultidisparo(), this.jugador.activarInstakill()}; //, "AumentoVelocidad"
+    Runnable[] opciones = {
+      () -> jugador.activarMultidisparo(),
+      () -> jugador.activarInstakill()
+    };
+
+    if (this.puntaje == 100)
+    {
+      //String powUpSeleccionado = opciones[int(random(0, opciones.length))];
+     // print(powUpSeleccionado);
+      opciones[int(random(opciones.length))].run();
+
+
+    }
     //impacto bala aliada con nave enemiga, resto vida y sumo puntos
     for (Bala b: listaBalasAliadas) 
     {

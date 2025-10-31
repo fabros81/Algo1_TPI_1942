@@ -39,7 +39,7 @@ class AvionEnemigoRojo extends AvionEnemigo
 
    if(tiempoActual - tiempoUltimoDisparo >= delayDisparo)
     {
-      gm.getPartida().crearBalasEnemigas(this.posicion.x, this.posicion.y);
+      gm.getPartida().crearBalasEnemigas(this.posicion.x, this.posicion.y,  0, 1, 5, 9, 33.4);
       tiempoUltimoDisparo = tiempoActual;
       delayDisparo = int(random(1000, 4000));
     }
