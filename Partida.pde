@@ -1,5 +1,6 @@
 class Partida {
   AvionAliado jugador;
+  PowUp powUp;
   float puntaje;
   ArrayList<Bala> listaBalasAliadas;
   ArrayList<Bala> listaBalasEnemigas;
@@ -16,18 +17,23 @@ class Partida {
   boolean mostrandoPantallaNivel = false;
   int tiempoTransicionNivel;
 
+  private float puntajeUltimoPowUp = 0;
+  private int intervaloPowUp = 1000;
+
   private int partidaId; // ID de la partida actual
   Partida(GameManager gm) {
     this.gm = gm;
     
     // Inicializar objetos y listas
     this.jugador = new AvionAliado(this.gm,width / 2, height - 50);
+    this.powUp = new PowUp(this);
+    this.jugador.setPowUp(this.powUp);
     this.puntaje = jugador.getPuntaje();
     this.listaBalasAliadas = new ArrayList<Bala>();
     this.listaBalasEnemigas = new ArrayList<Bala>();
     this.listaEnemigos = new ArrayList<AvionEnemigo>();
     this.colision = new Colision();
-    
+
     // Cargar o crear tabla de puntajes
     this.table = loadTable("data/prueba.csv", "header");
     this.partidaId = table.getRowCount(); // ID basado en la cantidad de filas existentes
@@ -40,16 +46,15 @@ class Partida {
   }
 
   // ─── CREACIÓN DE BALAS ───────────────────────────────
-  public void crearBalasAliadas(float x, float y) {
-    Bala b = new Bala(x - 10, y, -1, 8, 9, 10);
-    Bala b1 = new Bala(x + 10, y, -1, 8, 9, 10);
+  public void crearBalasAliadas(float x, float y, int direccionX, int direccionY, float velocidad, float radio, float daño) {
+    Bala b = new Bala(x, y, direccionX, direccionY, velocidad, radio, daño);
     listaBalasAliadas.add(b);
-    listaBalasAliadas.add(b1);
+    
   }
   
-  public void crearBalasEnemigas(float x, float y)
+  public void crearBalasEnemigas(float x, float y, int direccionX, int direccionY, float velocidad, float radio, float daño)
   {
-    Bala b = new Bala(x, y, 1, 5, 9, 33.4);
+    Bala b = new Bala(x, y, direccionX, direccionY, velocidad, radio, daño);
     listaBalasEnemigas.add(b);
   }
 
@@ -94,7 +99,21 @@ class Partida {
     // Mover y disparar jugador
     jugador.mover();
     jugador.disparar();
-    
+  
+  
+    //cada x puntos active un power up random
+    if (this.puntaje - this.puntajeUltimoPowUp >= intervaloPowUp) 
+    {
+    int r = int(random(3));
+    if (r == 0) jugador.activarEscudo();
+    else if (r == 1) jugador.activarInstakill();
+    else jugador.activarMultidisparo();
+    this.puntajeUltimoPowUp = this.puntaje;
+    }
+
+    jugador.actualizarInstakill();
+    jugador.actualizarMultidisparo();
+
     //impacto bala aliada con nave enemiga, resto vida y sumo puntos
     for (Bala b: listaBalasAliadas) 
     {
@@ -117,13 +136,19 @@ class Partida {
     for (Bala b: listaBalasEnemigas) 
     {      
       if (colision.colision(jugador,b))
-      {
+      {        
         b.colisiono();
-        jugador.restarVida(b.getDaño());
-        if (jugador.hp <= 0)
+        if (this.jugador.getEscudoActivo() == false)
         {
-          jugador.murio();          
-        }          
+          jugador.restarVida(b.getDaño());
+          if (jugador.hp <= 0)
+          {
+            jugador.murio();          
+          }
+        }else 
+        {
+          jugador.setEscudo(false);
+        }        
       }      
     }
     
@@ -218,4 +243,6 @@ class Partida {
   // ─── getters ────────────────────────────────────────
   public float getPuntos(){return this.puntaje;}
   public int getPartidaId(){return this.partidaId;}
+  public AvionAliado getJugador(){return this.jugador;}
+  public PowUp getPowUp(){return this.powUp;}
 }
