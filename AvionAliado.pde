@@ -6,20 +6,26 @@ class AvionAliado extends Avion
   private PowUp powUp;
   private boolean multidisparoActivo = false;
   private boolean instakillActivo = false;
+  private boolean escudoActivo = false;
   private int tiempoMultidisparo;
   private int tiempoInstakill;
   private int duracionPowUp = 5000;
+  private Partida partida;
+
 
   public AvionAliado(GameManager gm, float x, float y){
     super(gm,x, y, 40, 5, 100);
     this.gm = gm;
-    powUp = new PowUp(this.gm, this);
   }
 
   public void sumarPuntos(float i){this.puntaje += i;}
   public float getPuntaje(){return this.puntaje;}
   public float getHp(){return this.hp;}
   public float getVelocidad(){return this.velocidad;}
+  public PowUp getPowUp(){return this.powUp;}
+  public boolean getEscudoActivo(){return this.escudoActivo;}
+  public void setEscudo(boolean i){this.escudoActivo = i;}
+  public void setPowUp(PowUp i){this.powUp = i;}
 
   public void activarMultidisparo()
   {
@@ -39,10 +45,14 @@ class AvionAliado extends Avion
   public void actualizarInstakill()
   {
     if (instakillActivo && millis() - tiempoInstakill > duracionPowUp) {
-        multidisparoActivo = false;
+        instakillActivo = false;
     }
   }
-  public void aumentoVelocidad(float i){this.velocidad = i;}
+  
+  public void activarEscudo()
+  {
+    powUp.escudo();
+  }
 
 
 
@@ -52,8 +62,15 @@ class AvionAliado extends Avion
     if (!isAlive) return;
     //fill(0,0,255);
     // circle(this.posicion.x,this.posicion.y , this.radio);
+    if (escudoActivo)
+    {
+      fill(255, 200,   0);
+      circle(this.posicion.x, this.posicion.y, this.radio+1);
+      //santi pone una burbuja o un aura.
+    }
     image(avionJugadorGIF, this.posicion.x, this.posicion.y, this.radio, this.radio);
     dibujarBarraSalud();
+    
   } 
   
   public void mover()

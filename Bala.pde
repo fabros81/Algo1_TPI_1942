@@ -24,6 +24,7 @@ class Bala
   public float getDaño(){return this.daño;}
   public boolean getColisiono(){return this.colisiono;}
   
+  
   public void colisiono(){this.colisiono = true;}
 
   public void dibujar()
