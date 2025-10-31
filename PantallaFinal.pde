@@ -9,11 +9,11 @@ class PantallaFinal
   private boolean flechaVisible;
   private int contadorParpadeo;
   private int posicionFlecha;
-  private int[][] posiciones = {
-    {width/2 - 120, 370}, // REINTENTAR
-    {width/2 - 120, 420}, // ESTADÍSTICAS  
-    {width/2 - 120, 470}  // MENÚ PRINCIPAL
-  };
+ private int[][] posiciones = {
+  {276, 378}, 
+  {257, 428},  
+  {240, 478}  
+};
   private int x;
   private int y;
   private int delayTecla;
@@ -22,7 +22,7 @@ class PantallaFinal
   
   PantallaFinal(GameManager gm)  
   {
-    this.gm = gm;  // ← AQUÍ SÍ LO ASIGNA
+    this.gm = gm;
     fontTitulo = createFont("data/fonts/PressStart2P-Regular.ttf", 36);
     fontTexto = createFont("data/fonts/PressStart2P-Regular.ttf", 16);
     fontOpciones = createFont("data/fonts/PressStart2P-Regular.ttf", 20);
@@ -68,7 +68,7 @@ class PantallaFinal
     
     // Overlay oscuro
     fill(0, 0, 0, 200);
-    rect(width/2, height/2, 700, 500);
+    rect(width/2, height/2, 800, 500);
     
     // Título GAME OVER
     textFont(fontTitulo);
@@ -83,28 +83,30 @@ class PantallaFinal
     noStroke();
     
     // Estadísticas
-    textFont(fontTexto);
-    fill(255);
-    textAlign(CENTER, CENTER);
+      // Estadísticas - con formato mejorado
+  textFont(fontTexto);
+  fill(255);
+  textAlign(CENTER, CENTER);
+  
+  if (gm.getPartida() != null && gm.getPartida().jugador != null) {
+    Partida p = gm.getPartida();
+    float puntaje = p.getPuntos();
+    float tiempoSegundos = p.duracion / 1000.0;
     
-    if (gm.getPartida() != null && gm.getPartida().jugador != null) {
-      Partida p = gm.getPartida();
-      float puntaje = p.getPuntos();
-      float tiempoSegundos = p.duracion / 1000.0;
-      
-      text("PUNTAJE FINAL: " + nf(puntaje, 0, 2), width/2, 160);
-      text("TIEMPO DE JUEGO: " + nf(tiempoSegundos, 0, 1) + " segundos", width/2, 190);
-      
-      int partidaId = p.getPartidaId();
-      text("ID PARTIDA: " + partidaId, width/2, 220);
+    // Formatear puntaje si es muy grande
+    String textoPuntaje;
+    if (puntaje > 9999) {
+      textoPuntaje = nf(puntaje/1000, 0, 1) + "K";
     } else {
-      text("NO HAY DATOS DE PARTIDA", width/2, 200);
+      textoPuntaje = nf(puntaje, 0, 2);
     }
     
-    // Mejor puntaje
-    fill(255, 255, 0);
-    text("MEJOR PUNTAJE: " + nf(100, 0, 2), width/2, 260);
+    text("PUNTAJE FINAL: " + textoPuntaje, width/2, 160);
+    text("TIEMPO: " + nf(tiempoSegundos, 0, 1) + "s", width/2, 190);
     
+    int partidaId = p.getPartidaId();
+    text("ID: " + partidaId, width/2, 220);
+  }
     // Línea separadora
     stroke(150);
     strokeWeight(1);
@@ -178,31 +180,24 @@ class PantallaFinal
         gm.iniciarPartida();  
         break;
       case 1: // ESTADÍSTICAS
-        mostrarPantallaEstadisticas();
+        gm.estado = 3;  
         break;
-      case 2: // MENÚ PRINCIPAL
+      case 2: // MENÚ PRINCIPAL  
         gm.estado = 0;  
         break;
     }
   }
   
-  private void mostrarPantallaEstadisticas() {
-    println("Mostrando estadísticas...");
-    mostrarEstadisticasCompletas();
-  }
-  
-  public void mostrarEstadisticasCompletas() {
-    if (tablaEstadisticas == null || tablaEstadisticas.getRowCount() == 0) {
-      println("No hay estadísticas guardadas");
-      return;
+  private float obtenerMejorPuntaje() {
+    float mejorPuntaje = 0;
+    if (tablaEstadisticas != null && tablaEstadisticas.getRowCount() > 0) {
+      for (TableRow row : tablaEstadisticas.rows()) {
+        float puntaje = row.getFloat("puntaje");
+        if (puntaje > mejorPuntaje) {
+          mejorPuntaje = puntaje;
+        }
+      }
     }
-    
-    println("=== ESTADÍSTICAS COMPLETAS ===");
-    for (TableRow row : tablaEstadisticas.rows()) {
-      int id = row.getInt("id");
-      float puntaje = row.getFloat("puntaje");
-      float tiempo = row.getFloat("tiempo");
-      println("ID: " + id + " | Puntaje: " + puntaje + " | Tiempo: " + nf(tiempo/1000, 0, 1) + "s");
-    }
+    return mejorPuntaje;
   }
-}
+}  
