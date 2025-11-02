@@ -36,6 +36,7 @@ class GameManager {
         break;
       case 1:
         if (partida != null) this.juego.actualizar();
+        
         break;
       case 2:
         this.fin.actualizar();
@@ -54,6 +55,7 @@ class GameManager {
         break;
       case 1:
         if (partida != null) this.juego.dibujar();
+        
         break;
      case 2:
         this.fin.dibujar();

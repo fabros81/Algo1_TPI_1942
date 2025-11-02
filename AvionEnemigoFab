@@ -1,0 +1,15 @@
+public class AvionEnemigoFab extends AvionEnemigo{
+    
+    
+    public AvionEnemigoFab(){}
+
+
+    
+    public void dibujar(){
+        rect(this.getX(),this.getY(),50,50);
+    }
+    public void disparar(){}
+    public void mover(){}
+}
+
+// ESTA PARA SER DESCARTADO CUANDO SE CONFIRME QUE AvionEnemigoRojo, ADMITE ESCUADRONES
