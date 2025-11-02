@@ -30,7 +30,7 @@ class AvionEnemigoRojo extends AvionEnemigo
      this.isAlive = false;
    }
  }
- private int tiempoUltimoDisparo = 0;     // Tiempo del último disparo
+ private int tiempoUltimoDisparo = millis() + int(random(-5000, 0));     // Tiempo del último disparo, inicializado aleatoriamente para que no disparen todos juntos
  private int delayDisparo = int(random(1500, 4000));
  public void disparar()
  {
@@ -39,7 +39,7 @@ class AvionEnemigoRojo extends AvionEnemigo
 
    if(tiempoActual - tiempoUltimoDisparo >= delayDisparo)
     {
-      gm.getPartida().crearBalasEnemigas(this.posicion.x, this.posicion.y);
+      gm.getPartida().crearBalasEnemigas(this.posicion.x, this.posicion.y,  0, 1, 5, 9, 33.4);
       tiempoUltimoDisparo = tiempoActual;
       delayDisparo = int(random(1000, 4000));
     }

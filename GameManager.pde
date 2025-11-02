@@ -91,20 +91,42 @@ class GameManager {
   
 
   // ─── INPUT ────────────────────────────────────────────
-  public void keyPressed() {
+  public void keyPressed() 
+  {
     
       if (keyCode == LEFT) this.leftPressed = true;
       if (keyCode == RIGHT) this.rightPressed = true;
       if (keyCode == UP) this.upPressed = true;
       if (keyCode == DOWN) this.downPressed = true;
       if (key == ' ') this.spacePressed = true;
+<<<<<<< HEAD
       if (key == 'q') this.escapePressed = true;
     
+=======
+
+      if (this.estado == 0 && this.spacePressed)
+      {
+        switch(this.menu.getPosicionFlecha()){
+          case 0:
+            iniciarPartida(); //creo la partida y paso a jugar
+            break;
+          case 1:
+          // implementar 2 jugadores
+            break;
+          case 2:
+            this.estado = 3; // ir a estadísticas
+            break;           
+        }
+        
+      }
+>>>>>>> bcf490fdb0eac75fdc8c0bc51cf7f9e64547e33e
       
     
-    //else if ((this.estado == 2 || this.estado == 3) && key == 'r') {
-      //this.estado = 0; // volver al menú
+    if ((this.estado == 2 || this.estado == 3) && key == 'r') 
+    {
+      this.estado = 0; // volver al menú
     }
+  }
   
 
   public void keyReleased() {
