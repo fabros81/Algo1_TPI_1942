@@ -98,21 +98,21 @@ class PantallaFinal
       textoPuntaje = nf(puntaje, 0, 2);
     }
     
-    text("PUNTAJE FINAL: " + textoPuntaje, width/2, 160);
-    text("TIEMPO: " + nf(tiempoSegundos, 0, 1) + "s", width/2, 190);
+    text("PUNTAJE FINAL: " + textoPuntaje, width/2, 140);
+    text("TIEMPO: " + nf(tiempoSegundos, 0, 1) + "s", width/2, 170);
     
     int partidaId = p.getPartidaId();
-    text("ID: " + partidaId, width/2, 220);
+    text("ID: " + partidaId, width/2, 200);
 
-    text("ENEMIGOS DERROTADOS: " + p.getEnemigosDerrotados(), width/2, 250);
-    text("ENEMIGOS ROJOS DERROTADOS: " + p.getEnemigosRojosDerrotados(), width/2, 280);
-    text("ENEMIGOS VERDES DERROTADOS: " + p.getEnemigosVerdesDerrotados(), width/2, 310);
-    text("PRECISIÓN DISPARO: " + nf(p.getPrecisionDisparo(), 0, 2) + "%", width/2, 340);
+    text("ENEMIGOS DERROTADOS: " + p.getEnemigosDerrotados(), width/2, 230);
+    text("ENEMIGOS ROJOS DERROTADOS: " + p.getEnemigosRojosDerrotados(), width/2, 260);
+    text("ENEMIGOS VERDES DERROTADOS: " + p.getEnemigosVerdesDerrotados(), width/2, 290);
+    text("PRECISIÓN DISPARO: " + nf(p.getPrecisionDisparo(), 0, 2) + "%", width/2, 320);
   }
     // Línea separadora
     stroke(150);
     strokeWeight(1);
-    line(width/2 - 150, 350, width/2 + 150, 350);
+    line(width/2 - 150, 340, width/2 + 150, 340);
     noStroke();
     
     // Opciones del menú
@@ -144,7 +144,7 @@ class PantallaFinal
     fill(255, 255, 0);
     textAlign(CENTER, CENTER);
     textSize(14);
-    text("Usa ↑ ↓ para navegar, ESPACIO para seleccionar", width/2, 530);
+    text("Usa ↑ ↓ para navegar, ESPACIO para seleccionar", width/2, 550);
   }
   
   void actualizar()
@@ -202,4 +202,4 @@ class PantallaFinal
     }
     return mejorPuntaje;
   }
-}  
+} 

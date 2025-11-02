@@ -24,6 +24,8 @@ class AvionAliado extends Avion
   public float getVelocidad(){return this.velocidad;}
   public PowUp getPowUp(){return this.powUp;}
   public boolean getEscudoActivo(){return this.escudoActivo;}
+  public boolean getMultidisparoActivo(){return this.multidisparoActivo;}
+  public boolean getInstakillActivo(){return this.instakillActivo;}
   public void setEscudo(boolean i){this.escudoActivo = i;}
   public void setPowUp(PowUp i){this.powUp = i;}
 
