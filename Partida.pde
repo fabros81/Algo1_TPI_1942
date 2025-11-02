@@ -26,8 +26,9 @@ class Partida {
   private int enemigosDerrotados = 0;
   private int enemigosRojosDerrotados = 0;
   private int enemigosVerdesDerrotados = 0;
-
-
+  private int balasDisparadas = 0;
+  private int balasImpactadas = 0;
+  private float precisionDisparo = 0;
   Partida(GameManager gm) {
     this.gm = gm;
     
@@ -56,7 +57,7 @@ class Partida {
   public void crearBalasAliadas(float x, float y, int direccionX, int direccionY, float velocidad, float radio, float daño) {
     Bala b = new Bala(x, y, direccionX, direccionY, velocidad, radio, daño);
     listaBalasAliadas.add(b);
-    
+    balasDisparadas += 1;
   }
   
   public void crearBalasEnemigas(float x, float y, int direccionX, int direccionY, float velocidad, float radio, float daño)
@@ -128,7 +129,8 @@ class Partida {
       {
         if (colision.colision(e,b))
         {
-          b.colisiono(); 
+          b.colisiono();
+          balasImpactadas += 1; 
           e.restarVida(b.getDaño());
           if (e.hp <= 0)
           {
@@ -216,6 +218,12 @@ class Partida {
       newRow.setInt("enemigos derrotados", this.enemigosDerrotados);
       newRow.setInt("enemigos rojos derrotados", this.enemigosRojosDerrotados);
       newRow.setInt("enemigos verdes derrotados", this.enemigosVerdesDerrotados);
+      if (balasDisparadas > 0) {
+        precisionDisparo = (float) balasImpactadas / balasDisparadas * 100;
+      } else {
+        precisionDisparo = 0;
+      }
+      newRow.setFloat("precision disparo", precisionDisparo);
       saveTable(table, "data/prueba.csv");
 
       gm.estado = 2;
@@ -267,4 +275,5 @@ class Partida {
   public int getEnemigosRojosDerrotados(){return this.enemigosRojosDerrotados;}
   public int getEnemigosVerdesDerrotados(){return this.enemigosVerdesDerrotados;}
   public int getTiempoSupervivencia(){return this.duracion / 1000;} //retorna en segundos
+  public float getPrecisionDisparo(){return this.precisionDisparo;}
 }

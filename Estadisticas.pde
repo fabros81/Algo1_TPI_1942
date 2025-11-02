@@ -20,7 +20,7 @@ class Estadísticas
         this.tablaEstadisticas.addColumn("enemigos derrotados");
         this.tablaEstadisticas.addColumn("enemigos rojos derrotados");
         this.tablaEstadisticas.addColumn("enemigos verdes derrotados");
-        
+        this.tablaEstadisticas.addColumn("precision disparo");
         }
         
     }

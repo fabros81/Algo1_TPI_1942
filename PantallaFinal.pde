@@ -107,11 +107,12 @@ class PantallaFinal
     text("ENEMIGOS DERROTADOS: " + p.getEnemigosDerrotados(), width/2, 250);
     text("ENEMIGOS ROJOS DERROTADOS: " + p.getEnemigosRojosDerrotados(), width/2, 280);
     text("ENEMIGOS VERDES DERROTADOS: " + p.getEnemigosVerdesDerrotados(), width/2, 310);
+    text("PRECISIÓN DISPARO: " + nf(p.getPrecisionDisparo(), 0, 2) + "%", width/2, 340);
   }
     // Línea separadora
     stroke(150);
     strokeWeight(1);
-    line(width/2 - 150, 330, width/2 + 150, 330);
+    line(width/2 - 150, 350, width/2 + 150, 350);
     noStroke();
     
     // Opciones del menú

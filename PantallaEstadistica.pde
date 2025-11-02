@@ -8,7 +8,7 @@ class PantallaEstadistica
   PantallaEstadistica(GameManager gm)
   {
     fontTitulo = createFont("data/fonts/PressStart2P-Regular.ttf", 36);
-    fontTexto = createFont("data/fonts/PressStart2P-Regular.ttf", 14);
+    fontTexto = createFont("data/fonts/PressStart2P-Regular.ttf", 12);
     fontOpciones = createFont("data/fonts/PressStart2P-Regular.ttf", 20);
     
     this.gm = gm;
@@ -116,7 +116,22 @@ class PantallaEstadistica
     textAlign(CENTER, CENTER);
     for (int i = 0; i < enemigosVerdesDerrotados.length; i++) {
         text(nf(enemigosVerdesDerrotados[i], 1, 2), startX + i * spacing, 400);
-      }
+    }
+    // ─── Precisión Disparo ─────────────────
+    estadisticas.calcularEstadisticas("precision disparo");
+    float[] precisionDisparo = {
+    estadisticas.getMax(),
+    estadisticas.getMin(),
+    estadisticas.getMedia(),
+    estadisticas.getDesvioEstandar()
+    };
+    textAlign(LEFT);
+    text("PRECISIÓN DISPARO (%)", 10, 450);
+    textAlign(CENTER, CENTER);
+    for (int i = 0; i < precisionDisparo.length; i++) {
+      text(nf(precisionDisparo[i], 1, 2), startX + i * spacing, 440);
+    }
+
 }
   void actualizar()
   {
