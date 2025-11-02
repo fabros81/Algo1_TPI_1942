@@ -108,20 +108,9 @@ class PantallaInicial
       this.y = posiciones[this.posicionFlecha][1];
       ultimoMillisTecla = tiempoActual;
     }
-<<<<<<< HEAD
-    // seleccionar opciones
-    if (gm.getSpacePressed() && this.posicionFlecha == 0){gm.iniciarPartida();}
-    if (gm.getSpacePressed() && this.posicionFlecha ==1 ){ }
-    if (gm.getSpacePressed() && tiempoActual - ultimoMillisTecla >= delayTecla && this.posicionFlecha ==2  ){gm.iniciarEstadistica();}
-
-   }
-    
-  }
-=======
  }
   public int getPosicionFlecha(){return this.posicionFlecha;}
 
 }
->>>>>>> bcf490fdb0eac75fdc8c0bc51cf7f9e64547e33e
 
 

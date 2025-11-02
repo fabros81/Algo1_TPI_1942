@@ -1,3 +1,4 @@
+/*
 import gifAnimation.*;
 GameManager gm;
 Gif avionJugadorGIF;
@@ -29,3 +30,4 @@ void keyReleased() {
   gm.keyReleased();
 }
 
+*/

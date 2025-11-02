@@ -99,10 +99,6 @@ class GameManager {
       if (keyCode == UP) this.upPressed = true;
       if (keyCode == DOWN) this.downPressed = true;
       if (key == ' ') this.spacePressed = true;
-<<<<<<< HEAD
-      if (key == 'q') this.escapePressed = true;
-    
-=======
 
       if (this.estado == 0 && this.spacePressed)
       {
@@ -119,7 +115,6 @@ class GameManager {
         }
         
       }
->>>>>>> bcf490fdb0eac75fdc8c0bc51cf7f9e64547e33e
       
     
     if ((this.estado == 2 || this.estado == 3) && key == 'r') 
