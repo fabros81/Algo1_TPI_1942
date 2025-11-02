@@ -51,7 +51,7 @@ class Curva {
       
       float x = t;
       float y = 1.0f/240.0f*(t-400)*(t-400);
-      
+      System.out.println("curva: x: "+x+", y: "+y);
       return new PVector(x, y);
      }
  

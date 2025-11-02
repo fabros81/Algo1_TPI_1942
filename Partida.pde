@@ -245,12 +245,12 @@ class Partida {
         
       
       for (float j = 1; j <= 3; j++){
-        listaEnemigos.add(new EscuadronAlfa(tiempoInicio,gm).delta(j*500+1000));
         listaEnemigos.add(new EscuadronAlfa(tiempoInicio,gm).beta(j*500+6000));
         listaEnemigos.add(new EscuadronAlfa(tiempoInicio, gm).alfa(j*500+8000))  ;
+        listaEnemigos.add(new EscuadronAlfa(tiempoInicio,gm).delta(j*500+10000));
         
       }
-
+      
       
        
 
