@@ -47,6 +47,9 @@ class PantallaFinal
       this.tablaEstadisticas.addColumn("id");
       this.tablaEstadisticas.addColumn("puntaje");
       this.tablaEstadisticas.addColumn("tiempo");
+      this.tablaEstadisticas.addColumn("enemigos derrotados");
+      this.tablaEstadisticas.addColumn("enemigos rojos derrotados");
+      this.tablaEstadisticas.addColumn("enemigos verdes derrotados");
     }
     
     this.x = posiciones[this.posicionFlecha][0];

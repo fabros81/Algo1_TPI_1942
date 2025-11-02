@@ -21,6 +21,13 @@ class Partida {
   private int intervaloPowUp = 1000;
 
   private int partidaId; // ID de la partida actual
+
+  //Contadores para estadísticas
+  private int enemigosDerrotados = 0;
+  private int enemigosRojosDerrotados = 0;
+  private int enemigosVerdesDerrotados = 0;
+
+
   Partida(GameManager gm) {
     this.gm = gm;
     
@@ -128,6 +135,12 @@ class Partida {
             e.murio();
             jugador.sumarPuntos(e.getPuntos());
             this.puntaje = jugador.getPuntaje();
+            this.enemigosDerrotados += 1; // Incrementar enemigos derrotados
+            if (e instanceof AvionEnemigoRojo) {
+              this.enemigosRojosDerrotados += 1;
+            } else if (e instanceof AvionEnemigoVerde) {
+              this.enemigosVerdesDerrotados += 1;
+            }
           }          
         }
       }
@@ -195,14 +208,18 @@ class Partida {
 
     // Si muere el jugador → pasar a pantalla final
     if (!jugador.isAlive) {
-      gm.estado = 2;
-      
       // Guardar puntaje en CSV
       TableRow newRow = table.addRow();
       newRow.setInt("id", this.partidaId);
       newRow.setFloat("puntaje", jugador.puntaje);
       newRow.setFloat("tiempo", this.duracion); //carga los milisegundos q duro la partida
+      newRow.setInt("enemigos derrotados", this.enemigosDerrotados);
+      newRow.setInt("enemigos rojos derrotados", this.enemigosRojosDerrotados);
+      newRow.setInt("enemigos verdes derrotados", this.enemigosVerdesDerrotados);
       saveTable(table, "data/prueba.csv");
+
+      gm.estado = 2;
+
       
     }
   }
@@ -245,4 +262,8 @@ class Partida {
   public int getPartidaId(){return this.partidaId;}
   public AvionAliado getJugador(){return this.jugador;}
   public PowUp getPowUp(){return this.powUp;}
+  public int getEnemigosDerrotados(){return this.enemigosDerrotados;}
+  public int getEnemigosRojosDerrotados(){return this.enemigosRojosDerrotados;}
+  public int getEnemigosVerdesDerrotados(){return this.enemigosVerdesDerrotados;}
+  public int getTiempoSupervivencia(){return this.duracion / 1000;} //retorna en segundos
 }

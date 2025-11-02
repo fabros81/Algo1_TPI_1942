@@ -39,9 +39,9 @@ class GameManager {
       case 2:
         this.fin.actualizar();
         break;
-      /*case 3:
+      case 3:
         this.estadisticas.actualizar();
-        break;*/
+        break;
     }
   }
 
@@ -57,9 +57,9 @@ class GameManager {
      case 2:
         this.fin.dibujar();
         break;
-     /*  case 3:
+      case 3:
         this.estadisticas.dibujar();
-        break;*/
+        break;
     }
   }
 
