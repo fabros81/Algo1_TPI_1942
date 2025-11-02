@@ -88,7 +88,7 @@ class PantallaFinal
   if (gm.getPartida() != null && gm.getPartida().jugador != null) {
     Partida p = gm.getPartida();
     float puntaje = p.getPuntos();
-    float tiempoSegundos = p.duracion / 1000.0;
+    float tiempoSegundos = p.getDuracion() / 1000.0;
     
     // Formatear puntaje si es muy grande
     String textoPuntaje;
@@ -103,11 +103,15 @@ class PantallaFinal
     
     int partidaId = p.getPartidaId();
     text("ID: " + partidaId, width/2, 220);
+
+    text("ENEMIGOS DERROTADOS: " + p.getEnemigosDerrotados(), width/2, 250);
+    text("ENEMIGOS ROJOS DERROTADOS: " + p.getEnemigosRojosDerrotados(), width/2, 280);
+    text("ENEMIGOS VERDES DERROTADOS: " + p.getEnemigosVerdesDerrotados(), width/2, 310);
   }
     // Línea separadora
     stroke(150);
     strokeWeight(1);
-    line(width/2 - 150, 300, width/2 + 150, 300);
+    line(width/2 - 150, 330, width/2 + 150, 330);
     noStroke();
     
     // Opciones del menú

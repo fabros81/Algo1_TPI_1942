@@ -262,6 +262,7 @@ class Partida {
   public int getPartidaId(){return this.partidaId;}
   public AvionAliado getJugador(){return this.jugador;}
   public PowUp getPowUp(){return this.powUp;}
+  public int getDuracion(){return this.duracion;}
   public int getEnemigosDerrotados(){return this.enemigosDerrotados;}
   public int getEnemigosRojosDerrotados(){return this.enemigosRojosDerrotados;}
   public int getEnemigosVerdesDerrotados(){return this.enemigosVerdesDerrotados;}
