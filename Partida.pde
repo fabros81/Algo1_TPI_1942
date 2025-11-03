@@ -14,6 +14,8 @@ class Partida {
   GameManager gm;
   int nivel = 1;
   int tiempoInicio; //cuando arranca la partida
+  private int tiempoInicioNivel; //cuando arranca un nivel
+  private int duracionNivel; //almacena cuanto dura el nivel actual
   int duracion; //almacena cuanto dura la partida
   boolean mostrandoPantallaNivel = false;
   int tiempoTransicionNivel;
@@ -30,6 +32,8 @@ class Partida {
   private int balasDisparadas = 0;
   private int balasImpactadas = 0;
   private float precisionDisparo = 0;
+
+  private boolean debeReiniciarNivel = false;
   Partida(GameManager gm) {
     this.gm = gm;
     
@@ -163,7 +167,8 @@ class Partida {
             jugador.restarVida(b.getDaño());
             if (jugador.hp <= 0)
             {
-              jugador.murio();          
+              jugador.perderVida();
+              this.debeReiniciarNivel = true;  
             }
           }else 
           {
@@ -176,9 +181,15 @@ class Partida {
       {
         if (colision.colision(jugador, e))
         {
-          jugador.murio();
+          jugador.perderVida();
+          this.debeReiniciarNivel = true; 
         }
       }
+    }
+    if (this.debeReiniciarNivel)
+    {
+      reiniciarNivel();
+      this.debeReiniciarNivel = false;
     }
     // Colisiones
     listaBalasEnemigas.removeIf(Bala::getColisiono);
@@ -186,32 +197,33 @@ class Partida {
     listaEnemigos.removeIf(e -> !e.isAlive);
     
     
-    //tiempo es el tiempo de juego actual
-    duracion = millis() - tiempoInicio;
+    //duracion del nivel actual
+    duracionNivel = millis() - tiempoInicioNivel;
 
     // 1 minute 30 seconds = 90,000 milliseconds 
-    if (duracion >= 90_000 && nivel == 1) 
+    if (duracionNivel >= 90_000 && nivel == 1) 
     {  
       
       nivel = 2;
+      tiempoInicioNivel = millis();
       listaEnemigos.clear();
       listaBalasEnemigas.clear();  
       mostrandoPantallaNivel = true;
       tiempoTransicionNivel = millis();
 
-      //generarEnemigos();
     }
-    if (duracion >= 180_000 && nivel == 2) 
+    if (duracionNivel >= 90_000 && nivel == 2) 
     {
+      nivel = 3;
+      tiempoInicioNivel = millis();
       listaEnemigos.clear();
       listaBalasEnemigas.clear();
       mostrandoPantallaNivel = true;
       tiempoTransicionNivel = millis();
 
-      nivel = 3;
-      //generarEnemigos();
     }
     
+    this.duracion = millis() - tiempoInicio;
 
     // Si muere el jugador → pasar a pantalla final
     if (!jugador.isAlive) {
@@ -243,16 +255,16 @@ class Partida {
       case 1:
         // Formación roja
       
-        listaEnemigos.add(new EscuadronAlfa(tiempoInicio,gm).delta(3000));
-        listaEnemigos.add(new EscuadronAlfa(tiempoInicio,gm).beta(3000));
-        listaEnemigos.add(new EscuadronAlfa(tiempoInicio, gm).alfa(3000));
+        listaEnemigos.add(new EscuadronAlfa(tiempoInicioNivel,gm).delta(3000));
+        listaEnemigos.add(new EscuadronAlfa(tiempoInicioNivel,gm).beta(3000));
+        listaEnemigos.add(new EscuadronAlfa(tiempoInicioNivel, gm).alfa(3000));
                 
-
+      
         for (float j = 1; j <= 3; j++)
         {
-          listaEnemigos.add(new EscuadronAlfa(tiempoInicio,gm).beta(j*500+6000));
-          listaEnemigos.add(new EscuadronAlfa(tiempoInicio, gm).alfa(j*500+8000));
-          listaEnemigos.add(new EscuadronAlfa(tiempoInicio,gm).delta(j*500+8000));
+          listaEnemigos.add(new EscuadronAlfa(tiempoInicioNivel,gm).beta(j*500+6000));
+          listaEnemigos.add(new EscuadronAlfa(tiempoInicioNivel, gm).alfa(j*500+8000));
+          listaEnemigos.add(new EscuadronAlfa(tiempoInicioNivel,gm).delta(j*500+8000));
           
         }
         
@@ -264,6 +276,7 @@ class Partida {
           int y = int(randomGaussian() * 300 - 500);
           listaEnemigos.add(new AvionEnemigoVerde(this.gm,x, y));
         }
+        
         
 
         break;
@@ -280,6 +293,16 @@ class Partida {
         println("nivel 3"); //imprime en consola
         break;
     }
+  }
+  public void reiniciarNivel()
+  {
+    listaBalasAliadas.clear();
+    listaEnemigos.clear();
+    listaBalasEnemigas.clear();
+    tiempoInicioNivel = millis();
+    jugador.setPos(width / 2, height - 50);
+    generarEnemigos();
+    println("Nivel " + nivel + " reiniciado - vidas restantes: " + jugador.getVidas());
   }
   
   // ─── getters ────────────────────────────────────────

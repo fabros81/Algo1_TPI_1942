@@ -14,11 +14,18 @@ class AvionAliado extends Avion
   private boolean invulnerable = false;
   private int tiempoInvulnerableInicio = 0;
   private int duracionInvulnerable = 2000;
+  private int vidas = 3;
 
   public AvionAliado(GameManager gm, float x, float y){
     super(gm,x, y, 40, 5, 100);
     this.gm = gm;
   }
+  public void setPos(float x, float y)
+  {
+    this.posicion.x = x;
+    this.posicion.y = y;
+  }
+  public int getVidas(){return this.vidas;}
   public boolean getInvulnerable(){return this.invulnerable;}
   public void sumarPuntos(float i){this.puntaje += i;}
   public float getPuntaje(){return this.puntaje;}
@@ -30,6 +37,20 @@ class AvionAliado extends Avion
   public boolean getInstakillActivo(){return this.instakillActivo;}
   public void setEscudo(boolean i){this.escudoActivo = i;}
   public void setPowUp(PowUp i){this.powUp = i;}
+
+  public void perderVida()
+  {
+    if (this.vidas > 1)
+    {
+      this.vidas -= 1;
+      this.hp = 100;
+      println("Perdiste una vida " + this.vidas);
+    }else{
+      this.murio();
+    }
+    
+  }
+
 
   void activarInvulnerabilidad() {
   invulnerable = true;
