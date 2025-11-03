@@ -5,7 +5,8 @@ class Partida {
   ArrayList<Bala> listaBalasAliadas;
   ArrayList<Bala> listaBalasEnemigas;
   ArrayList<AvionEnemigo> listaEnemigos;
-  
+  EscuadronAlfa escuadronAlfa;
+
   Colision colision;
   PFont font;
   Table table;
@@ -41,6 +42,8 @@ class Partida {
     this.listaBalasEnemigas = new ArrayList<Bala>();
     this.listaEnemigos = new ArrayList<AvionEnemigo>();
     this.colision = new Colision();
+    this.escuadronAlfa = new EscuadronAlfa(tiempoInicio,gm);
+
 
     // Cargar o crear tabla de puntajes
     this.table = loadTable("data/prueba.csv", "header");
@@ -237,10 +240,17 @@ class Partida {
     switch (nivel) {
       case 1:
         // Formación roja
-        for (int j = 1; j < 4; j++) {
-          for (int i = 0; i < 5; i++) {
-            listaEnemigos.add(new AvionEnemigoRojo(this.gm,i * 80, j * 70));
-          }
+      
+        listaEnemigos.add(new EscuadronAlfa(tiempoInicio,gm).delta(3000));
+        listaEnemigos.add(new EscuadronAlfa(tiempoInicio,gm).beta(3000));
+        listaEnemigos.add(new EscuadronAlfa(tiempoInicio, gm).alfa(3000));
+      
+        for (float j = 1; j <= 3; j++)
+        {
+          listaEnemigos.add(new EscuadronAlfa(tiempoInicio,gm).beta(j*500+6000));
+          listaEnemigos.add(new EscuadronAlfa(tiempoInicio, gm).alfa(j*500+8000));
+          listaEnemigos.add(new EscuadronAlfa(tiempoInicio,gm).delta(j*500+10000));
+          
         }
 
         // Verdes distribuidos aleatoriamente
