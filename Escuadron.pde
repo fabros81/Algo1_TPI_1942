@@ -1,23 +1,18 @@
 abstract class  Escuadron {
-    ArrayList<AvionEnemigoRojo> enemigos;
-    AvionEnemigoRojo enemigo;  
-    //Curva recorrido;
-    boolean activo ;
-    float tiempoActivacion;
-    float tiempoInicioPartida;
-    //PVector pos;
-  GameManager gm;
+    protected ArrayList<AvionEnemigoRojo> enemigos;
+    protected AvionEnemigoRojo enemigo;  
+    protected boolean activo ;
+    protected float tiempoActivacion;
+    protected float tiempoInicioPartida;
+
+
     
 
-  public Escuadron(float tInicioPartida,GameManager gm){
-    this.gm = gm;
+  public Escuadron(float tInicioPartida){
     this.activo= false;
     this.tiempoInicioPartida = tInicioPartida;
-    //this.recorrido = new Curva()  ;
-    
-    
-    
   }
+  
   public float getTiempoInicioPartida(){return this.tiempoInicioPartida;}
   public void addEnemigos(AvionEnemigoRojo e){this.enemigo = e;}
   public void setTiempoActivacion(float t){this.tiempoActivacion =t;}

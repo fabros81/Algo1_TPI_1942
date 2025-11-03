@@ -1,8 +1,8 @@
 class PantallaEstadistica
 {
-  PFont fontTitulo;
-  PFont fontTexto;
-  PFont fontOpciones;
+  private PFont fontTitulo;
+  private PFont fontTexto;
+  private PFont fontOpciones;
   private Estadísticas estadisticas;
   private GameManager gm;
   PantallaEstadistica(GameManager gm)

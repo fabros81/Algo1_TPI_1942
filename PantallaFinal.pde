@@ -1,9 +1,9 @@
 class PantallaFinal
 {
   private GameManager gm;
-  PFont fontTitulo;
-  PFont fontTexto;
-  PFont fontOpciones;
+  private PFont fontTitulo;
+  private PFont fontTexto;
+  private PFont fontOpciones;
   private PImage flecha;
   private boolean flechaVisible;
   private int contadorParpadeo;

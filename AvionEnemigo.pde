@@ -1,8 +1,8 @@
 abstract class AvionEnemigo extends Avion
 {
   protected int puntos;
-  public AvionEnemigo(GameManager gm, float x, float y, float radio, float velocidad, float hp, int puntos) {
-    super(gm,x, y, radio, velocidad, hp);
+  public AvionEnemigo(float x, float y, float radio, float velocidad, float hp, int puntos) {
+    super(x, y, radio, velocidad, hp);
     this.puntos = puntos;
   }
   

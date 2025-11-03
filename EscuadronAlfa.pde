@@ -1,15 +1,15 @@
 public class EscuadronAlfa extends Escuadron{
 
-public EscuadronAlfa(float tiempoInicioPartida,GameManager gm){
-    super(tiempoInicioPartida,gm);
+public EscuadronAlfa(float tiempoInicioPartida){
+    super(tiempoInicioPartida);
     
     
     
 }
     AvionEnemigoRojo alfa(float tAct){
         
-        AvionEnemigoRojo e = new AvionEnemigoRojo(gm,-20,-20);    
-        e.setPerteneceEscuadron();
+        AvionEnemigoRojo e = new AvionEnemigoRojo(-20,-20);    
+        e.setPerteneceEscuadron(true);
         e.setTiempoActivacion(tAct);
         e.setTiempoInicioPartida(tiempoInicioPartida);
         e.setRecorrido(new Curva());
@@ -19,8 +19,8 @@ public EscuadronAlfa(float tiempoInicioPartida,GameManager gm){
     
     AvionEnemigoRojo beta(float tAct){
         
-        AvionEnemigoRojo e = new AvionEnemigoRojo(gm,820,-20);    
-        e.setPerteneceEscuadron();
+        AvionEnemigoRojo e = new AvionEnemigoRojo(820,-20);    
+        e.setPerteneceEscuadron(true);
         e.setTiempoActivacion(tAct);
         e.setTiempoInicioPartida(tiempoInicioPartida);
         e.setRecorrido(new Curva());
@@ -30,8 +30,8 @@ public EscuadronAlfa(float tiempoInicioPartida,GameManager gm){
 
    AvionEnemigoRojo delta(float tAct){
         
-        AvionEnemigoRojo e = new AvionEnemigoRojo(gm,400,0);    
-        e.setPerteneceEscuadron();
+        AvionEnemigoRojo e = new AvionEnemigoRojo(400,0);    
+        e.setPerteneceEscuadron(true);
         e.setTiempoActivacion(tAct);
         e.setTiempoInicioPartida(tiempoInicioPartida);
         e.setRecorrido(new Curva());

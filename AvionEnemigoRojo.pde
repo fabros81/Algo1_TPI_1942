@@ -10,9 +10,9 @@ class AvionEnemigoRojo extends AvionEnemigo
  private int delayDisparo = int(random(1500, 4000));
  
 
- public AvionEnemigoRojo(GameManager gm,float x, float y)
+ public AvionEnemigoRojo(float x, float y)
  {
-   super(gm,x, y, 20, 3, 20, 100);
+   super(x, y, 20, 3, 20, 100);
    this.perteneceEscuadron = false;
    
  }
@@ -109,7 +109,7 @@ class AvionEnemigoRojo extends AvionEnemigo
   }
    
  
-  public void setPerteneceEscuadron (){this.perteneceEscuadron = true;}
+  public void setPerteneceEscuadron (boolean t){this.perteneceEscuadron = t;}
   public float getTiempoActivacion(){return this.tiempoActivacion;}
   public void setTiempoActivacion(float tAct){this.tiempoActivacion = tAct;}
   public void setTiempoInicioPartida(float tIni){this.tiempoInicioPartida = tIni;}

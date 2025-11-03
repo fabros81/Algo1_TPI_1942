@@ -1,24 +1,23 @@
 class Partida {
-  AvionAliado jugador;
-  PowUp powUp;
-  float puntaje;
-  ArrayList<Bala> listaBalasAliadas;
-  ArrayList<Bala> listaBalasEnemigas;
-  ArrayList<AvionEnemigo> listaEnemigos;
-  EscuadronAlfa escuadronAlfa;
+  private AvionAliado jugador;
+  private PowUp powUp;
+  private float puntaje;
+  private ArrayList<Bala> listaBalasAliadas;
+  private ArrayList<Bala> listaBalasEnemigas;
+  private ArrayList<AvionEnemigo> listaEnemigos;
 
-  Colision colision;
-  PFont font;
-  Table table;
+
+  private Colision colision;
+  private Table table;
   
-  GameManager gm;
-  int nivel = 1;
-  int tiempoInicio; //cuando arranca la partida
+  private GameManager gm;
+  private int nivel = 1;
+  private int tiempoInicio; //cuando arranca la partida
   private int tiempoInicioNivel; //cuando arranca un nivel
   private int duracionNivel; //almacena cuanto dura el nivel actual
-  int duracion; //almacena cuanto dura la partida
-  boolean mostrandoPantallaNivel = false;
-  int tiempoTransicionNivel;
+  private int duracion; //almacena cuanto dura la partida
+  private boolean mostrandoPantallaNivel = false;
+  private int tiempoTransicionNivel;
 
   private float puntajeUltimoPowUp = 0;
   private int intervaloPowUp = 1000;
@@ -40,6 +39,7 @@ class Partida {
     // Inicializar objetos y listas
     //arranco el timer
     tiempoInicio = millis(); 
+    tiempoInicioNivel = millis();
     this.jugador = new AvionAliado(this.gm,width / 2, height - 50);
     this.powUp = new PowUp(this);
     this.jugador.setPowUp(this.powUp);
@@ -48,7 +48,7 @@ class Partida {
     this.listaBalasEnemigas = new ArrayList<Bala>();
     this.listaEnemigos = new ArrayList<AvionEnemigo>();
     this.colision = new Colision();
-    this.escuadronAlfa = new EscuadronAlfa(tiempoInicio,gm);
+
 
 
     // Cargar o crear tabla de puntajes
@@ -255,16 +255,16 @@ class Partida {
       case 1:
         // Formación roja
       
-        listaEnemigos.add(new EscuadronAlfa(tiempoInicioNivel,gm).delta(3000));
-        listaEnemigos.add(new EscuadronAlfa(tiempoInicioNivel,gm).beta(3000));
-        listaEnemigos.add(new EscuadronAlfa(tiempoInicioNivel, gm).alfa(3000));
+        listaEnemigos.add(new EscuadronAlfa(tiempoInicioNivel).delta(3000));
+        listaEnemigos.add(new EscuadronAlfa(tiempoInicioNivel).beta(3000));
+        listaEnemigos.add(new EscuadronAlfa(tiempoInicioNivel).alfa(3000));
                 
       
         for (float j = 1; j <= 3; j++)
         {
-          listaEnemigos.add(new EscuadronAlfa(tiempoInicioNivel,gm).beta(j*500+6000));
-          listaEnemigos.add(new EscuadronAlfa(tiempoInicioNivel, gm).alfa(j*500+8000));
-          listaEnemigos.add(new EscuadronAlfa(tiempoInicioNivel,gm).delta(j*500+8000));
+          listaEnemigos.add(new EscuadronAlfa(tiempoInicioNivel).beta(j*500+6000));
+          listaEnemigos.add(new EscuadronAlfa(tiempoInicioNivel).alfa(j*500+8000));
+          listaEnemigos.add(new EscuadronAlfa(tiempoInicioNivel).delta(j*500+8000));
           
         }
         
@@ -274,7 +274,7 @@ class Partida {
         for (int i = 1; i < 20; i++) {
           int x = int(randomGaussian() * 300 + 300);
           int y = int(randomGaussian() * 300 - 500);
-          listaEnemigos.add(new AvionEnemigoVerde(this.gm,x, y));
+          listaEnemigos.add(new AvionEnemigoVerde(x, y));
         }
         
         
@@ -302,7 +302,7 @@ class Partida {
     tiempoInicioNivel = millis();
     jugador.setPos(width / 2, height - 50);
     generarEnemigos();
-    println("Nivel " + nivel + " reiniciado - vidas restantes: " + jugador.getVidas());
+    //println("Nivel " + nivel + " reiniciado - vidas restantes: " + jugador.getVidas());
   }
   
   // ─── getters ────────────────────────────────────────

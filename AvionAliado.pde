@@ -10,14 +10,14 @@ class AvionAliado extends Avion
   private int tiempoMultidisparo;
   private int tiempoInstakill;
   private int duracionPowUp = 5000;
-  private Partida partida;
   private boolean invulnerable = false;
   private int tiempoInvulnerableInicio = 0;
   private int duracionInvulnerable = 2000;
   private int vidas = 3;
+  private GameManager gm;
 
   public AvionAliado(GameManager gm, float x, float y){
-    super(gm,x, y, 40, 5, 100);
+    super(x, y, 40, 5, 100);
     this.gm = gm;
   }
   public void setPos(float x, float y)
@@ -44,7 +44,7 @@ class AvionAliado extends Avion
     {
       this.vidas -= 1;
       this.hp = 100;
-      println("Perdiste una vida " + this.vidas);
+      //println("Perdiste una vida " + this.vidas);
     }else{
       this.murio();
     }

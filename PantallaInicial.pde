@@ -109,5 +109,3 @@ class PantallaInicial
   public int getPosicionFlecha(){return this.posicionFlecha;}
 
 }
-
-

@@ -1,24 +1,22 @@
 class Curva {
   private PVector posicion;
-  private float t; 
+  private float parametroT; 
   private float velocidadT;
   
   
   // Constructor
  public Curva() {
-    this.t = 0;
-    
-    
+    this.parametroT = 0;
   }
   
 
   PVector parabolaIzqDer(float ox, float oy, float velocidadT ){
       this.posicion = new PVector (ox,oy);
       this.velocidadT = velocidadT;
-      t += velocidadT;
+      parametroT += velocidadT;
     
-      float x = t*600 ;
-      float y = 600 * (1-t)*t ;
+      float x = parametroT*600 ;
+      float y = 600 * (1-parametroT)*parametroT ;
       
       return new PVector(x, y);
     
@@ -27,10 +25,10 @@ class Curva {
     PVector parabolaDerIzq(float ox, float oy, float velocidadT ){
       this.posicion = new PVector (ox,oy);
       this.velocidadT = velocidadT;
-      t += velocidadT;
+      parametroT += velocidadT;
     
-      float x = 600- (t*600) ;
-      float y = 400 * (1-t)*t ;
+      float x = 600- (parametroT*600) ;
+      float y = 400 * (1-parametroT)*parametroT ;
       
       return new PVector(x, y);
           
@@ -44,10 +42,10 @@ class Curva {
 
     
       //t += velocidadT /150;
-      t= ox + 1;
+      parametroT= ox + 1;
       
-      float x = t;
-      float y = 1.0f/240.0f*(t-400)*(t-400);
+      float x = parametroT;
+      float y = 1.0f/240.0f*(parametroT-400)*(parametroT-400);
       return new PVector(x, y);
      }
  
@@ -55,10 +53,10 @@ class Curva {
       PVector coseno(float ox, float oy, float velocidadT ){
       this.posicion = new PVector (ox,oy);
       this.velocidadT = velocidadT;
-      t += velocidadT/100;
+      parametroT += velocidadT/100;
     
-      float x = 400+ cos(t)*200;
-      float y = t;
+      float x = 400+ cos(parametroT)*200;
+      float y = parametroT;
       
       return new PVector(x, y);
     
@@ -67,12 +65,12 @@ class Curva {
     PVector monio(float ox, float oy, float velocidadT ){
       this.posicion = new PVector (ox,oy);
       this.velocidadT = velocidadT;
-      t += velocidadT;
+      parametroT += velocidadT;
     
       
     
-    float x = pow(t,2)-1;
-    float y = pow(t,3)-t;
+    float x = pow(parametroT,2)-1;
+    float y = pow(parametroT,3)-parametroT;
     
       return new PVector(x, y);
     
@@ -81,10 +79,10 @@ class Curva {
     PVector diag(float ox, float oy, float velocidadT ){
       // la velocidad esta seteada hoy en 3
       this.velocidadT = velocidadT;
-      t += velocidadT /150;
+      parametroT += velocidadT /150;
     
-      float x = ox + t;
-      float y = oy + t;
+      float x = ox + parametroT;
+      float y = oy + parametroT;
       
       return new PVector(x, y);
     
@@ -94,10 +92,10 @@ class Curva {
       // la velocidad esta seteada hoy en 3
       
       this.velocidadT = velocidadT;
-      t += velocidadT /300;
+      parametroT += velocidadT /300;
     
-      float x = ox - t;
-      float y = oy + t;
+      float x = ox - parametroT;
+      float y = oy + parametroT;
       //System.out.println("x: "+ this.posicion.x + "y: "+ this.posicion.y);
       
       return new PVector(x, y);

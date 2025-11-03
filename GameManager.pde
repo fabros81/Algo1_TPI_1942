@@ -8,7 +8,7 @@ class GameManager {
 
 
   // ─── ESTADO DEL JUEGO ─────────────────────────────────
-  int estado; // 0 = menú, 1 = jugando, 2 = fin, 3 = estadísticas
+  private int estado; // 0 = menú, 1 = jugando, 2 = fin, 3 = estadísticas
   
   PantallaInicial menu;
   PantallaJuego juego;

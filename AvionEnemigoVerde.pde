@@ -1,9 +1,9 @@
 class AvionEnemigoVerde extends AvionEnemigo
 {
  
-  public AvionEnemigoVerde(GameManager gm, int x, int y)
+  public AvionEnemigoVerde(int x, int y)
   {
-    super(gm,x, y, 15, 4.5, 10, 50); 
+    super(x, y, 15, 4.5, 10, 50); 
   }
   
   public void dibujar()
@@ -26,8 +26,7 @@ class AvionEnemigoVerde extends AvionEnemigo
  
  public void disparar()
  {
-   if (!isAlive) return;
-   
+
  }
  
 }

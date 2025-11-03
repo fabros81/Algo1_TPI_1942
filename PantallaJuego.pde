@@ -2,8 +2,8 @@ class PantallaJuego
 {
   private Partida partida;
   private GameManager gm;
-  PFont fontUI;
-  PFont fontNumeros;
+  private PFont fontUI;
+  private PFont fontNumeros;
 
   PantallaJuego(GameManager gm)
   {
