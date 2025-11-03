@@ -11,13 +11,15 @@ class AvionAliado extends Avion
   private int tiempoInstakill;
   private int duracionPowUp = 5000;
   private Partida partida;
-
+  private boolean invulnerable = false;
+  private int tiempoInvulnerableInicio = 0;
+  private int duracionInvulnerable = 2000;
 
   public AvionAliado(GameManager gm, float x, float y){
     super(gm,x, y, 40, 5, 100);
     this.gm = gm;
   }
-
+  public boolean getInvulnerable(){return this.invulnerable;}
   public void sumarPuntos(float i){this.puntaje += i;}
   public float getPuntaje(){return this.puntaje;}
   public float getHp(){return this.hp;}
@@ -28,6 +30,18 @@ class AvionAliado extends Avion
   public boolean getInstakillActivo(){return this.instakillActivo;}
   public void setEscudo(boolean i){this.escudoActivo = i;}
   public void setPowUp(PowUp i){this.powUp = i;}
+
+  void activarInvulnerabilidad() {
+  invulnerable = true;
+  tiempoInvulnerableInicio = millis();
+  }
+
+  void actualizarInvulnerabilidad() {
+    if (invulnerable && millis() - tiempoInvulnerableInicio > duracionInvulnerable) {
+      invulnerable = false;
+    }
+  }
+
 
   public void activarMultidisparo()
   {
@@ -62,6 +76,8 @@ class AvionAliado extends Avion
   public void dibujar()
   {
     if (!isAlive) return;
+    if (invulnerable && (millis() / 100) % 2 == 0) return; // simple flicker
+
     //fill(0,0,255);
     // circle(this.posicion.x,this.posicion.y , this.radio);
     if (escudoActivo)

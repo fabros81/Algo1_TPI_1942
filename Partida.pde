@@ -123,7 +123,6 @@ class Partida {
 
     jugador.actualizarInstakill();
     jugador.actualizarMultidisparo();
-
     //impacto bala aliada con nave enemiga, resto vida y sumo puntos
     for (Bala b: listaBalasAliadas) 
     {
@@ -149,34 +148,38 @@ class Partida {
         }
       }
     }
-    //Aliado vs Bala enemiga
-    for (Bala b: listaBalasEnemigas) 
-    {      
-      if (colision.colision(jugador,b))
-      {        
-        b.colisiono();
-        if (this.jugador.getEscudoActivo() == false)
-        {
-          jugador.restarVida(b.getDaño());
-          if (jugador.hp <= 0)
-          {
-            jugador.murio();          
-          }
-        }else 
-        {
-          jugador.setEscudo(false);
-        }        
-      }      
-    }
-    
-    for (AvionEnemigo e: listaEnemigos)
+    jugador.actualizarInvulnerabilidad();
+    if (!jugador.getInvulnerable())
     {
-      if (colision.colision(jugador, e))
+      //Aliado vs Bala enemiga
+      for (Bala b: listaBalasEnemigas) 
+      {      
+        if (colision.colision(jugador,b))
+        {        
+          b.colisiono();
+          jugador.activarInvulnerabilidad();
+          if (this.jugador.getEscudoActivo() == false)
+          {
+            jugador.restarVida(b.getDaño());
+            if (jugador.hp <= 0)
+            {
+              jugador.murio();          
+            }
+          }else 
+          {
+            jugador.setEscudo(false);
+          }        
+        }      
+      }
+      
+      for (AvionEnemigo e: listaEnemigos)
       {
-        jugador.murio();
+        if (colision.colision(jugador, e))
+        {
+          jugador.murio();
+        }
       }
     }
-    
     // Colisiones
     listaBalasEnemigas.removeIf(Bala::getColisiono);
     listaBalasAliadas.removeIf(Bala::getColisiono);
