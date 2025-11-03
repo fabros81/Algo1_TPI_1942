@@ -34,6 +34,8 @@ class Partida {
     this.gm = gm;
     
     // Inicializar objetos y listas
+    //arranco el timer
+    tiempoInicio = millis(); 
     this.jugador = new AvionAliado(this.gm,width / 2, height - 50);
     this.powUp = new PowUp(this);
     this.jugador.setPowUp(this.powUp);
@@ -51,9 +53,6 @@ class Partida {
     // Generar enemigos iniciales
     generarEnemigos();
     
-    //arranco el timer
-    tiempoInicio = millis();  
-
   }
 
   // ─── CREACIÓN DE BALAS ───────────────────────────────
@@ -95,7 +94,7 @@ class Partida {
   void actualizar() {
     // Mover y limpiar balas aliadas
     for (Bala b : listaBalasAliadas) b.mover();
-    listaBalasAliadas.removeIf(b -> b.getPosicion().y < 0);
+    listaBalasAliadas.removeIf(b -> b.getPosicion().y < 20);
 
     // Mover y limpiar balas enemigas
     for (Bala b : listaBalasEnemigas) b.mover();
@@ -244,21 +243,26 @@ class Partida {
         listaEnemigos.add(new EscuadronAlfa(tiempoInicio,gm).delta(3000));
         listaEnemigos.add(new EscuadronAlfa(tiempoInicio,gm).beta(3000));
         listaEnemigos.add(new EscuadronAlfa(tiempoInicio, gm).alfa(3000));
-      
+                
+
         for (float j = 1; j <= 3; j++)
         {
           listaEnemigos.add(new EscuadronAlfa(tiempoInicio,gm).beta(j*500+6000));
           listaEnemigos.add(new EscuadronAlfa(tiempoInicio, gm).alfa(j*500+8000));
-          listaEnemigos.add(new EscuadronAlfa(tiempoInicio,gm).delta(j*500+10000));
+          listaEnemigos.add(new EscuadronAlfa(tiempoInicio,gm).delta(j*500+8000));
           
         }
+        
 
         // Verdes distribuidos aleatoriamente
+        
         for (int i = 1; i < 20; i++) {
           int x = int(randomGaussian() * 300 + 300);
           int y = int(randomGaussian() * 300 - 500);
           listaEnemigos.add(new AvionEnemigoVerde(this.gm,x, y));
         }
+        
+
         break;
 
       case 2:
