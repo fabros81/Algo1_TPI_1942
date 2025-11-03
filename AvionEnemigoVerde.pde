@@ -20,7 +20,7 @@ class AvionEnemigoVerde extends AvionEnemigo
    
    if (this.posicion.y > height+30)
    {
-     this.isAlive = false;
+     murio();
    }
  }
  
