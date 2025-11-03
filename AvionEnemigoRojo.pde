@@ -52,15 +52,14 @@ class AvionEnemigoRojo extends AvionEnemigo
       this.direccion *= (-1);
       this.posicion.y += 50;
     }
+    } else {
+      this.go();
+    }
     //si pasa el borde inferior, mueren
-    if (this.posicion.y > height+30)
+    if (this.posicion.y > height - 50)
     {
       murio();
       }
-    } else {
-      this.go();
-
-    }
   }
  
   void go()
