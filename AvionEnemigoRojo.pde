@@ -46,20 +46,20 @@ class AvionEnemigoRojo extends AvionEnemigo
 
       this.posicion.x += this.direccion * this.velocidad;
       
-    //cuando pega con los bordes laterales, cambia direccion y baja en y
-    if (this.posicion.x > width-30 || this.posicion.x <0)
-    {
-      this.direccion *= (-1);
-      this.posicion.y += 50;
-    }
+      //cuando pega con los bordes laterales, cambia direccion y baja en y
+      if (this.posicion.x > width-30 || this.posicion.x <0)
+      {
+        this.direccion *= (-1);
+        this.posicion.y += 50;
+      }
     } else {
-      this.go();
+        this.go();
     }
     //si pasa el borde inferior, mueren
     if (this.posicion.y > height - 50)
     {
       murio();
-      }
+    }
   }
  
   void go()
@@ -95,13 +95,16 @@ class AvionEnemigoRojo extends AvionEnemigo
  public void disparar()
  {
    if (!isAlive) return;
-   int tiempoActual = millis();
+   if (this.posicion.y > 0) //dispara solo si está en pantalla
+   {
+    int tiempoActual = millis();
 
-   if(tiempoActual - tiempoUltimoDisparo >= delayDisparo)
-    {
-      gm.getPartida().crearBalasEnemigas(this.posicion.x, this.posicion.y,  0, 1, 5, 9, 33.4);
-      tiempoUltimoDisparo = tiempoActual;
-      delayDisparo = int(random(1000, 4000));
+    if(tiempoActual - tiempoUltimoDisparo >= delayDisparo)
+      {
+        gm.getPartida().crearBalasEnemigas(this.posicion.x, this.posicion.y,  0, 1, 5, 9, 33.4);
+        tiempoUltimoDisparo = tiempoActual;
+        delayDisparo = int(random(1000, 4000));
+      }
     }
   }
    
