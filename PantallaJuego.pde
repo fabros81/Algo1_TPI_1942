@@ -78,8 +78,13 @@ class PantallaJuego
     fill(255);
     
     // Salud del jugador
-    float salud = partida.jugador.getHp();
-    text("VIDA: %" + nf(salud, 1, 0), infoX, infoY);
+    int vidas = partida.jugador.getVidas();
+    text("VIDAS: ", infoX, infoY);
+    for (int i = 1; i <= vidas; i++)
+    {
+      image(corazon, infoX + 70 + 20 * i, infoY + 5, 40, 30);
+    }
+
   }
   
   void dibujarIndicadoresPowerUps() {
