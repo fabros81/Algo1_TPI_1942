@@ -14,7 +14,9 @@ class PantallaInicial
   private int[][] posiciones = {{250, 320},{250, 360}, {250, 410} };
   private int x;
   private int y;
-
+  PFont fontID;
+  private boolean ingresandoID;
+  private String playerID;
     
   PantallaInicial(GameManager gm)
   {
@@ -28,36 +30,50 @@ class PantallaInicial
     //this.estado = 0;
     this.x = posiciones[this.posicionFlecha][0];
     this.y = posiciones[this.posicionFlecha][1];
-        try {
-            this.imgInicio = loadImage("background_inicio.jpg");  
-            if (this.imgInicio == null) {
-                throw new FileNotFoundException("No se pudo cargar la imagen de inicio");
-            } else {
-                this.imgInicio.resize(800, 600); 
-            }
-        } catch (Exception e) {
-            System.err.println("Error cargando imagen: " + e.getMessage());
-            this.imgInicio = null;
+    fontID = createFont("data/fonts/PressStart2P-Regular.ttf", 16);
+    this.ingresandoID = false;
+    this.playerID = "";
+    try {
+        this.imgInicio = loadImage("background_inicio.jpg");  
+        if (this.imgInicio == null) {
+            throw new FileNotFoundException("No se pudo cargar la imagen de inicio");
+        } else {
+            this.imgInicio.resize(800, 600); 
         }
-        
-        try {
-            this.flecha = loadImage("a.png");
-            if (this.flecha == null) {
-                throw new FileNotFoundException("No se pudo cargar la imagen de flecha");
-            }
-        } catch (Exception e) {  
-            System.err.println("Error cargando imagen: " + e.getMessage());
-            this.flecha = null;
+    } catch (Exception e) {
+        System.err.println("Error cargando imagen: " + e.getMessage());
+        this.imgInicio = null;
+    }
+    
+    try {
+        this.flecha = loadImage("a.png");
+        if (this.flecha == null) {
+            throw new FileNotFoundException("No se pudo cargar la imagen de flecha");
         }
+    } catch (Exception e) {  
+        System.err.println("Error cargando imagen: " + e.getMessage());
+        this.flecha = null;
+    }
+  }
+  public void resetearEstado() {
+    this.ingresandoID = false;
+    this.playerID = "";
+    this.posicionFlecha = 0;
+    this.x = posiciones[this.posicionFlecha][0];
+    this.y = posiciones[this.posicionFlecha][1];
   }
 
-
-
-  void dibujar(){
+void dibujar(){
          if (this.imgInicio != null && this.flecha != null) 
         {background(0);
           image(this.imgInicio, width/2, height/2, width, height); 
                contadorParpadeo++; 
+              if (ingresandoID) {
+              dibujarPantallaID();
+              } 
+              else {
+              dibujarMenuNormal();
+              }
          
               if ( contadorParpadeo >= 30 && contadorParpadeo <=50)
               {flechaVisible = true;
@@ -83,12 +99,64 @@ class PantallaInicial
               if (this.flecha == null) {text("• Flecha no cargada", 70, height/2 + 40);}
         }
  }
+void dibujarMenuNormal() {
+    contadorParpadeo++; 
+     
+    if ( contadorParpadeo >= 30 && contadorParpadeo <=50)
+    {flechaVisible = true;
+    } else {flechaVisible = false;}
+    
+    if (flechaVisible == true)
+    {image(flecha, x + 10, y+15, 30, 30);}
+    
+    if (contadorParpadeo >40) 
+    {contadorParpadeo = 0;
+     flechaVisible = false;}
+ }
+ 
+ void dibujarPantallaID() {
+    // Fondo transparente
+    fill(0, 0, 0, 200);
+    rect(width/2, height/2, 400, 200);
+    
+    // Título
+    fill(255);
+    textAlign(CENTER, CENTER);
+    textSize(24);
+    textFont(fontID);
+    text("INGRESA TU ID", width/2 - 30, height/2 - 50);
+    
+    String idMostrar = playerID;
+    while (idMostrar.length() < 3) {
+      idMostrar += "_";
+    }
+ 
+    textSize(16);
+    text(idMostrar, width/2 - 30, height/2);
+    
+    // Instrucciones
+    fill(255);
+    if (playerID.length() == 3) {
+    textFont(fontID);
+    text("Presiona ESPACIO para jugar", width/2 - 30, height/2 + 30);
+    } 
+    text("Presiona TAB para volver al menú", width/2 - 30, height/2 + 50);
+    }
+
 
  
  
    
   void actualizar()
   { int tiempoActual = millis();
+    if (ingresandoID) {
+      
+      if (playerID.length() == 3 && gm.getSpacePressed()) {
+        gm.setPlayerID(playerID);
+        gm.iniciarPartida();
+      }
+      return;
+    }
     if (gm.getDownPressed() && tiempoActual - ultimoMillisTecla >= delayTecla ){
       this.posicionFlecha = this.posicionFlecha +1 ;
         if (this.posicionFlecha >2){this.posicionFlecha = 0;
@@ -106,6 +174,36 @@ class PantallaInicial
       ultimoMillisTecla = tiempoActual;
     }
  }
-  public int getPosicionFlecha(){return this.posicionFlecha;}
 
+ void keyTyped() {
+   if (ingresandoID && playerID.length() < 3) {
+     if ((key >= 'A' && key <= 'Z') || (key >= 'a' && key <= 'z')) {
+       playerID += Character.toUpperCase(key);
+     }
+   }
+ }
+
+ void keyPressed() {
+   if (ingresandoID) {
+     if (key == ' ') {
+       if (playerID.length() == 3) {
+         gm.setPlayerID(playerID);
+         gm.iniciarPartida();
+       }
+     } else if (key == TAB) {
+       ingresandoID = false;
+     } else if (key == BACKSPACE && playerID.length() > 0) {
+       playerID = playerID.substring(0, playerID.length() - 1);
+     }
+   }
+ }
+  public int getPosicionFlecha(){return this.posicionFlecha;}
+  
+   public void iniciarIngresoID() {
+    this.ingresandoID = true;
+    this.playerID = "";
+  }
+  public boolean isIngresandoID() {
+    return ingresandoID;
+  }
 }

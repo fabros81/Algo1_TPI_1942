@@ -5,6 +5,7 @@ class GameManager {
   private boolean upPressed = false;
   private boolean downPressed = false;
   private boolean spacePressed = false;
+  private String playerID; 
 
 
   // ─── ESTADO DEL JUEGO ─────────────────────────────────
@@ -24,6 +25,7 @@ class GameManager {
     this.fin = new PantallaFinal(this);
     this.estadisticas = new PantallaEstadistica(this);
     this.estado = 0; // empieza en menú
+    this.playerID = playerID;
   }
 
   // ─── CICLO PRINCIPAL ─────────────────────────────────
@@ -82,27 +84,37 @@ class GameManager {
 
       if (this.estado == 0 && this.spacePressed)
       {
-        switch(this.menu.getPosicionFlecha()){
-          case 0:
-            iniciarPartida(); //creo la partida y paso a jugar
-            break;
-          case 1:
-          // implementar 2 jugadores
-            break;
-          case 2:
-            this.estado = 3; // ir a estadísticas
-            break;           
+        if (this.menu.isIngresandoID()) {
+          this.menu.keyPressed();
+        } else {
+          switch(this.menu.getPosicionFlecha()){
+            case 0:
+              this.menu.iniciarIngresoID(); 
+              break;
+            case 1:
+              // implementar 2 jugadores
+              break;
+            case 2:
+              this.estado = 3; // ir a estadísticas
+              break;           
+          }
         }
-        
       }
-      
+      if (this.estado == 0 && this.menu.isIngresandoID() && (key == TAB || key == BACKSPACE)) {
+        this.menu.keyPressed();
+      }
     
     if ((this.estado == 2 || this.estado == 3) && key == 'r') 
     {
-      this.estado = 0; // volver al menú
+      this.menu.resetearEstado();
+      this.estado = 0; 
     }
   }
-  
+  public void keyTyped() {
+    if (this.estado == 0 && this.menu.isIngresandoID()) {
+      this.menu.keyTyped();
+    }
+  }
 
   public void keyReleased() {
     if (keyCode == LEFT) this.leftPressed = false;
@@ -120,7 +132,8 @@ class GameManager {
   public boolean getUpPressed() { return this.upPressed; }
   public boolean getDownPressed() { return this.downPressed; }
   public boolean getSpacePressed() { return this.spacePressed; }
-  
-  
   public Partida getPartida() {return this.partida;}
+   // ─── SETTERS ─────────────────────────────────────────
+  public void setPlayerID(String id) { this.playerID = id; }
+
 }

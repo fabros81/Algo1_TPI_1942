@@ -30,3 +30,7 @@ void keyPressed()
 void keyReleased() {
   gm.keyReleased();
 }
+void keyTyped() {
+  gm.keyTyped();
+}
+
