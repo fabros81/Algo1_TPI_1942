@@ -16,13 +16,14 @@ class Partida {
   private int tiempoInicioNivel; //cuando arranca un nivel
   private int duracionNivel; //almacena cuanto dura el nivel actual
   private int duracion; //almacena cuanto dura la partida
-  private boolean mostrandoPantallaNivel;
+  private boolean mostrandoPantallaNivel = false;
+  private int tiempoTransicionNivel;
 
   private float puntajeUltimoPowUp = 0;
   private int intervaloPowUp = 1000;
 
   private int partidaId; // ID de la partida actual
-  private int tiempoTransicionNivel;
+
   //Contadores para estadísticas
   private int enemigosDerrotados = 0;
   private int enemigosRojosDerrotados = 0;
@@ -49,14 +50,14 @@ class Partida {
     this.colision = new Colision();
 
 
+
     // Cargar o crear tabla de puntajes
     this.table = loadTable("data/prueba.csv", "header");
     this.partidaId = table.getRowCount(); // ID basado en la cantidad de filas existentes
-    // Generar enemigos iniciales 
+    // Iniciar pantalla nivel 1 y Generar enemigos iniciales 
     this.tiempoTransicionNivel = millis();
     this.mostrandoPantallaNivel = true;
     generarEnemigos();
-
   }
 
   // ─── CREACIÓN DE BALAS ───────────────────────────────
@@ -78,7 +79,6 @@ class Partida {
     for (Bala b : listaBalasEnemigas) b.dibujar();
     for (AvionEnemigo e : listaEnemigos) e.dibujar();
     jugador.dibujar();
-    
     
   }
 
@@ -190,16 +190,17 @@ class Partida {
     duracionNivel = millis() - tiempoInicioNivel;
 
     // 1 minute 30 seconds = 90,000 milliseconds 
-    if (duracionNivel >= 12_000 && nivel == 1) 
+    if (duracionNivel >= 90_000 && nivel == 1) 
     {  
       
       nivel = 2;
       tiempoInicioNivel = millis();
       listaEnemigos.clear();
       listaBalasEnemigas.clear();  
-      tiempoTransicionNivel = millis();
       mostrandoPantallaNivel = true;
+      tiempoTransicionNivel = millis();
       generarEnemigos();
+
     }
     if (duracionNivel >= 90_000 && nivel == 2) 
     {
@@ -207,8 +208,8 @@ class Partida {
       tiempoInicioNivel = millis();
       listaEnemigos.clear();
       listaBalasEnemigas.clear();
-      tiempoTransicionNivel = millis();
       mostrandoPantallaNivel = true;
+      tiempoTransicionNivel = millis();
       generarEnemigos();
     }
     
@@ -242,31 +243,49 @@ class Partida {
   void generarEnemigos() {
     switch (nivel) {
       case 1:
-        // Formación roja
-      
-        listaEnemigos.add(new EscuadronAlfa(tiempoInicioNivel).delta(3000));
-        listaEnemigos.add(new EscuadronAlfa(tiempoInicioNivel).beta(3000));
-        listaEnemigos.add(new EscuadronAlfa(tiempoInicioNivel).alfa(3000));
-                
-      
-        for (float j = 1; j <= 3; j++)
-        {
-          listaEnemigos.add(new EscuadronAlfa(tiempoInicioNivel).beta(j*500+6000));
-          listaEnemigos.add(new EscuadronAlfa(tiempoInicioNivel).alfa(j*500+8000));
-          listaEnemigos.add(new EscuadronAlfa(tiempoInicioNivel).delta(j*500+8000));
-          
-        }
+        //int[] tiempoSpawnEnemigos = {3000, 7000, 10000};
+        //for (int i : tiempoSpawnEnemigos) {}
         
 
-        // Verdes distribuidos aleatoriamente
-        
-        for (int i = 1; i < 20; i++) {
-          int x = int(randomGaussian() * 300 + 300);
-          int y = int(randomGaussian() * 300 - 500);
-          listaEnemigos.add(new AvionEnemigoVerde(x, y));
+        for(int i = 3000; i<= 90000; i += 3000) {
+          //generacion escuadrones de rojos
+          Escuadron escAlfa = new EscuadronAlfa(this);
+          Escuadron escBeta = new EscuadronBeta(this);
+          Escuadron escGamma = new EscuadronGamma(this);
+          Escuadron escDelta = new EscuadronDelta(this);
+          escDelta.añadirEnemigo(2);
+          escDelta.mandar(i+1500);
+          escGamma.añadirEnemigo(2);
+          escGamma.mandar(i+1500);
+          /*
+          escAlfa.añadirEnemigo(2);
+          escAlfa.mandar(i);
+          escBeta.añadirEnemigo(2);
+          escBeta.mandar(i);
+          */
+          //generacion enemigos verdes
+          for (int j = 0; j < 5; j++) {
+            int x = int(randomGaussian() * 100 + width / 2); // centrado en el medio de la pantalla
+            int y = int(randomGaussian() * 100 - 600);       // aparecen arriba con algo de variación
+
+            AvionEnemigoVerde verde = new AvionEnemigoVerde(x, y);
+
+            // 🔸 Agregar activación escalonada
+            verde.setTiempoInicioNivel(this.tiempoInicioNivel);
+            verde.setTiempoActivacion(i + j * 800); // uno cada ~0.8s después del tiempo i
+
+            listaEnemigos.add(verde); 
+          }
+
+          //oleadas de 6 rojos alineados a los 21s, 51s y 81s
+          if (i == 21000 || i== 51000 || i== 81000) {
+            Escuadron escEpsilon = new EscuadronEpsilon(this);
+            //escEpsilon.añadirEnemigo(3);
+            escEpsilon.añadirEnemigoEspejo(3);
+            escEpsilon.mandar(i);
+          }
+          
         }
-        
-        
 
         break;
 
@@ -305,9 +324,11 @@ class Partida {
   public int getEnemigosVerdesDerrotados(){return this.enemigosVerdesDerrotados;}
   public int getTiempoSupervivencia(){return this.duracion / 1000;} //retorna en segundos
   public float getPrecisionDisparo(){return this.precisionDisparo;}
+  public int getTiempoInicioNivel(){return this.tiempoInicioNivel;}
   public int getNivel(){return this.nivel;}
   public boolean getMostrandoPantallaNivel(){return this.mostrandoPantallaNivel;}
   public int getTiempoTransicionNivel(){return this.tiempoTransicionNivel;}
 
   public void setMostrandoPantallaNivel(boolean i){this.mostrandoPantallaNivel = i;}
+
 }

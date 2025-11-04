@@ -3,6 +3,7 @@ GameManager gm;
 Gif avionJugadorGIF;
 PImage corazon;
 
+
 void setup()
 {
   size(800, 600);

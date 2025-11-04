@@ -1,12 +1,12 @@
-public class EscuadronAlfa extends Escuadron{
+public class EscuadronBeta extends Escuadron{
 
-    public EscuadronAlfa(Partida p){
+    public EscuadronBeta(Partida p){
         super(p);
     }
 
     public void añadirEnemigo(int cant) {
         for (int i = 0; i < cant; i++) {
-            AvionEnemigoRojo e = new AvionEnemigoRojo((- 80) - (i*60),-40 * i * 0.5);    
+            AvionEnemigoRojo e = new AvionEnemigoRojo(820 + i * 60, -120 - i * 30);    
             e.setPerteneceEscuadron(true);
             e.setRecorrido(new Curva());
             e.setCurva("parabolaParametrica");
@@ -18,8 +18,6 @@ public class EscuadronAlfa extends Escuadron{
     
     }
 
-    
-
     public void mandar(float tAct){
         //int cont = 0;;
         for (AvionEnemigoRojo e : enemigos) {
@@ -27,8 +25,4 @@ public class EscuadronAlfa extends Escuadron{
             e.setTiempoActivacion(tAct);
         }
    }
-
-   
 }
-
- 

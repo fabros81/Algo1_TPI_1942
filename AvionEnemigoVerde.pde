@@ -1,9 +1,13 @@
 class AvionEnemigoVerde extends AvionEnemigo
 {
+  private float tiempoActivacion;
+  private float tiempoInicioNivel;
  
   public AvionEnemigoVerde(int x, int y)
   {
     super(x, y, 15, 4.5, 10, 50); 
+    this.tiempoActivacion = 0;
+    this.tiempoInicioNivel = 0;
   }
   
   public void dibujar()
@@ -15,8 +19,8 @@ class AvionEnemigoVerde extends AvionEnemigo
  
  public void mover()
  { 
-   this.posicion.y += this.velocidad;
-   
+   if (millis() - tiempoInicioNivel < tiempoActivacion) return;
+    this.posicion.y += this.velocidad;
    
    if (this.posicion.y > height+30)
    {
@@ -28,5 +32,8 @@ class AvionEnemigoVerde extends AvionEnemigo
  {
 
  }
+
+  public void setTiempoInicioNivel(float t) { this.tiempoInicioNivel = t; }
+  public void setTiempoActivacion(float t) { this.tiempoActivacion = t; }
  
 }
