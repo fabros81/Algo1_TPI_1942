@@ -177,6 +177,7 @@ class Partida {
     if (this.debeReiniciarNivel)
     {
       reiniciarNivel();
+      this.jugador.activarInvulnerabilidad();
       this.debeReiniciarNivel = false;
     }
     // Colisiones
