@@ -17,7 +17,14 @@ class PantallaJuego
   {
     // Fondo completamente negro
     background(0);
-    
+    // --- draw ocean background ---
+    imageMode(CORNER);
+    tint(255, 180);  // hace el fondo más tenue (sensación de distancia)
+    image(fondoAgua, 0, 0, width, height);
+    noTint();
+
+
+    imageMode(CENTER);
     // Dibujar elementos del juego
     if (partida != null) {
       this.partida.dibujar();
