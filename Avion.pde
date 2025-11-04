@@ -17,7 +17,7 @@ abstract class Avion
   public float getX(){return this.posicion.x;}
   public float getY(){return this.posicion.y;}
   public float getVel(){return this.velocidad;}
-  
+  public float getR(){return  this.radio;}
   
   
   abstract void mover();

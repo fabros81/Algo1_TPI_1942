@@ -9,7 +9,7 @@ public class EscuadronAlfa extends Escuadron{
             AvionEnemigoRojo e = new AvionEnemigoRojo((- 80) - (i*60),-40 * i * 0.5);    
             e.setPerteneceEscuadron(true);
             e.setRecorrido(new Curva());
-            e.setCurva("parabolaParametrica");
+            e.setCurva("diag");
             e.setTiempoInicioNivel(millis());
             this.enemigos.add(e);
         }

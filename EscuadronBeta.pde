@@ -9,7 +9,7 @@ public class EscuadronBeta extends Escuadron{
             AvionEnemigoRojo e = new AvionEnemigoRojo(820 + i * 60, -120 - i * 30);    
             e.setPerteneceEscuadron(true);
             e.setRecorrido(new Curva());
-            e.setCurva("parabolaParametrica");
+            e.setCurva("diagInv");
             e.setTiempoInicioNivel(millis());
             this.enemigos.add(e);
         }

@@ -30,7 +30,7 @@ class AvionEnemigoRojo extends AvionEnemigo
     if (this.tiempoActivacion + this.tiempoInicioNivel < millis()){
       if (!isAlive) return;  
       fill(255,0,0);
-      circle(this.posicion.x, this.posicion.y, this.radio);
+      image(enemigoR, this.posicion.x, this.posicion.y, this.radio, this.radio);
     }
     
       

@@ -5,11 +5,12 @@ class Partida {
   private ArrayList<Bala> listaBalasAliadas;
   private ArrayList<Bala> listaBalasEnemigas;
   private ArrayList<AvionEnemigo> listaEnemigos;
+  private ArrayList<Explosion> explosiones = new ArrayList<Explosion>();
 
 
   private Colision colision;
   private Table table;
-  
+
   private GameManager gm;
   private int nivel = 1;
   private int tiempoInicio; //cuando arranca la partida
@@ -35,12 +36,12 @@ class Partida {
   private boolean debeReiniciarNivel = false;
   Partida(GameManager gm) {
     this.gm = gm;
-    
+
     // Inicializar objetos y listas
     //arranco el timer
-    tiempoInicio = millis(); 
+    tiempoInicio = millis();
     tiempoInicioNivel = millis();
-    this.jugador = new AvionAliado(this.gm,width / 2, height - 50);
+    this.jugador = new AvionAliado(this.gm, width / 2, height - 50);
     this.powUp = new PowUp(this);
     this.jugador.setPowUp(this.powUp);
     this.puntaje = jugador.getPuntaje();
@@ -54,7 +55,7 @@ class Partida {
     // Cargar o crear tabla de puntajes
     this.table = loadTable("data/prueba.csv", "header");
     this.partidaId = table.getRowCount(); // ID basado en la cantidad de filas existentes
-    // Iniciar pantalla nivel 1 y Generar enemigos iniciales 
+    // Iniciar pantalla nivel 1 y Generar enemigos iniciales
     this.tiempoTransicionNivel = millis();
     this.mostrandoPantallaNivel = true;
     generarEnemigos();
@@ -66,7 +67,7 @@ class Partida {
     listaBalasAliadas.add(b);
     balasDisparadas += 1;
   }
-  
+
   public void crearBalasEnemigas(float x, float y, int direccionX, int direccionY, float velocidad, float radio, float daño)
   {
     Bala b = new Bala(x, y, direccionX, direccionY, velocidad, radio, daño);
@@ -79,7 +80,9 @@ class Partida {
     for (Bala b : listaBalasEnemigas) b.dibujar();
     for (AvionEnemigo e : listaEnemigos) e.dibujar();
     jugador.dibujar();
-    
+
+    for (Explosion ex : explosiones) ex.draw();
+    explosiones.removeIf(ex -> ex.isFinished());
   }
 
   // ─── ACTUALIZACIÓN ───────────────────────────────────
@@ -101,32 +104,35 @@ class Partida {
     // Mover y disparar jugador
     jugador.mover();
     jugador.disparar();
-  
-  
+
+
     //cada x puntos active un power up random
-    if (this.puntaje - this.puntajeUltimoPowUp >= intervaloPowUp) 
+    if (this.puntaje - this.puntajeUltimoPowUp >= intervaloPowUp)
     {
-    int r = int(random(3));
-    if (r == 0) jugador.activarEscudo();
-    else if (r == 1) jugador.activarInstakill();
-    else jugador.activarMultidisparo();
-    this.puntajeUltimoPowUp = this.puntaje;
+      int r = int(random(3));
+      if (r == 0) jugador.activarEscudo();
+      else if (r == 1) jugador.activarInstakill();
+      else jugador.activarMultidisparo();
+      this.puntajeUltimoPowUp = this.puntaje;
     }
 
     jugador.actualizarInstakill();
     jugador.actualizarMultidisparo();
     //impacto bala aliada con nave enemiga, resto vida y sumo puntos
-    for (Bala b: listaBalasAliadas) 
+    for (Bala b : listaBalasAliadas)
     {
-      for (AvionEnemigo e: listaEnemigos)
+      for (AvionEnemigo e : listaEnemigos)
       {
-        if (colision.colision(e,b))
+        if (colision.colision(e, b))
         {
           b.colisiono();
-          balasImpactadas += 1; 
+          balasImpactadas += 1;
           e.restarVida(b.getDaño());
           if (e.hp <= 0)
           {
+            explosiones.add(new Explosion(e.getX(), e.getY(), explode));
+
+
             e.murio();
             jugador.sumarPuntos(e.getPuntos());
             this.puntaje = jugador.getPuntaje();
@@ -136,7 +142,7 @@ class Partida {
             } else if (e instanceof AvionEnemigoVerde) {
               this.enemigosVerdesDerrotados += 1;
             }
-          }          
+          }
         }
       }
     }
@@ -144,10 +150,10 @@ class Partida {
     if (!jugador.getInvulnerable())
     {
       //Aliado vs Bala enemiga
-      for (Bala b: listaBalasEnemigas) 
-      {      
-        if (colision.colision(jugador,b))
-        {        
+      for (Bala b : listaBalasEnemigas)
+      {
+        if (colision.colision(jugador, b))
+        {
           b.colisiono();
           jugador.activarInvulnerabilidad();
           if (this.jugador.getEscudoActivo() == false)
@@ -156,21 +162,22 @@ class Partida {
             if (jugador.hp <= 0)
             {
               jugador.perderVida();
-              this.debeReiniciarNivel = true;  
+              this.debeReiniciarNivel = true;
             }
-          }else 
+          } else
           {
             jugador.setEscudo(false);
-          }        
-        }      
+          }
+        }
       }
-      
-      for (AvionEnemigo e: listaEnemigos)
+
+      for (AvionEnemigo e : listaEnemigos)
       {
         if (colision.colision(jugador, e))
         {
           jugador.perderVida();
-          this.debeReiniciarNivel = true; 
+          explosiones.add(new Explosion(e.getX(), e.getY(), explode));
+          this.debeReiniciarNivel = true;
         }
       }
     }
@@ -184,25 +191,24 @@ class Partida {
     listaBalasEnemigas.removeIf(Bala::getColisiono);
     listaBalasAliadas.removeIf(Bala::getColisiono);
     listaEnemigos.removeIf(e -> !e.isAlive);
-    
-    
+
+
     //duracion del nivel actual
     duracionNivel = millis() - tiempoInicioNivel;
 
-    // 1 minute 30 seconds = 90,000 milliseconds 
-    if (duracionNivel >= 90_000 && nivel == 1) 
-    {  
-      
+    // 1 minute 30 seconds = 90,000 milliseconds
+    if (duracionNivel >= 90_000 && nivel == 1)
+    {
+
       nivel = 2;
       tiempoInicioNivel = millis();
       listaEnemigos.clear();
-      listaBalasEnemigas.clear();  
+      listaBalasEnemigas.clear();
       mostrandoPantallaNivel = true;
       tiempoTransicionNivel = millis();
       generarEnemigos();
-
     }
-    if (duracionNivel >= 90_000 && nivel == 2) 
+    if (duracionNivel >= 90_000 && nivel == 2)
     {
       nivel = 3;
       tiempoInicioNivel = millis();
@@ -212,7 +218,7 @@ class Partida {
       tiempoTransicionNivel = millis();
       generarEnemigos();
     }
-    
+
     this.duracion = millis() - tiempoInicio;
 
     // Si muere el jugador → pasar a pantalla final
@@ -234,72 +240,69 @@ class Partida {
       saveTable(table, "data/prueba.csv");
 
       gm.estado = 2;
-
-      
     }
   }
 
   // ─── ENEMIGOS ────────────────────────────────────────
   void generarEnemigos() {
     switch (nivel) {
-      case 1:
-        //int[] tiempoSpawnEnemigos = {3000, 7000, 10000};
-        //for (int i : tiempoSpawnEnemigos) {}
+    case 1:
+      //int[] tiempoSpawnEnemigos = {3000, 7000, 10000};
+      //for (int i : tiempoSpawnEnemigos) {}
+
+
+      for (int i = 3000; i<= 90000; i += 3000) {
+        //generacion escuadrones de rojos
+        Escuadron escAlfa = new EscuadronAlfa(this);
+        Escuadron escBeta = new EscuadronBeta(this);
+        Escuadron escGamma = new EscuadronGamma(this);
+        Escuadron escDelta = new EscuadronDelta(this);
+        escDelta.añadirEnemigo(2);
+        escDelta.mandar(i+1500);
+        escGamma.añadirEnemigo(2);
+        escGamma.mandar(i+1500);
         
-
-        for(int i = 3000; i<= 90000; i += 3000) {
-          //generacion escuadrones de rojos
-          Escuadron escAlfa = new EscuadronAlfa(this);
-          Escuadron escBeta = new EscuadronBeta(this);
-          Escuadron escGamma = new EscuadronGamma(this);
-          Escuadron escDelta = new EscuadronDelta(this);
-          escDelta.añadirEnemigo(2);
-          escDelta.mandar(i+1500);
-          escGamma.añadirEnemigo(2);
-          escGamma.mandar(i+1500);
-          /*
           escAlfa.añadirEnemigo(2);
-          escAlfa.mandar(i);
-          escBeta.añadirEnemigo(2);
-          escBeta.mandar(i);
-          */
-          //generacion enemigos verdes
-          for (int j = 0; j < 5; j++) {
-            int x = int(randomGaussian() * 100 + width / 2); // centrado en el medio de la pantalla
-            int y = int(randomGaussian() * 100 - 600);       // aparecen arriba con algo de variación
+         escAlfa.mandar(i);
+         escBeta.añadirEnemigo(2);
+         escBeta.mandar(i);
+         
+        //generacion enemigos verdes
+        for (int j = 0; j < 5; j++) {
+          int x = int(randomGaussian() * 100 + width / 2); // centrado en el medio de la pantalla
+          int y = int(randomGaussian() * 100 - 600);       // aparecen arriba con algo de variación
 
-            AvionEnemigoVerde verde = new AvionEnemigoVerde(x, y);
+          AvionEnemigoVerde verde = new AvionEnemigoVerde(x, y);
 
-            // 🔸 Agregar activación escalonada
-            verde.setTiempoInicioNivel(this.tiempoInicioNivel);
-            verde.setTiempoActivacion(i + j * 800); // uno cada ~0.8s después del tiempo i
+          // 🔸 Agregar activación escalonada
+          verde.setTiempoInicioNivel(this.tiempoInicioNivel);
+          verde.setTiempoActivacion(i + j * 800); // uno cada ~0.8s después del tiempo i
 
-            listaEnemigos.add(verde); 
-          }
-
-          //oleadas de 6 rojos alineados a los 21s, 51s y 81s
-          if (i == 21000 || i== 51000 || i== 81000) {
-            Escuadron escEpsilon = new EscuadronEpsilon(this);
-            //escEpsilon.añadirEnemigo(3);
-            escEpsilon.añadirEnemigoEspejo(3);
-            escEpsilon.mandar(i);
-          }
-          
+          listaEnemigos.add(verde);
         }
 
-        break;
+        //oleadas de 6 rojos alineados a los 21s, 51s y 81s
+        if (i == 21000 || i== 51000 || i== 81000) {
+          Escuadron escEpsilon = new EscuadronEpsilon(this);
+          //escEpsilon.añadirEnemigo(3);
+          escEpsilon.añadirEnemigoEspejo(3);
+          escEpsilon.mandar(i);
+        }
+      }
 
-      case 2:
+      break;
 
-        
-        println("nivel 2"); //imprime en consola
-        
-        break;
-      case 3:
-        
-        
-        println("nivel 3"); //imprime en consola
-        break;
+    case 2:
+
+
+      println("nivel 2"); //imprime en consola
+
+      break;
+    case 3:
+
+
+      println("nivel 3"); //imprime en consola
+      break;
     }
   }
   public void reiniciarNivel()
@@ -312,23 +315,53 @@ class Partida {
     generarEnemigos();
     //println("Nivel " + nivel + " reiniciado - vidas restantes: " + jugador.getVidas());
   }
-  
+
   // ─── getters ────────────────────────────────────────
-  public float getPuntos(){return this.puntaje;}
-  public int getPartidaId(){return this.partidaId;}
-  public AvionAliado getJugador(){return this.jugador;}
-  public PowUp getPowUp(){return this.powUp;}
-  public int getDuracion(){return this.duracion;}
-  public int getEnemigosDerrotados(){return this.enemigosDerrotados;}
-  public int getEnemigosRojosDerrotados(){return this.enemigosRojosDerrotados;}
-  public int getEnemigosVerdesDerrotados(){return this.enemigosVerdesDerrotados;}
-  public int getTiempoSupervivencia(){return this.duracion / 1000;} //retorna en segundos
-  public float getPrecisionDisparo(){return this.precisionDisparo;}
-  public int getTiempoInicioNivel(){return this.tiempoInicioNivel;}
-  public int getNivel(){return this.nivel;}
-  public boolean getMostrandoPantallaNivel(){return this.mostrandoPantallaNivel;}
-  public int getTiempoTransicionNivel(){return this.tiempoTransicionNivel;}
+  public float getPuntos() {
+    return this.puntaje;
+  }
+  public int getPartidaId() {
+    return this.partidaId;
+  }
+  public AvionAliado getJugador() {
+    return this.jugador;
+  }
+  public PowUp getPowUp() {
+    return this.powUp;
+  }
+  public int getDuracion() {
+    return this.duracion;
+  }
+  public int getEnemigosDerrotados() {
+    return this.enemigosDerrotados;
+  }
+  public int getEnemigosRojosDerrotados() {
+    return this.enemigosRojosDerrotados;
+  }
+  public int getEnemigosVerdesDerrotados() {
+    return this.enemigosVerdesDerrotados;
+  }
+  public int getTiempoSupervivencia() {
+    return this.duracion / 1000;
+  } //retorna en segundos
+  public float getPrecisionDisparo() {
+    return this.precisionDisparo;
+  }
+  public int getTiempoInicioNivel() {
+    return this.tiempoInicioNivel;
+  }
+  public int getNivel() {
+    return this.nivel;
+  }
+  public boolean getMostrandoPantallaNivel() {
+    return this.mostrandoPantallaNivel;
+  }
+  public int getTiempoTransicionNivel() {
+    return this.tiempoTransicionNivel;
+  }
 
-  public void setMostrandoPantallaNivel(boolean i){this.mostrandoPantallaNivel = i;}
-
+  public void setMostrandoPantallaNivel(boolean i) {
+    this.mostrandoPantallaNivel = i;
+  }
 }
+
