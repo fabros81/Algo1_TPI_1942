@@ -16,14 +16,13 @@ class Partida {
   private int tiempoInicioNivel; //cuando arranca un nivel
   private int duracionNivel; //almacena cuanto dura el nivel actual
   private int duracion; //almacena cuanto dura la partida
-  private boolean mostrandoPantallaNivel = false;
-  private int tiempoTransicionNivel;
+  private boolean mostrandoPantallaNivel;
 
   private float puntajeUltimoPowUp = 0;
   private int intervaloPowUp = 1000;
 
   private int partidaId; // ID de la partida actual
-
+  private int tiempoTransicionNivel;
   //Contadores para estadísticas
   private int enemigosDerrotados = 0;
   private int enemigosRojosDerrotados = 0;
@@ -50,13 +49,14 @@ class Partida {
     this.colision = new Colision();
 
 
-
     // Cargar o crear tabla de puntajes
     this.table = loadTable("data/prueba.csv", "header");
     this.partidaId = table.getRowCount(); // ID basado en la cantidad de filas existentes
-    // Generar enemigos iniciales
+    // Generar enemigos iniciales 
+    this.tiempoTransicionNivel = millis();
+    this.mostrandoPantallaNivel = true;
     generarEnemigos();
-    
+
   }
 
   // ─── CREACIÓN DE BALAS ───────────────────────────────
@@ -79,19 +79,7 @@ class Partida {
     for (AvionEnemigo e : listaEnemigos) e.dibujar();
     jugador.dibujar();
     
-    if (mostrandoPantallaNivel) 
-    {
-      background(0);
-      fill(255);
-      text("NIVEL " + nivel, width / 2, height / 2);
     
-      // after 2 seconds, resume gameplay
-      if (millis() - tiempoTransicionNivel > 2000) {
-        mostrandoPantallaNivel = false;
-        generarEnemigos();       // create new enemies for level 2
-      }
-      return; // stop here so nothing else is drawn
-    }
   }
 
   // ─── ACTUALIZACIÓN ───────────────────────────────────
@@ -201,16 +189,16 @@ class Partida {
     duracionNivel = millis() - tiempoInicioNivel;
 
     // 1 minute 30 seconds = 90,000 milliseconds 
-    if (duracionNivel >= 90_000 && nivel == 1) 
+    if (duracionNivel >= 12_000 && nivel == 1) 
     {  
       
       nivel = 2;
       tiempoInicioNivel = millis();
       listaEnemigos.clear();
       listaBalasEnemigas.clear();  
-      mostrandoPantallaNivel = true;
       tiempoTransicionNivel = millis();
-
+      mostrandoPantallaNivel = true;
+      generarEnemigos();
     }
     if (duracionNivel >= 90_000 && nivel == 2) 
     {
@@ -218,9 +206,9 @@ class Partida {
       tiempoInicioNivel = millis();
       listaEnemigos.clear();
       listaBalasEnemigas.clear();
-      mostrandoPantallaNivel = true;
       tiempoTransicionNivel = millis();
-
+      mostrandoPantallaNivel = true;
+      generarEnemigos();
     }
     
     this.duracion = millis() - tiempoInicio;
@@ -316,4 +304,9 @@ class Partida {
   public int getEnemigosVerdesDerrotados(){return this.enemigosVerdesDerrotados;}
   public int getTiempoSupervivencia(){return this.duracion / 1000;} //retorna en segundos
   public float getPrecisionDisparo(){return this.precisionDisparo;}
+  public int getNivel(){return this.nivel;}
+  public boolean getMostrandoPantallaNivel(){return this.mostrandoPantallaNivel;}
+  public int getTiempoTransicionNivel(){return this.tiempoTransicionNivel;}
+
+  public void setMostrandoPantallaNivel(boolean i){this.mostrandoPantallaNivel = i;}
 }
