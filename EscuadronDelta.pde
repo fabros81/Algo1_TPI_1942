@@ -6,8 +6,8 @@ public class EscuadronDelta extends Escuadron{
 
     public void añadirEnemigo(int cant) {
         for (int i = 0; i < cant; i++) {
-            //AvionEnemigoRojo e = new AvionEnemigoRojo(820,-20); 
             AvionEnemigoRojo e = new AvionEnemigoRojo(400, -20);    
+            e.setPartida(this.partida);
             e.setPerteneceEscuadron(true);
             e.setRecorrido(new Curva());
             e.setCurva("parabolaParametrica");
@@ -26,14 +26,5 @@ public class EscuadronDelta extends Escuadron{
             e.setTiempoActivacion(tAct + cont *500);
         }
    }
-/*
-   public void mandar(float tAct) {
-    int nuevos = 0;
-    for (int i = this.enemigos.size() - 3; i < this.enemigos.size(); i++) { // solo los últimos 3
-        AvionEnemigoRojo e = this.enemigos.get(i);
-        e.setTiempoActivacion(tAct + nuevos * 700);
-        nuevos++;
-    }
-}*/
 
 }

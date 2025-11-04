@@ -6,7 +6,8 @@ public class EscuadronEpsilon extends Escuadron{
 
     public void añadirEnemigo(int cant) {
         for (int i = 0; i < cant; i++) {
-            AvionEnemigoRojo e = new AvionEnemigoRojo(100 + i * 100, 0);    
+            AvionEnemigoRojo e = new AvionEnemigoRojo(100 + i * 100, 0);
+            e.setPartida(this.partida);    
             e.setPerteneceEscuadron(true);
             e.setRecorrido(new Curva());
             e.setCurva("rectaHorizontal");
@@ -22,6 +23,7 @@ public class EscuadronEpsilon extends Escuadron{
         for (int i = 0; i < cant; i++) {
             //primera linea
             AvionEnemigoRojo e = new AvionEnemigoRojo(100 + i * 100, 0);    
+            e.setPartida(this.partida);
             e.setPerteneceEscuadron(true);
             e.setRecorrido(new Curva());
             e.setCurva("rectaHorizontal");
@@ -30,6 +32,7 @@ public class EscuadronEpsilon extends Escuadron{
 
             //segunda linea espejo
             AvionEnemigoRojo e2 = new AvionEnemigoRojo(700 - i * 100, 0);  
+            e2.setPartida(this.partida);
             e2.setPerteneceEscuadron(true);
             e2.setRecorrido(new Curva());
             e2.setCurva("rectaHorizontal");
