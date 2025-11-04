@@ -3,23 +3,26 @@ abstract class  Escuadron {
     protected AvionEnemigoRojo enemigo;  
     protected boolean activo ;
     protected float tiempoActivacion;
-    protected float tiempoInicioPartida;
+    protected float tiempoInicioNivel;
+    protected Partida partida;
 
 
-    
-
-  public Escuadron(float tInicioPartida){
+  public Escuadron(Partida p){
+    this.partida = p;
     this.activo= false;
-    this.tiempoInicioPartida = tInicioPartida;
+    this.tiempoInicioNivel = p.getTiempoInicioNivel();
+    this.enemigos = new ArrayList<AvionEnemigoRojo>();
   }
   
-  public float getTiempoInicioPartida(){return this.tiempoInicioPartida;}
+  public float getTiempoInicioNivel(){return this.tiempoInicioNivel;}
   public void addEnemigos(AvionEnemigoRojo e){this.enemigo = e;}
   public void setTiempoActivacion(float t){this.tiempoActivacion =t;}
   public void setEnemigo(AvionEnemigoRojo e){this.enemigo = e;}
+  public ArrayList<AvionEnemigoRojo> getEnemigos(){return this.enemigos;}
   
-  
-  
+  abstract void añadirEnemigo(int cant);
+  protected void añadirEnemigoEspejo(int cant){}
+  abstract void mandar(float tAct);
 
 
-  }
+}
