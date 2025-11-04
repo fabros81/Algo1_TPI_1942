@@ -1,7 +1,7 @@
 import gifAnimation.*;
 GameManager gm;
 Gif avionJugadorGIF;
-PImage corazon;
+
 
 void setup()
 {
@@ -12,7 +12,6 @@ void setup()
   gm = new GameManager();
   avionJugadorGIF = new Gif(this, "AvionAliado.gif");
   avionJugadorGIF.play();
-  corazon = loadImage("corazon.png");
 }
 
 void draw()

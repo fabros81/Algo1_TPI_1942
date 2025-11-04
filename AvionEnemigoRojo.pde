@@ -3,18 +3,17 @@ class AvionEnemigoRojo extends AvionEnemigo
  private boolean perteneceEscuadron;
  private int direccion = 1;
  private float tiempoActivacion; 
- private float tiempoInicioPartida;
+ private float tiempoInicioNivel;
  private Curva recorrido;
  private String curva;
- private int tiempoUltimoDisparo = 0;     // Tiempo del último disparo
+ private int tiempoUltimoDisparo = 0;
  private int delayDisparo = int(random(1500, 4000));
  
 
  public AvionEnemigoRojo(float x, float y)
  {
-   super(x, y, 20, 3, 20, 100);
+   super(x, y, 20, 2, 20, 100);
    this.perteneceEscuadron = false;
-   
  }
 
  
@@ -28,7 +27,7 @@ class AvionEnemigoRojo extends AvionEnemigo
      fill(255,0,0);
      circle(this.posicion.x, this.posicion.y, this.radio);
   }else {
-    if (this.tiempoActivacion + this.tiempoInicioPartida < millis()){
+    if (this.tiempoActivacion + this.tiempoInicioNivel < millis()){
       if (!isAlive) return;  
       fill(255,0,0);
       circle(this.posicion.x, this.posicion.y, this.radio);
@@ -64,28 +63,29 @@ class AvionEnemigoRojo extends AvionEnemigo
  
   void go()
   {
-    if(this.curva.equals("alfa"))
-    {
-      if (millis() - this.tiempoInicioPartida >= this.tiempoActivacion)
-      {
-        this.posicion = this.recorrido.diag(this.getX(),this.getY(),this.getVel());
-      }
-    }
-    if(this.curva.equals("beta"))
-    {
-      if (millis() - this.tiempoInicioPartida >= this.tiempoActivacion)
-      {
-        this.posicion = this.recorrido.diagInv(this.getX(),this.getY(),this.getVel());
-      }
-    }
-       
-    if(this.curva.equals("delta"))
-    {
-      if (millis() - this.tiempoInicioPartida >= this.tiempoActivacion)
-      {
-        this.posicion = this.recorrido.parabolaParametrica(this.getX(),this.getY(),this.getVel());
-        
-      }
+
+    if (millis() - this.tiempoInicioNivel < this.tiempoActivacion) return;
+
+     switch (this.curva) {
+    case "diag":
+      this.posicion = this.recorrido.diag(this.getX(), this.getY(), this.getVel());
+      break;
+
+    case "diagInv":
+      this.posicion = this.recorrido.diagInv(this.getX(), this.getY(), this.getVel());
+      break;
+
+    case "parabolaParametrica":
+      this.posicion = this.recorrido.parabolaParametrica(this.getX(), this.getY(), this.getVel());
+      break;
+
+    case "parabolaParametricaInv":
+      this.posicion = this.recorrido.parabolaParametricaInv(this.getX(), this.getY(), this.getVel());
+      break;
+
+    case "rectaHorizontal":
+      this.posicion = this.recorrido.rectaHorizontal(this.getX(), this.getY(), this.getVel());
+      break;
     }
   }    
 
@@ -95,9 +95,12 @@ class AvionEnemigoRojo extends AvionEnemigo
  public void disparar()
  {
    if (!isAlive) return;
-   if (this.posicion.y > 0) //dispara solo si está en pantalla
+   if (this.posicion.y > 10) //dispara solo si está en pantalla
    {
     int tiempoActual = millis();
+
+    //evitar disparar justo al aparecer
+    //if (millis() - this.tiempoInicioNivel < this.tiempoActivacion + 400) return;
 
     if(tiempoActual - tiempoUltimoDisparo >= delayDisparo)
       {
@@ -111,8 +114,14 @@ class AvionEnemigoRojo extends AvionEnemigo
  
   public void setPerteneceEscuadron (boolean t){this.perteneceEscuadron = t;}
   public float getTiempoActivacion(){return this.tiempoActivacion;}
-  public void setTiempoActivacion(float tAct){this.tiempoActivacion = tAct;}
-  public void setTiempoInicioPartida(float tIni){this.tiempoInicioPartida = tIni;}
+ public void setTiempoActivacion(float tAct) {
+    this.tiempoActivacion = tAct;
+    // resetear tiempoUltimoDisparo al activarse el avión para evitar disparos inmediatos
+    this.tiempoUltimoDisparo = millis() + int(random(1000, 4000)); 
+}
+
+
+  public void setTiempoInicioNivel(float tIni){this.tiempoInicioNivel = tIni;}
   public void setRecorrido(Curva r){this.recorrido = r;}
   public void setCurva(String c){this.curva = c;}
 

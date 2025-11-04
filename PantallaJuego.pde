@@ -4,6 +4,7 @@ class PantallaJuego
   private GameManager gm;
   private PFont fontUI;
   private PFont fontNumeros;
+
   PantallaJuego(GameManager gm)
   {
     this.gm = gm;
@@ -25,9 +26,6 @@ class PantallaJuego
     
     // Interfaz de usuario minimalista
     dibujarUI();
-
-    //Pantalla de transicion entre niveles
-    dibujarPantallaNivel();
   }
   
   void dibujarUI() {
@@ -78,13 +76,8 @@ class PantallaJuego
     fill(255);
     
     // Salud del jugador
-    int vidas = partida.jugador.getVidas();
-    text("VIDAS: ", infoX, infoY);
-    for (int i = 1; i <= vidas; i++)
-    {
-      image(corazon, infoX + 70 + 20 * i, infoY + 5, 40, 30);
-    }
-
+    float salud = partida.jugador.getHp();
+    text("VIDA: %" + nf(salud, 1, 0), infoX, infoY);
   }
   
   void dibujarIndicadoresPowerUps() {
@@ -120,19 +113,5 @@ class PantallaJuego
   
   void setPartida(Partida partida) {
     this.partida = partida;
-  }
-
-  public void dibujarPantallaNivel(){
-    if (this.partida.getMostrandoPantallaNivel())
-    {
-      background(0);
-      fill(255);
-      text("NIVEL " + this.partida.getNivel(), width / 2, height / 2);
-      this.partida.getJugador().dibujar();
-      if (millis() - this.partida.getTiempoTransicionNivel() > 2000) {
-        this.partida.setMostrandoPantallaNivel(false);
-      }
-      return; // stop here so nothing else is drawn
-    }
   }
 }
