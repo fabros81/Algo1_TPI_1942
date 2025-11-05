@@ -16,7 +16,9 @@ class PantallaJuego
   void dibujar()
   {
     // Fondo completamente negro
-    background(0);
+    // image(fondoJuego, width/2, height/2, width, height);
+    image(fondoBuffer, width/2, height/2);
+
     
     // Dibujar elementos del juego
     if (partida != null) {

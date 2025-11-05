@@ -14,7 +14,7 @@ class AvionEnemigoVerde extends AvionEnemigo
  {
    if (!isAlive) return;  
    fill(0,255,0);
-   circle(this.posicion.x, this.posicion.y, this.radio);
+   image(enemigoV, this.posicion.x, this.posicion.y, this.radio,this.radio);
  }
  
  public void mover()

@@ -1,9 +1,14 @@
 import gifAnimation.*;
+import processing.video.*;
 GameManager gm;
 Gif avionJugadorGIF;
 PImage corazon;
 Gif explode;
 PImage enemigoR;
+PImage enemigoV;
+// Movie fondoJuego;
+PImage fondoJuego;
+PGraphics fondoBuffer;
 
 void setup()
 {
@@ -18,6 +23,15 @@ void setup()
   corazon = loadImage("corazon.png");
   explode = new Gif(this, "Explosion.gif");
   enemigoR = loadImage("EnemigoRojo.png");
+  enemigoV = loadImage("EnemigoVerde.png");
+  // fondoJuego = new Movie(this, "output.mp4");
+  // fondoJuego.loop();
+  fondoJuego = loadImage("fondo_sin_alpha.png");
+  fondoBuffer = createGraphics(width, height);
+  fondoBuffer.beginDraw();
+  fondoBuffer.imageMode(CENTER);
+  fondoBuffer.image(fondoJuego, width/2, height/2);
+  fondoBuffer.endDraw();
 }
 
 void draw()
@@ -34,3 +48,7 @@ void keyPressed()
 void keyReleased() {
   gm.keyReleased();
 }
+
+// void movieEvent(Movie m) {
+//   m.read(); // sin esto no se actualiza el frame
+// }
