@@ -117,11 +117,20 @@ void dibujarMenuNormal() {
  
  void dibujarPantallaID() {
     // Fondo transparente
-    fill(0, 0, 0, 200);
-    rect(width/2, height/2, 400, 300);
     
+   // noStroke();
+   // fill(30, 30, 30, 200); // darker background, more transparent
+    //rect(width/2, (height/2) + 50, 600, 300, 20); // rounded corners make it feel softer
+    noStroke();
+    fill(0, 0, 0, 80);
+    rect(width/2, (height/2) + 50, 600, 300, 20); // shadow offset
+    fill(30, 30, 30, 150);
+    rect(width/2, (height/2) + 50, 600, 300, 20);
+
+
     // Título
     fill(255);
+    
     textAlign(CENTER, CENTER);
     textSize(24);
     textFont(fontID);
@@ -136,13 +145,16 @@ void dibujarMenuNormal() {
     text(idMostrar, width/2 - 30, height/2);
     
     // Instrucciones
-    fill(255);
-    if (playerID.length() == 3) {
-    textFont(fontID);
-    text("Presiona ESPACIO para jugar", width/2 - 30, height/2 + 30);
+    //fill(255);
+    fill(255, 255, 0);
+    if (playerID.length() == 3) 
+    {
+      textFont(fontID);
+      text("Presiona ESPACIO para jugar", width/2 - 30, height/2 + 50);
     } 
-    text("Presiona TAB para volver al menú", width/2 - 30, height/2 + 50);
-    }
+    fill(255, 255, 0);
+    text("Presiona TAB para volver al menú", width/2 - 30, height/2 + 100);
+  }
 
 
  
