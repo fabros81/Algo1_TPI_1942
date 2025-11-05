@@ -10,14 +10,7 @@ class PowUp
 
     public void multidisparo()
     {
-      partida.crearBalasAliadas(this.jugador.posicion.x , this.jugador.posicion.y, 0, -1, 8, 9, 10); // arriba
-      partida.crearBalasAliadas(this.jugador.posicion.x , this.jugador.posicion.y, 0, 1, 8, 9, 10); // abajo 
-      partida.crearBalasAliadas(this.jugador.posicion.x , this.jugador.posicion.y, 1, 0, 8, 9, 10); // derecha
-      partida.crearBalasAliadas(this.jugador.posicion.x , this.jugador.posicion.y, -1, 0, 8, 9, 10); // izquierda
-      partida.crearBalasAliadas(this.jugador.posicion.x , this.jugador.posicion.y, -1, 1, 8, 9, 10); // abajo izquierda
-      partida.crearBalasAliadas(this.jugador.posicion.x , this.jugador.posicion.y, 1, 1, 8, 9, 10); // abajo derecha
-      partida.crearBalasAliadas(this.jugador.posicion.x , this.jugador.posicion.y, -1, -1, 8, 9, 10); // arriba izquierda
-      partida.crearBalasAliadas(this.jugador.posicion.x , this.jugador.posicion.y, 1, -1, 8, 9, 10); // arriba derecha
+        this.jugador.activarMultidisparo();
     }
     public void escudo()
     {
@@ -26,6 +19,7 @@ class PowUp
    
     public void instakill()
     {
-       partida.crearBalasAliadas(this.jugador.posicion.x , this.jugador.posicion.y, 0, -1, 8, 9, 1000); 
+        this.jugador.activarInstakill();
+       
     }
 }

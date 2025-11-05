@@ -8,6 +8,7 @@ class AvionEnemigoRojo extends AvionEnemigo
  private String curva;
  private int tiempoUltimoDisparo = 0;
  private int delayDisparo = int(random(1500, 4000));
+ private Partida partida;
  
 
  public AvionEnemigoRojo(float x, float y)
@@ -30,7 +31,7 @@ class AvionEnemigoRojo extends AvionEnemigo
     if (this.tiempoActivacion + this.tiempoInicioNivel < millis()){
       if (!isAlive) return;  
       fill(255,0,0);
-      circle(this.posicion.x, this.posicion.y, this.radio);
+      image(enemigoR, this.posicion.x, this.posicion.y, this.radio, this.radio);
     }
     
       
@@ -104,7 +105,7 @@ class AvionEnemigoRojo extends AvionEnemigo
 
     if(tiempoActual - tiempoUltimoDisparo >= delayDisparo)
       {
-        gm.getPartida().crearBalasEnemigas(this.posicion.x, this.posicion.y,  0, 1, 5, 9, 33.4);
+        partida.crearBalasEnemigas(this.posicion.x, this.posicion.y,  0, 1, 5, 9, 33.4);
         tiempoUltimoDisparo = tiempoActual;
         delayDisparo = int(random(1000, 4000));
       }
@@ -124,5 +125,6 @@ class AvionEnemigoRojo extends AvionEnemigo
   public void setTiempoInicioNivel(float tIni){this.tiempoInicioNivel = tIni;}
   public void setRecorrido(Curva r){this.recorrido = r;}
   public void setCurva(String c){this.curva = c;}
+  public void setPartida(Partida p){this.partida = p;}
 
 }

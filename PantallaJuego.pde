@@ -122,17 +122,31 @@ class PantallaJuego
     this.partida = partida;
   }
 
-  public void dibujarPantallaNivel(){
-    if (this.partida.getMostrandoPantallaNivel())
-    {
-      background(0);
-      fill(255);
-      text("NIVEL " + this.partida.getNivel(), width / 2, height / 2);
-      this.partida.getJugador().dibujar();
-      if (millis() - this.partida.getTiempoTransicionNivel() > 2000) {
-        this.partida.setMostrandoPantallaNivel(false);
-      }
-      return; // stop here so nothing else is drawn
+  public void dibujarPantallaNivel() {
+  if (this.partida.getMostrandoPantallaNivel()) {
+    background(0);
+
+    // Configuración de estilo
+    textAlign(CENTER, CENTER);
+    textSize(64);
+    fill(92,12,12); // rojo oscuro
+    text("NIVEL " + this.partida.getNivel(), width / 2, height / 2 - 50);
+
+    // Texto adicional opcional
+    textSize(24);
+    fill(200);
+    text("Se acercan enemigos...", width / 2, height / 2 + 30);
+
+    // Dibuja la nave del jugador
+    this.partida.getJugador().dibujar();
+
+    // Controla el tiempo que se muestra la pantalla
+    if (millis() - this.partida.getTiempoTransicionNivel() > 2000) {
+      this.partida.setMostrandoPantallaNivel(false);
     }
+
+    return; // detener el resto del dibujado
   }
+}
+
 }
