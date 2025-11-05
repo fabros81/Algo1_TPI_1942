@@ -1,8 +1,8 @@
 import gifAnimation.*;
 class Explosion {
-  float x, y;
-  Gif anim;
-  int startTime;
+  private float x, y;
+  private Gif anim;
+  private int startTime;
 
   Explosion(float x, float y, Gif anim) {
     this.x = x;

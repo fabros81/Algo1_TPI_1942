@@ -110,9 +110,9 @@ class Partida {
     if (this.puntaje - this.puntajeUltimoPowUp >= intervaloPowUp)
     {
       int r = int(random(3));
-      if (r == 0) jugador.activarEscudo();
-      else if (r == 1) jugador.activarInstakill();
-      else jugador.activarMultidisparo();
+      if (r == 0) powUp.escudo();
+      else if (r == 1) powUp.instakill();
+      else powUp.multidisparo();
       this.puntajeUltimoPowUp = this.puntaje;
     }
 
@@ -282,7 +282,7 @@ class Partida {
         }
 
         //oleadas de 6 rojos alineados a los 21s, 51s y 81s
-        if (i == 21000 || i== 51000 || i== 81000) {
+        if (i == 6000 || i== 51000 || i== 81000) {
           Escuadron escEpsilon = new EscuadronEpsilon(this);
           //escEpsilon.añadirEnemigo(3);
           escEpsilon.añadirEnemigoEspejo(3);

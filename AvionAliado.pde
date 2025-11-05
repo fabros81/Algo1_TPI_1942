@@ -86,10 +86,7 @@ class AvionAliado extends Avion
     }
   }
   
-  public void activarEscudo()
-  {
-    powUp.escudo();
-  }
+
 
 
 
@@ -133,12 +130,19 @@ class AvionAliado extends Avion
     { 
       if (multidisparoActivo)
       {
-        powUp.multidisparo();
+      gm.getPartida().crearBalasAliadas(this.posicion.x , this.posicion.y, 0, -1, 8, 9, 10); // arriba
+      gm.getPartida().crearBalasAliadas(this.posicion.x , this.posicion.y, 0, 1, 8, 9, 10); // abajo 
+      gm.getPartida().crearBalasAliadas(this.posicion.x , this.posicion.y, 1, 0, 8, 9, 10); // derecha
+      gm.getPartida().crearBalasAliadas(this.posicion.x , this.posicion.y, -1, 0, 8, 9, 10); // izquierda
+      gm.getPartida().crearBalasAliadas(this.posicion.x , this.posicion.y, -1, 1, 8, 9, 10); // abajo izquierda
+      gm.getPartida().crearBalasAliadas(this.posicion.x , this.posicion.y, 1, 1, 8, 9, 10); // abajo derecha
+      gm.getPartida().crearBalasAliadas(this.posicion.x , this.posicion.y, -1, -1, 8, 9, 10); // arriba izquierda
+      gm.getPartida().crearBalasAliadas(this.posicion.x , this.posicion.y, 1, -1, 8, 9, 10); // arriba derecha
         actualizarMultidisparo();
       }
       else if (instakillActivo)
       {
-        powUp.instakill();
+        gm.getPartida().crearBalasAliadas(this.posicion.x , this.posicion.y, 0, -1, 8, 9, 1000); 
         actualizarInstakill();
       }
       else
