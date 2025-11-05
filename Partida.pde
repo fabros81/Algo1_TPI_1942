@@ -50,7 +50,7 @@ class Partida {
     this.listaBalasEnemigas = new ArrayList<Bala>();
     this.listaEnemigos = new ArrayList<AvionEnemigo>();
     this.colision = new Colision();
-    this.playerID = playerID;
+    this.playerID = gm.getPlayerId();
 
 
 

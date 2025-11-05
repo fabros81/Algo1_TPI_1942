@@ -25,7 +25,6 @@ class GameManager {
     this.fin = new PantallaFinal(this);
     this.estadisticas = new PantallaEstadistica(this);
     this.estado = 0; // empieza en menú
-    this.playerID = playerID;
   }
 
   // ─── CICLO PRINCIPAL ─────────────────────────────────
@@ -133,6 +132,7 @@ class GameManager {
   public boolean getDownPressed() { return this.downPressed; }
   public boolean getSpacePressed() { return this.spacePressed; }
   public Partida getPartida() {return this.partida;}
+  public String getPlayerId(){return this.playerID;}
    // ─── SETTERS ─────────────────────────────────────────
   public void setPlayerID(String id) { this.playerID = id; }
 
