@@ -64,40 +64,41 @@ class PantallaInicial
   }
 
 void dibujar(){
-         if (this.imgInicio != null && this.flecha != null) 
-        {background(0);
-          image(this.imgInicio, width/2, height/2, width, height); 
-               contadorParpadeo++; 
-              if (ingresandoID) {
-              dibujarPantallaID();
-              } 
-              else {
-              dibujarMenuNormal();
-              }
-         
-              if ( contadorParpadeo >= 30 && contadorParpadeo <=50)
-              {flechaVisible = true;
-              } else {flechaVisible = false;}
-              
-              if (flechaVisible == true)
-              {image(flecha, x + 10, y+15, 30, 30);}
-              
-              if (contadorParpadeo >40) 
-              {contadorParpadeo = 0;
-               flechaVisible = false;}
-            
-            
-        } else 
-        {background(0); 
-        fill(255);
-        text("Error: Imagen/es de pantalla de inicio no encontrada", 50, height/2);
-        
-              // Msj
-              if (this.imgInicio == null) 
-              {text("• Fondo no cargado", 70, height/2 + 20);}
-              
-              if (this.flecha == null) {text("• Flecha no cargada", 70, height/2 + 40);}
-        }
+  if (this.imgInicio != null && this.flecha != null) 
+  { background(0);
+    image(this.imgInicio, width/2, height/2, width, height); 
+    contadorParpadeo++; 
+    if (ingresandoID) {
+    dibujarPantallaID();
+    return;
+    } 
+    else {
+    dibujarMenuNormal();
+    }
+
+    if ( contadorParpadeo >= 30 && contadorParpadeo <=50)
+    {flechaVisible = true;
+    } else {flechaVisible = false;}
+    
+    if (flechaVisible == true)
+    {image(flecha, x + 10, y+15, 30, 30);}
+    
+    if (contadorParpadeo >40) 
+    {contadorParpadeo = 0;
+      flechaVisible = false;}
+  
+      
+  } else 
+  {background(0); 
+  fill(255);
+  text("Error: Imagen/es de pantalla de inicio no encontrada", 50, height/2);
+  
+  // Msj
+  if (this.imgInicio == null) 
+  {text("• Fondo no cargado", 70, height/2 + 20);}
+  
+  if (this.flecha == null) {text("• Flecha no cargada", 70, height/2 + 40);}
+  }
  }
 void dibujarMenuNormal() {
     contadorParpadeo++; 
@@ -117,7 +118,7 @@ void dibujarMenuNormal() {
  void dibujarPantallaID() {
     // Fondo transparente
     fill(0, 0, 0, 200);
-    rect(width/2, height/2, 400, 200);
+    rect(width/2, height/2, 400, 300);
     
     // Título
     fill(255);
