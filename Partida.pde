@@ -208,7 +208,7 @@ class Partida {
       tiempoTransicionNivel = millis();
       generarEnemigos();
     }
-    if (duracionNivel >= 90_000 && nivel == 2)
+    if (duracionNivel >= 90000 && nivel == 2)
     {
       nivel = 3;
       tiempoInicioNivel = millis();
@@ -249,9 +249,23 @@ class Partida {
     case 1:
       //int[] tiempoSpawnEnemigos = {3000, 7000, 10000};
       //for (int i : tiempoSpawnEnemigos) {}
+        AvionEnemigoVerde verde1 = new AvionEnemigoVerde(200,-10);
+        verde1.setTiempoInicioNivel(this.tiempoInicioNivel);
+        verde1.setTiempoActivacion(3000);
+        listaEnemigos.add(verde1);
+
+        Escuadron alfa1 = new EscuadronAlfa(this);
+        alfa1.añadirEnemigo(2);
+        alfa1.mandar(4000);
+        EscuadronBeta beta1 = new EscuadronBeta(this);
+        beta1.añadirEnemigo(2);
+        beta1.mandar(5000);
 
 
-      for (int i = 3000; i<= 90000; i += 3000) {
+        
+
+
+      for (int i = 15000; i<= 90000; i += 3000) {
         //generacion escuadrones de rojos
         Escuadron escAlfa = new EscuadronAlfa(this);
         Escuadron escBeta = new EscuadronBeta(this);
@@ -282,7 +296,7 @@ class Partida {
         }
 
         //oleadas de 6 rojos alineados a los 21s, 51s y 81s
-        if (i == 6000 || i== 51000 || i== 81000) {
+        if (i == 20000 || i== 51000 || i== 81000) {
           Escuadron escEpsilon = new EscuadronEpsilon(this);
           //escEpsilon.añadirEnemigo(3);
           escEpsilon.añadirEnemigoEspejo(3);

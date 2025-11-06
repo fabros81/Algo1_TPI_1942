@@ -1,5 +1,3 @@
-/*
-
 import gifAnimation.*;
 import processing.video.*;
 GameManager gm;
@@ -54,5 +52,3 @@ void keyReleased() {
 // void movieEvent(Movie m) {
 //   m.read(); // sin esto no se actualiza el frame
 // }
-
-*/
