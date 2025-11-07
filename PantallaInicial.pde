@@ -63,54 +63,43 @@ class PantallaInicial
     this.y = posiciones[this.posicionFlecha][1];
   }
 
-void dibujar(){
-  if (this.imgInicio != null && this.flecha != null) 
-  { background(0);
-    image(this.imgInicio, width/2, height/2, width, height); 
-    contadorParpadeo++; 
-    if (ingresandoID) {
-    dibujarPantallaID();
-    return;
-    } 
-    else {
-    dibujarMenuNormal();
+void dibujar()
+  {
+    if (this.imgInicio != null && this.flecha != null) 
+    { background(0);
+      image(this.imgInicio, width/2, height/2, width, height); 
+      contadorParpadeo++; 
+      if (ingresandoID) {
+      dibujarPantallaID();
+      return;
+      } 
+      else {
+      dibujarMenuNormal();
+      }
+        
+    } else 
+    {background(0); 
+    fill(255);
+    text("Error: Imagen/es de pantalla de inicio no encontrada", 50, height/2);
+    
+    // Msj
+    if (this.imgInicio == null) 
+    {text("• Fondo no cargado", 70, height/2 + 20);}
+    
+    if (this.flecha == null) {text("• Flecha no cargada", 70, height/2 + 40);}
     }
-
-    if ( contadorParpadeo >= 30 && contadorParpadeo <=50)
-    {flechaVisible = true;
-    } else {flechaVisible = false;}
-    
-    if (flechaVisible == true)
-    {image(flecha, x + 10, y+15, 30, 30);}
-    
-    if (contadorParpadeo >40) 
-    {contadorParpadeo = 0;
-      flechaVisible = false;}
-  
-      
-  } else 
-  {background(0); 
-  fill(255);
-  text("Error: Imagen/es de pantalla de inicio no encontrada", 50, height/2);
-  
-  // Msj
-  if (this.imgInicio == null) 
-  {text("• Fondo no cargado", 70, height/2 + 20);}
-  
-  if (this.flecha == null) {text("• Flecha no cargada", 70, height/2 + 40);}
   }
- }
 void dibujarMenuNormal() {
     contadorParpadeo++; 
      
-    if ( contadorParpadeo >= 30 && contadorParpadeo <=50)
+    if ( contadorParpadeo >= 30 && contadorParpadeo <=100)
     {flechaVisible = true;
     } else {flechaVisible = false;}
     
     if (flechaVisible == true)
     {image(flecha, x + 10, y+15, 30, 30);}
     
-    if (contadorParpadeo >40) 
+    if (contadorParpadeo >70) 
     {contadorParpadeo = 0;
      flechaVisible = false;}
  }
