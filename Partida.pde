@@ -225,8 +225,8 @@ class Partida {
     duracionNivel = millis() - tiempoInicioNivel;
 
 
-    // 1 minute 30 seconds = 90,000 milliseconds
-    if (duracionNivel >= 90_000 && nivel == 1)
+    // 1 minute 
+    if (duracionNivel >= 60_000 && nivel == 1)
     {
 
       nivel = 2;
@@ -237,7 +237,8 @@ class Partida {
       tiempoTransicionNivel = millis();
       generarEnemigos();
     }
-    if (duracionNivel >= 90000 && nivel == 2)
+    //1 minuto
+    if (duracionNivel >= 60_000 && nivel == 2)
     {
       nivel = 3;
       tiempoInicioNivel = millis();
@@ -251,7 +252,7 @@ class Partida {
     this.duracion = millis() - tiempoInicio;
 
     // Si muere el jugador → pasar a pantalla final
-    if (!jugador.isAlive) {
+    if (!jugador.isAlive || gm.getPartidaGanada()) {
       // Guardar puntaje en CSV
       TableRow newRow = table.addRow();
       newRow.setInt("id", this.partidaId);
@@ -398,10 +399,45 @@ class Partida {
       break;
 
     case 2:
-      escuadronBeta(10,2000);
-      escuadronVerde(80,4000);
+      // --- FASE 1
+      escuadronAlfa(4, 2000);       // izquierda -> derecha (diagonal)
+      escuadronBeta(4, 2000);       // derecha -> izquierda (diagonal)
+      escuadronVerde(3, 3000);      // dispersión central (gauss vertical)
 
-      println("nivel 2"); //imprime en consola
+      // --- FASE 2
+      escuadronDelta(3, 8000);     // parábola derecha (entrada suave)
+      escuadronGamma(3, 8000);     // parábola invertida (simétrica)
+      escuadronEpsilon(2, 9500);   // bajan en línea recta (columna)
+
+      // --- FASE 3
+      escuadronAlfa(5, 13000);
+      escuadronBeta(5, 13000);
+      escuadronVerde(9, 12000);     // ráfaga gaussiana
+
+      // --- FASE 4
+      escuadronEpsilon(4, 19000);   // líneas espejo
+      escuadronGamma(4, 23000);     // parábola invertida
+      escuadronDelta(4, 23000);     // parábola normal
+      escuadronVerde(6, 22000);     // última oleada vertical rápida
+      escuadronEpsilon(3, 26000);
+
+      // --- FASE 5
+      escuadronGamma(4, 28000);
+      escuadronDelta(4, 30000);
+      escuadronAlfa(5, 32000);
+      escuadronBeta(5, 34000);
+      escuadronVerde(8, 36000);
+      escuadronEpsilon(4, 38000);
+      escuadronVerde(5, 40000);
+
+      // --- FASE 6
+      escuadronAlfa(6, 42000);
+      escuadronBeta(6, 44000);
+      escuadronVerde(9, 46000);
+      escuadronGamma(5, 48000);
+      escuadronDelta(5, 50000);
+      escuadronEpsilon(4, 52000);
+      escuadronVerde(10, 54000);   // ráfaga final
 
       break;
     case 3:
