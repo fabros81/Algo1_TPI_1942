@@ -34,20 +34,7 @@ class Curva {
           
   }
 
-  /*
-  PVector parabolaParametrica(float ox, float oy, float velocidadT){
-    // recoorrido pensadopara arrancar de (400,0) y terminar en [?,600]
-    // (t,1/80(t-400)^2) , t pertenece [400,619]
-    // la velocidad esta seteada hoy en 3
 
-    
-      //t += velocidadT /150;
-      parametroT = ox + 1;
-      
-      float x = parametroT;
-      float y = 1.0f/240.0f*(parametroT-400)*(parametroT-400);
-      return new PVector(x, y);
-     }*/
 
 PVector parabolaParametrica(float ox, float oy, float velocidadT) {
     // velocidad controlada por el parámetro acumulado
@@ -61,21 +48,7 @@ PVector parabolaParametrica(float ox, float oy, float velocidadT) {
 }
 
 
- /*
-  PVector parabolaParametricaInv(float ox, float oy, float velocidadT){
-  // recoorrido pensadopara arrancar de (400,0) y terminar en [?,600]
-  // (t,1/80(t-400)^2) , t pertenece [400,619]
-  // la velocidad esta seteada hoy en 3
 
-  
-    //t += velocidadT /150;
-    parametroT= ox - 1;
-    
-    float x = parametroT;
-    float y = 1.0f/240.0f*(parametroT-400)*(parametroT-400);
-    return new PVector(x, y);
-  }*/
- 
 
 PVector parabolaParametricaInv(float ox, float oy, float velocidadT) {
     // velocidad controlada por el parámetro acumulado
@@ -88,33 +61,6 @@ PVector parabolaParametricaInv(float ox, float oy, float velocidadT) {
     return new PVector(x, y);
 }
 
-
-
-  
-    PVector coseno(float ox, float oy, float velocidadT ){
-    this.posicion = new PVector (ox,oy);
-    this.velocidadT = velocidadT;
-    parametroT += velocidadT/100;
-  
-    float x = 400+ cos(parametroT)*200;
-    float y = parametroT;
-    
-    return new PVector(x, y);
-    }
-
-    PVector monio(float ox, float oy, float velocidadT ){
-      this.posicion = new PVector (ox,oy);
-      this.velocidadT = velocidadT;
-      parametroT += velocidadT;
-    
-      
-    
-    float x = pow(parametroT,2)-1;
-    float y = pow(parametroT,3)-parametroT;
-    
-      return new PVector(x, y);
-    
-  }
   
     PVector diag(float ox, float oy, float velocidadT ){
       // la velocidad esta seteada hoy en 3
@@ -153,6 +99,63 @@ PVector parabolaParametricaInv(float ox, float oy, float velocidadT) {
     return new PVector(x, y);
   }
 
+//JEFE----------------------------------------
+// tiempos independientes por tipo de curva
+  
+  private float tEntrada = 0;
+  private float tOcho = 0;
+  private float tHorizontal = 0;
 
 
+  // flags de ciclo completo
+  private boolean cicloOcho = false;
+  private boolean cicloHorizontal = false;
+
+
+  // ---- ENTRADA ----
+  
+  PVector curvaJefeEntrada(float velocidadT, float alturaObjetivo) {
+    // más lenta: divisor más grande → acumula más despacio
+    tEntrada += velocidadT / 600.0;  // antes era /200, ahora 3 veces más lenta
+    
+    // menor pendiente → baja con suavidad
+    float y = constrain(tEntrada * 100, -100, alturaObjetivo);
+    
+    // leve oscilación mientras baja
+    float x = width / 2;
+    
+    return new PVector(x, y);
+  }
+
+  // ---- OCHO ----
+  PVector curvaJefeOcho(float velocidadT, float alturaObjetivo) {
+    tOcho += velocidadT / 200.0;
+    float x = width / 2 + sin(tOcho) * 200;
+    float y = alturaObjetivo + sin(tOcho * 2) * 100;
+    cicloOcho = (tOcho >= TWO_PI);
+    if (cicloOcho) tOcho -= TWO_PI;
+    return new PVector(x, y);
+  }
+
+  boolean completoOcho() { return cicloOcho; }
+
+  // ---- HORIZONTAL ----
+  PVector curvaHorizontal(float velocidadT, float alturaObjetivo) {
+  tHorizontal += velocidadT / 100.0;
+
+  float amplitud = 320; // distancia lateral máxima (ajustable)
+  float x = width / 2 + sin(tHorizontal) * amplitud;
+  float y = alturaObjetivo;
+
+  // Detecta ciclo completo (ida y vuelta)
+  cicloHorizontal = (tHorizontal >= TWO_PI);
+  if (cicloHorizontal) tHorizontal -= TWO_PI;
+
+  return new PVector(x, y);
 }
+
+  boolean cicloHorizontal() { return cicloHorizontal; }
+
+  
+}
+

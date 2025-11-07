@@ -25,6 +25,8 @@ class AvionAliado extends Avion
     this.posicion.x = x;
     this.posicion.y = y;
   }
+  public float getX(){return this.posicion.x;}
+  public float getY(){return this.posicion.y;}
   public int getVidas(){return this.vidas;}
   public boolean getInvulnerable(){return this.invulnerable;}
   public void sumarPuntos(float i){this.puntaje += i;}

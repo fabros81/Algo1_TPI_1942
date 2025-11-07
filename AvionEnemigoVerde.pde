@@ -14,18 +14,23 @@ class AvionEnemigoVerde extends AvionEnemigo
  {
    if (!isAlive) return;  
    fill(0,255,0);
-   circle(this.posicion.x, this.posicion.y, this.radio);
+   image(enemigoV, this.posicion.x, this.posicion.y, this.radio,this.radio);
  }
  
  public void mover()
  { 
-   if (millis() - tiempoInicioNivel < tiempoActivacion) return;
-    this.posicion.y += this.velocidad;
+   go();
    
    if (this.posicion.y > height+30)
    {
      murio();
    }
+ }
+
+ public void go()
+ {
+    if (millis() - this.tiempoInicioNivel < this.tiempoActivacion) return;
+    this.posicion = new PVector(this.posicion.x, this.posicion.y + this.getVel());
  }
  
  public void disparar()

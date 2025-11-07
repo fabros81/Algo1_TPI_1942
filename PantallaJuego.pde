@@ -1,4 +1,4 @@
-class PantallaJuego
+class PantallaJuego extends Pantalla
 {
   private Partida partida;
   private GameManager gm;
@@ -6,7 +6,7 @@ class PantallaJuego
   private PFont fontNumeros;
   PantallaJuego(GameManager gm)
   {
-    this.gm = gm;
+    super(gm);
     
     // Usar misma fuente que pantalla de estadísticas
     this.fontUI = createFont("data/fonts/PressStart2P-Regular.ttf", 12);
@@ -16,7 +16,9 @@ class PantallaJuego
   void dibujar()
   {
     // Fondo completamente negro
-    background(0);
+    // image(fondoJuego, width/2, height/2, width, height);
+    image(fondoBuffer, width/2, height/2);
+
     
     // Dibujar elementos del juego
     if (partida != null) {
@@ -132,10 +134,11 @@ class PantallaJuego
     fill(92,12,12); // rojo oscuro
     text("NIVEL " + this.partida.getNivel(), width / 2, height / 2 - 50);
 
+    /*
     // Texto adicional opcional
     textSize(24);
     fill(200);
-    text("Se acercan enemigos...", width / 2, height / 2 + 30);
+    text("Se acercan enemigos...", width / 2, height / 2 + 30);*/
 
     // Dibuja la nave del jugador
     this.partida.getJugador().dibujar();

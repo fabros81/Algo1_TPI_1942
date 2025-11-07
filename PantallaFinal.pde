@@ -8,11 +8,11 @@ class PantallaFinal
   private boolean flechaVisible;
   private int contadorParpadeo;
   private int posicionFlecha;
- private int[][] posiciones = {
-  {276, 378}, 
-  {257, 428},  
-  {240, 478}  
-};
+  private int[][] posiciones = {
+    {276, 378}, 
+    {257, 428},  
+    {240, 478}  
+  };
   private int x;
   private int y;
   private int delayTecla;
@@ -59,56 +59,65 @@ class PantallaFinal
   void dibujar()
   {
     // Fondo
-    
     background(0);
-    
     
     // Overlay oscuro
     fill(0, 0, 0, 200);
     rect(width/2, height/2, 800, 500);
     
-    // Título GAME OVER
     textFont(fontTitulo);
-    fill(255, 0, 0);
     textAlign(CENTER, CENTER);
-    text("GAME OVER", width / 2, 80);
+        
+    // Título GAME OVER O WIN - CORREGIDO
+    if (gm.getPartidaGanada()) {
+      fill(0, 255, 0); // VERDE para victoria
+      text("YOU WIN", width / 2, 80);
+    } else {
+      fill(255, 0, 0); // ROJO para derrota
+      text("GAME OVER", width / 2, 80);
+    }
     
-    // Línea decorativa
-    stroke(255, 0, 0);
+    // Línea decorativa - color según resultado
+    stroke(255);
+    if (gm.getPartidaGanada()) {
+      stroke(0, 255, 0); // Verde para victoria
+    } else {
+      stroke(255, 0, 0); // Rojo para derrota
+    }
     strokeWeight(2);
     line(width/2 - 150, 110, width/2 + 150, 110);
     noStroke();
     
     // Estadísticas
-      // Estadísticas - con formato mejorado
-  textFont(fontTexto);
-  fill(255);
-  textAlign(CENTER, CENTER);
-  
-  if (gm.getPartida() != null && gm.getPartida().jugador != null) {
-    Partida p = gm.getPartida();
-    float puntaje = p.getPuntos();
-    float tiempoSegundos = p.getDuracion() / 1000.0;
+    textFont(fontTexto);
+    fill(255); // Blanco para las estadísticas
+    textAlign(CENTER, CENTER);
     
-    // Formatear puntaje si es muy grande
-    String textoPuntaje;
-    if (puntaje > 9999) {
-      textoPuntaje = nf(puntaje/1000, 0, 1) + "K";
-    } else {
-      textoPuntaje = nf(puntaje, 0, 2);
+    if (gm.getPartida() != null) {
+      Partida p = gm.getPartida();
+      float puntaje = p.getPuntos();
+      float tiempoSegundos = p.getDuracion() / 1000.0;
+      
+      // Formatear puntaje si es muy grande
+      String textoPuntaje;
+      if (puntaje > 9999) {
+        textoPuntaje = nf(puntaje/1000, 0, 1) + "K";
+      } else {
+        textoPuntaje = nf(puntaje, 0, 2);
+      }
+      
+      text("PUNTAJE FINAL: " + textoPuntaje, width/2, 140);
+      text("TIEMPO: " + nf(tiempoSegundos, 0, 2) + "s", width/2, 170);
+      
+      int partidaId = p.getPartidaId();
+      text("ID: " + partidaId, width/2, 200);
+
+      text("ENEMIGOS DERROTADOS: " + p.getEnemigosDerrotados(), width/2, 230);
+      text("ENEMIGOS ROJOS DERROTADOS: " + p.getEnemigosRojosDerrotados(), width/2, 260);
+      text("ENEMIGOS VERDES DERROTADOS: " + p.getEnemigosVerdesDerrotados(), width/2, 290);
+      text("PRECISIÓN DISPARO: " + nf(p.getPrecisionDisparo(), 0, 2) + "%", width/2, 320);
     }
     
-    text("PUNTAJE FINAL: " + textoPuntaje, width/2, 140);
-    text("TIEMPO: " + nf(tiempoSegundos, 0, 1) + "s", width/2, 170);
-    
-    int partidaId = p.getPartidaId();
-    text("ID: " + partidaId, width/2, 200);
-
-    text("ENEMIGOS DERROTADOS: " + p.getEnemigosDerrotados(), width/2, 230);
-    text("ENEMIGOS ROJOS DERROTADOS: " + p.getEnemigosRojosDerrotados(), width/2, 260);
-    text("ENEMIGOS VERDES DERROTADOS: " + p.getEnemigosVerdesDerrotados(), width/2, 290);
-    text("PRECISIÓN DISPARO: " + nf(p.getPrecisionDisparo(), 0, 2) + "%", width/2, 320);
-  }
     // Línea separadora
     stroke(150);
     strokeWeight(1);
@@ -117,7 +126,7 @@ class PantallaFinal
     
     // Opciones del menú
     textFont(fontOpciones);
-    fill(255);
+    fill(255); // Blanco para las opciones
     textAlign(CENTER, CENTER);
     text("REINTENTAR", width/2, 370);
     text("ESTADÍSTICAS", width/2, 420);
@@ -141,7 +150,7 @@ class PantallaFinal
     }
     
     // Instrucciones
-    fill(255, 255, 0);
+    fill(255, 255, 0); // Amarillo para instrucciones
     textAlign(CENTER, CENTER);
     textSize(14);
     text("Usa ↑ ↓ para navegar, ESPACIO para seleccionar", width/2, 550);

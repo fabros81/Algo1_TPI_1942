@@ -1,13 +1,13 @@
 class Bala
 {
   private PVector posicion;
-  private int direccionX;
-  private int direccionY;
+  private float direccionX;
+  private float direccionY;
   private float radio;
   private float velocidad;
   private boolean colisiono = false;
   private float daño;
-  public Bala(float x, float y,int dx, int dy, float vel, float r, float daño)
+  public Bala(float x, float y,float dx, float dy, float vel, float r, float daño)
   {
     this.posicion = new PVector(x,y);
     this.direccionX = dx;
@@ -18,8 +18,8 @@ class Bala
   }
    //getters
   public PVector getPosicion() {return this.posicion;}
-  public int getDireccionX() {return this.direccionX;}
-  public int getDireccionY() {return this.direccionY;}
+  public float getDireccionX() {return this.direccionX;}
+  public float getDireccionY() {return this.direccionY;}
   public float getRadio() { return this.radio; }
   public float getDaño(){return this.daño;}
   public boolean getColisiono(){return this.colisiono;}

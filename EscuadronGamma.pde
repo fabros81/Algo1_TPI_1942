@@ -6,10 +6,8 @@ public class EscuadronGamma extends Escuadron{
 
     public void añadirEnemigo(int cant) {
         for (int i = 0; i < cant; i++) {
-            AvionEnemigoRojo e = new AvionEnemigoRojo(400, 0);    
+            AvionEnemigoRojo e = new AvionEnemigoRojo(750, 0);    
             e.setPartida(this.partida);
-            e.setPerteneceEscuadron(true);
-            e.setRecorrido(new Curva());
             e.setCurva("parabolaParametricaInv");
             e.setTiempoInicioNivel(millis());
             this.enemigos.add(e);

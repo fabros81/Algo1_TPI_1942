@@ -1,4 +1,4 @@
-class PantallaEstadistica
+class PantallaEstadistica extends Pantalla
 {
   private PFont fontTitulo;
   private PFont fontTexto;
@@ -7,11 +7,12 @@ class PantallaEstadistica
   private GameManager gm;
   PantallaEstadistica(GameManager gm)
   {
+    super(gm);
     fontTitulo = createFont("data/fonts/PressStart2P-Regular.ttf", 36);
     fontTexto = createFont("data/fonts/PressStart2P-Regular.ttf", 12);
     fontOpciones = createFont("data/fonts/PressStart2P-Regular.ttf", 20);
     
-    this.gm = gm;
+
     estadisticas = new Estadísticas();
   }
 
@@ -35,6 +36,11 @@ class PantallaEstadistica
     textFont(fontTexto);
     fill(255);
     textAlign(CENTER, CENTER);
+
+     textFont(fontTexto);
+    fill(150); 
+    textAlign(RIGHT, BOTTOM);
+    text("Pulse 'R' para ir a menú", width - 20, height - 20);
 
     // ─── Header ─────────────────────────────
     String[] headers = {"MAX", "MIN", "AVG", "SD"};

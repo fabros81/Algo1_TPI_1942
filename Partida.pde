@@ -20,6 +20,9 @@ class Partida {
   private boolean mostrandoPantallaNivel = false;
   private int tiempoTransicionNivel;
 
+  private boolean nivelCompletado = false;
+  private boolean kAlreadyProcessed = false; //-----------
+
   private float puntajeUltimoPowUp = 0;
   private int intervaloPowUp = 1000;
 
@@ -50,7 +53,7 @@ class Partida {
     this.listaBalasEnemigas = new ArrayList<Bala>();
     this.listaEnemigos = new ArrayList<AvionEnemigo>();
     this.colision = new Colision();
-    this.playerID = gm.getPlayerId();
+    this.playerID = gm.getPlayerID();
 
 
 
@@ -64,13 +67,13 @@ class Partida {
   }
 
   // ─── CREACIÓN DE BALAS ───────────────────────────────
-  public void crearBalasAliadas(float x, float y, int direccionX, int direccionY, float velocidad, float radio, float daño) {
+  public void crearBalasAliadas(float x, float y, float direccionX, float direccionY, float velocidad, float radio, float daño) {
     Bala b = new Bala(x, y, direccionX, direccionY, velocidad, radio, daño);
     listaBalasAliadas.add(b);
     balasDisparadas += 1;
   }
 
-  public void crearBalasEnemigas(float x, float y, int direccionX, int direccionY, float velocidad, float radio, float daño)
+  public void crearBalasEnemigas(float x, float y, float direccionX, float direccionY, float velocidad, float radio, float daño)
   {
     Bala b = new Bala(x, y, direccionX, direccionY, velocidad, radio, daño);
     listaBalasEnemigas.add(b);
@@ -106,8 +109,31 @@ class Partida {
     // Mover y disparar jugador
     jugador.mover();
     jugador.disparar();
+    
 
+// ─── PASAR DE NIVEL CON TECLA K ────────────────────
+    if (gm.getKPressed()) {
+      if (!kAlreadyProcessed) {
+        pasarDeNivel();
+        kAlreadyProcessed = true;
+      }
+    } else {
+      kAlreadyProcessed = false; // Reset cuando se suelta la tecla
+    }
+    
+    // MODIFICACIÓN TEO
+    verificarVictoria();
+    
+    // Verificar condición de victoria/derrota
+    if (jugador != null && !jugador.isAlive) {
+        // Jugador perdió
+        gm.finalizarPartida(false);
+    } else if (jugador != null && jugador.isAlive && nivelCompletado) {
+        // Jugador ganó - condición simplificada
+        gm.finalizarPartida(true);
+    }
 
+// ─── POWER-UPS ──────────────────────────────
     //cada x puntos active un power up random
     if (this.puntaje - this.puntajeUltimoPowUp >= intervaloPowUp)
     {
@@ -120,6 +146,7 @@ class Partida {
 
     jugador.actualizarInstakill();
     jugador.actualizarMultidisparo();
+// ─── COLISIONES ──────────────────────────────
     //impacto bala aliada con nave enemiga, resto vida y sumo puntos
     for (Bala b : listaBalasAliadas)
     {
@@ -195,11 +222,13 @@ class Partida {
     listaEnemigos.removeIf(e -> !e.isAlive);
 
 
+// ─── GESTIÓN DE NIVELES ──────────────────────────────
     //duracion del nivel actual
     duracionNivel = millis() - tiempoInicioNivel;
 
-    // 1 minute 30 seconds = 90,000 milliseconds
-    if (duracionNivel >= 90_000 && nivel == 1)
+
+    // 1 minute 
+    if (duracionNivel >= 60_000 && nivel == 1)
     {
 
       nivel = 2;
@@ -210,7 +239,8 @@ class Partida {
       tiempoTransicionNivel = millis();
       generarEnemigos();
     }
-    if (duracionNivel >= 90_000 && nivel == 2)
+    //1 minuto
+    if (duracionNivel >= 60_000 && nivel == 2)
     {
       nivel = 3;
       tiempoInicioNivel = millis();
@@ -224,7 +254,7 @@ class Partida {
     this.duracion = millis() - tiempoInicio;
 
     // Si muere el jugador → pasar a pantalla final
-    if (!jugador.isAlive) {
+    if (!jugador.isAlive || gm.getPartidaGanada()) {
       // Guardar puntaje en CSV
       TableRow newRow = table.addRow();
       newRow.setInt("id", this.partidaId);
@@ -245,34 +275,63 @@ class Partida {
 
       gm.estado = 2;
     }
+    
+  }
+    public void reiniciarNivel()
+    {
+      listaBalasAliadas.clear();
+      listaEnemigos.clear();
+      listaBalasEnemigas.clear();
+      tiempoInicioNivel = millis();
+      jugador.setPos(width / 2, height - 50);
+      generarEnemigos();
+      //println("Nivel " + nivel + " reiniciado - vidas restantes: " + jugador.getVidas());
+    }
+    public void verificarVictoria(){
+      // Verificar si todos los enemigos fueron eliminados
+        // y no hay más oleadas por venir
+        if (listaEnemigos.isEmpty() && nivel == 3) { 
+            nivelCompletado = true;
+        }
+    }
+    // ─── MÉTODO PARA PASAR DE NIVEL ──────────────────────
+  private void pasarDeNivel() {
+    if (nivel == 1) {
+      println("PASANDO A NIVEL 2 CON TECLA K");
+      nivel = 2;
+      tiempoInicioNivel = millis();
+      duracionNivel = 0;
+      listaEnemigos.clear();
+      listaBalasEnemigas.clear();
+      mostrandoPantallaNivel = true;
+      tiempoTransicionNivel = millis();
+      jugador.setPos(width / 2, height - 50);
+      generarEnemigos();
+    } else if (nivel == 2) {
+      println("PASANDO A NIVEL 3 CON TECLA K");
+      nivel = 3;
+      tiempoInicioNivel = millis();
+      duracionNivel = 0;
+      listaEnemigos.clear();
+      listaBalasEnemigas.clear();
+      mostrandoPantallaNivel = true;
+      tiempoTransicionNivel = millis();
+      jugador.setPos(width / 2, height - 50);
+      generarEnemigos();
+    } else if (nivel == 3) {
+      println("PARTIDA COMPLETADA CON TECLA K");
+      nivelCompletado = true;
+      gm.finalizarPartida(true);
+    }
   }
 
   // ─── ENEMIGOS ────────────────────────────────────────
-  void generarEnemigos() {
-    switch (nivel) {
-    case 1:
-      //int[] tiempoSpawnEnemigos = {3000, 7000, 10000};
-      //for (int i : tiempoSpawnEnemigos) {}
+  void escuadronVerde(int cant, float tAct){
+    EscuadronVerde verde1 = new EscuadronVerde(this);
+      verde1.añadirEnemigo(cant);
+      verde1.mandar(tAct);
 
-
-      for (int i = 3000; i<= 90000; i += 3000) {
-        //generacion escuadrones de rojos
-        Escuadron escAlfa = new EscuadronAlfa(this);
-        Escuadron escBeta = new EscuadronBeta(this);
-        Escuadron escGamma = new EscuadronGamma(this);
-        Escuadron escDelta = new EscuadronDelta(this);
-        escDelta.añadirEnemigo(2);
-        escDelta.mandar(i+1500);
-        escGamma.añadirEnemigo(2);
-        escGamma.mandar(i+1500);
-        
-          escAlfa.añadirEnemigo(2);
-         escAlfa.mandar(i);
-         escBeta.añadirEnemigo(2);
-         escBeta.mandar(i);
-         
-        //generacion enemigos verdes
-        for (int j = 0; j < 5; j++) {
+    for (int j = 0; j <cant ; j++) {
           int x = int(randomGaussian() * 100 + width / 2); // centrado en el medio de la pantalla
           int y = int(randomGaussian() * 100 - 600);       // aparecen arriba con algo de variación
 
@@ -280,45 +339,119 @@ class Partida {
 
           // 🔸 Agregar activación escalonada
           verde.setTiempoInicioNivel(this.tiempoInicioNivel);
-          verde.setTiempoActivacion(i + j * 800); // uno cada ~0.8s después del tiempo i
+          verde.setTiempoActivacion(tAct + j * 800); // uno cada ~0.8s después del tiempo i
 
           listaEnemigos.add(verde);
         }
-
-        //oleadas de 6 rojos alineados a los 21s, 51s y 81s
-        if (i == 6000 || i== 51000 || i== 81000) {
-          Escuadron escEpsilon = new EscuadronEpsilon(this);
-          //escEpsilon.añadirEnemigo(3);
-          escEpsilon.añadirEnemigoEspejo(3);
-          escEpsilon.mandar(i);
-        }
       }
+      
+    void escuadronAlfa(int cant,float tAct){
+      Escuadron alfa1 = new EscuadronAlfa(this);
+      alfa1.añadirEnemigo(cant);
+      alfa1.mandar(tAct);
+    }
+    void escuadronBeta(int cant,float tAct){
+      Escuadron beta1 = new EscuadronBeta(this);
+      beta1.añadirEnemigo(cant);
+      beta1.mandar(tAct);
+
+    }
+    void escuadronDelta(int cant, float tAct){
+      Escuadron delta1 = new EscuadronDelta(this);
+      delta1.añadirEnemigo(cant);
+      delta1.mandar(tAct);
+
+    }
+    void escuadronGamma(int cant, float tAct){
+      Escuadron escGamma = new EscuadronGamma(this);
+      escGamma.añadirEnemigo(cant);
+      escGamma.mandar(tAct);
+    }
+
+    void escuadronEpsilon(int cant, float tAct){
+      Escuadron escEpsilon = new EscuadronEpsilon(this);
+          
+        escEpsilon.añadirEnemigoEspejo(cant);
+        escEpsilon.mandar(tAct);
+
+    }
+    void escuadronFinal(float tAct){
+      EscuadronFinal escFinal = new EscuadronFinal(this);
+      escFinal.añadirEnemigo(1);
+      escFinal.mandar(tAct);
+    }
+    
+      
+      
+  void generarEnemigos() {
+    switch (nivel) {
+    case 1:
+      //int[] tiempoSpawnEnemigos = {3000, 7000, 10000};
+      //for (int i : tiempoSpawnEnemigos) {}
+      
+      escuadronVerde(2,2000);
+      escuadronAlfa(2,4000);
+      escuadronBeta(2,6000);
+      escuadronVerde(6,9000);
+      escuadronDelta(4,12000);
+      escuadronVerde(10,12000);
+      escuadronGamma(3,13000);
+      escuadronEpsilon(3,15000);
+
+
 
       break;
 
     case 2:
+      // --- FASE 1
+      escuadronAlfa(4, 2000);       // izquierda -> derecha (diagonal)
+      escuadronBeta(4, 2000);       // derecha -> izquierda (diagonal)
+      escuadronVerde(3, 3000);      // dispersión central (gauss vertical)
 
+      // --- FASE 2
+      escuadronDelta(3, 8000);     // parábola derecha (entrada suave)
+      escuadronGamma(3, 8000);     // parábola invertida (simétrica)
+      escuadronEpsilon(2, 9500);   // bajan en línea recta (columna)
 
-      println("nivel 2"); //imprime en consola
+      // --- FASE 3
+      escuadronAlfa(5, 13000);
+      escuadronBeta(5, 13000);
+      escuadronVerde(9, 12000);     // ráfaga gaussiana
+
+      // --- FASE 4
+      escuadronEpsilon(4, 19000);   // líneas espejo
+      escuadronGamma(4, 23000);     // parábola invertida
+      escuadronDelta(4, 23000);     // parábola normal
+      escuadronVerde(6, 22000);     // última oleada vertical rápida
+      escuadronEpsilon(3, 26000);
+
+      // --- FASE 5
+      escuadronGamma(4, 28000);
+      escuadronDelta(4, 30000);
+      escuadronAlfa(5, 32000);
+      escuadronBeta(5, 34000);
+      escuadronVerde(8, 36000);
+      escuadronEpsilon(4, 38000);
+      escuadronVerde(5, 40000);
+
+      // --- FASE 6
+      escuadronAlfa(6, 42000);
+      escuadronBeta(6, 44000);
+      escuadronVerde(9, 46000);
+      escuadronGamma(5, 48000);
+      escuadronDelta(5, 50000);
+      escuadronEpsilon(4, 52000);
+      escuadronVerde(10, 54000);   // ráfaga final
 
       break;
     case 3:
 
-
+      escuadronFinal(5000);
       println("nivel 3"); //imprime en consola
       break;
     }
   }
-  public void reiniciarNivel()
-  {
-    listaBalasAliadas.clear();
-    listaEnemigos.clear();
-    listaBalasEnemigas.clear();
-    tiempoInicioNivel = millis();
-    jugador.setPos(width / 2, height - 50);
-    generarEnemigos();
-    //println("Nivel " + nivel + " reiniciado - vidas restantes: " + jugador.getVidas());
-  }
+  
 
   // ─── getters ────────────────────────────────────────
   public float getPuntos() {
