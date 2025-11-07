@@ -5,6 +5,7 @@ class GameManager {
   private boolean upPressed = false;
   private boolean downPressed = false;
   private boolean spacePressed = false;
+  private String playerID; 
   private boolean kPressed = false; 
   private boolean kPressedThisFrame = false;
 
@@ -82,36 +83,46 @@ class GameManager {
   public void keyPressed() 
   {
     
-      if (keyCode == LEFT) this.leftPressed = true;
-      if (keyCode == RIGHT) this.rightPressed = true;
-      if (keyCode == UP) this.upPressed = true;
-      if (keyCode == DOWN) this.downPressed = true;
-      if (key == ' ') this.spacePressed = true;
-      if (key == 'k' || key == 'K') {
-          this.kPressed = true;
-          this.kPressedThisFrame = true; // ← Solo true en el frame inicial
-      }
-
-      if (this.estado == 0 && this.spacePressed)
-      {
+    if (keyCode == LEFT) this.leftPressed = true;
+    if (keyCode == RIGHT) this.rightPressed = true;
+    if (keyCode == UP) this.upPressed = true;
+    if (keyCode == DOWN) this.downPressed = true;
+    if (key == ' ') this.spacePressed = true;
+    if (key == 'k' || key == 'K') {
+        this.kPressed = true;
+        this.kPressedThisFrame = true; // ← Solo true en el frame inicial
+    }
+    if (this.estado == 0 && this.spacePressed)
+    {
+      if (this.menu.isIngresandoID()) {
+        this.menu.keyPressed();
+      } else {
         switch(this.menu.getPosicionFlecha()){
           case 0:
-            iniciarPartida(); //creo la partida y paso a jugar
+            this.menu.iniciarIngresoID(); 
             break;
           case 1:
-          // implementar 2 jugadores
+            // implementar 2 jugadores
             break;
           case 2:
             this.estado = 3; // ir a estadísticas
             break;           
         }
-        
       }
-      
-    
+    }
+    if (this.estado == 0 && this.menu.isIngresandoID() && (key == TAB || key == BACKSPACE)) {
+      this.menu.keyPressed();
+    }
+  
     if ((this.estado == 2 || this.estado == 3) && key == 'r') 
     {
-      this.estado = 0; // volver al menú
+      this.menu.resetearEstado();
+      this.estado = 0; 
+    }
+  }
+  public void keyTyped() {
+    if (this.estado == 0 && this.menu.isIngresandoID()) {
+      this.menu.keyTyped();
     }
   }
   
@@ -138,7 +149,7 @@ class GameManager {
   public boolean getKPressed() { return this.kPressed; }
   public boolean getKPressedThisFrame() { return this.kPressedThisFrame; }
   public boolean getPartidaGanada() { return this.partidaGanada; }
-  
-  
   public Partida getPartida() {return this.partida;}
+  public String getPlayerID(){return this.playerID;}
+  public void setPlayerID(String id){this.playerID = id;}
 }

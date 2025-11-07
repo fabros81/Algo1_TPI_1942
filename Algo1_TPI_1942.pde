@@ -50,7 +50,9 @@ void keyPressed()
 void keyReleased() {
   gm.keyReleased();
 }
-
+void keyTyped() {
+  gm.keyTyped();
+}
 void movieEvent(Movie m) {
   m.read(); // sin esto no se actualiza el frame
 }

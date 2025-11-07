@@ -35,6 +35,7 @@ class Partida {
   private int balasDisparadas = 0;
   private int balasImpactadas = 0;
   private float precisionDisparo = 0;
+  private String playerID;
 
   private boolean debeReiniciarNivel = false;
   Partida(GameManager gm) {
@@ -52,6 +53,7 @@ class Partida {
     this.listaBalasEnemigas = new ArrayList<Bala>();
     this.listaEnemigos = new ArrayList<AvionEnemigo>();
     this.colision = new Colision();
+    this.playerID = gm.getPlayerID();
 
 
 
@@ -261,6 +263,8 @@ class Partida {
       newRow.setInt("enemigos derrotados", this.enemigosDerrotados);
       newRow.setInt("enemigos rojos derrotados", this.enemigosRojosDerrotados);
       newRow.setInt("enemigos verdes derrotados", this.enemigosVerdesDerrotados);
+      newRow.setString("player_id", this.playerID);
+
       if (balasDisparadas > 0) {
         precisionDisparo = (float) balasImpactadas / balasDisparadas * 100;
       } else {
