@@ -194,7 +194,8 @@ class PantallaFinal
         gm.estado = 3;  
         break;
       case 2: // MENÚ PRINCIPAL  
-        gm.estado = 0;  
+        gm.menu.resetearEstado();
+        gm.estado = 0;
         break;
     }
   }
