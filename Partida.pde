@@ -118,9 +118,6 @@ class Partida {
     } else {
       kAlreadyProcessed = false; // Reset cuando se suelta la tecla
     }
-    // Mover y disparar jugador
-    jugador.mover();
-    jugador.disparar();
     
     // MODIFICACIÓN TEO
     verificarVictoria();
