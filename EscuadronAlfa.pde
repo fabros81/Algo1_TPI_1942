@@ -6,7 +6,7 @@ public class EscuadronAlfa extends Escuadron{
 
     public void añadirEnemigo(int cant) {
         for (int i = 0; i < cant; i++) {
-            AvionEnemigoRojo e = new AvionEnemigoRojo((- 80) - (i*60),-40 * i * 0.5);    
+            AvionEnemigoRojo e = new AvionEnemigoRojo((- 80) - (i*60),-120 * i * 0.5);    
             e.setPartida(this.partida);
             e.setCurva("diag");
             e.setTiempoInicioNivel(millis());

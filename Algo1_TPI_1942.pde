@@ -1,6 +1,6 @@
 import gifAnimation.*;
 import processing.video.*;
-GameManager gm;
+private GameManager gm;
 Gif avionJugadorGIF;
 PImage corazon;
 PImage boss;
