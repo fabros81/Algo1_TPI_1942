@@ -244,28 +244,71 @@ class Partida {
   }
 
   // ─── ENEMIGOS ────────────────────────────────────────
+  void escuadronVerde(int cant, float tAct){
+    for (int j = 0; j <cant ; j++) {
+          int x = int(randomGaussian() * 100 + width / 2); // centrado en el medio de la pantalla
+          int y = int(randomGaussian() * 100 - 600);       // aparecen arriba con algo de variación
+
+          AvionEnemigoVerde verde = new AvionEnemigoVerde(x, y);
+
+          // 🔸 Agregar activación escalonada
+          verde.setTiempoInicioNivel(this.tiempoInicioNivel);
+          verde.setTiempoActivacion(tAct + j * 800); // uno cada ~0.8s después del tiempo i
+
+          listaEnemigos.add(verde);
+        }
+      }
+      
+    void escuadronAlfa(int cant,float tAct){
+      Escuadron alfa1 = new EscuadronAlfa(this);
+      alfa1.añadirEnemigo(cant);
+      alfa1.mandar(tAct);
+    }
+    void escuadronBeta(int cant,float tAct){
+      EscuadronBeta beta1 = new EscuadronBeta(this);
+      beta1.añadirEnemigo(cant);
+      beta1.mandar(tAct);
+
+    }
+    void escuadronDelta(int cant, float tAct){
+      EscuadronDelta delta1 = new EscuadronDelta(this);
+      delta1.añadirEnemigo(cant);
+      delta1.mandar(tAct);
+
+    }
+    void escuadronGamma(int cant, float tAct){
+      Escuadron escGamma = new EscuadronGamma(this);
+      escGamma.añadirEnemigo(cant);
+      escGamma.mandar(tAct);
+    }
+
+    void escuadronEpsilon(int cant, float tAct){
+      Escuadron escEpsilon = new EscuadronEpsilon(this);
+          
+          escEpsilon.añadirEnemigoEspejo(cant);
+          escEpsilon.mandar(tAct);
+
+    }
+    
+      
+      //generador de enemigos verdes
   void generarEnemigos() {
     switch (nivel) {
     case 1:
       //int[] tiempoSpawnEnemigos = {3000, 7000, 10000};
       //for (int i : tiempoSpawnEnemigos) {}
-        AvionEnemigoVerde verde1 = new AvionEnemigoVerde(200,-10);
-        verde1.setTiempoInicioNivel(this.tiempoInicioNivel);
-        verde1.setTiempoActivacion(3000);
-        listaEnemigos.add(verde1);
+      
+      escuadronVerde(2,2000);
+      escuadronAlfa(2,4000);
+      escuadronBeta(2,6000);
+      escuadronVerde(6,9000);
+      escuadronDelta(4,12000);
+      escuadronVerde(10,12000);
+      escuadronGamma(3,13000);
+      escuadronEpsilon(3,15000);
+  
 
-        Escuadron alfa1 = new EscuadronAlfa(this);
-        alfa1.añadirEnemigo(2);
-        alfa1.mandar(4000);
-        EscuadronBeta beta1 = new EscuadronBeta(this);
-        beta1.añadirEnemigo(2);
-        beta1.mandar(5000);
-
-
-        
-
-
-      for (int i = 15000; i<= 90000; i += 3000) {
+      for (int i = 18000; i<= 20000; i += 1000) {
         //generacion escuadrones de rojos
         Escuadron escAlfa = new EscuadronAlfa(this);
         Escuadron escBeta = new EscuadronBeta(this);
@@ -278,31 +321,11 @@ class Partida {
         
           escAlfa.añadirEnemigo(2);
          escAlfa.mandar(i);
-         escBeta.añadirEnemigo(2);
-         escBeta.mandar(i);
-         
-        //generacion enemigos verdes
-        for (int j = 0; j < 5; j++) {
-          int x = int(randomGaussian() * 100 + width / 2); // centrado en el medio de la pantalla
-          int y = int(randomGaussian() * 100 - 600);       // aparecen arriba con algo de variación
-
-          AvionEnemigoVerde verde = new AvionEnemigoVerde(x, y);
-
-          // 🔸 Agregar activación escalonada
-          verde.setTiempoInicioNivel(this.tiempoInicioNivel);
-          verde.setTiempoActivacion(i + j * 800); // uno cada ~0.8s después del tiempo i
-
-          listaEnemigos.add(verde);
-        }
-
-        //oleadas de 6 rojos alineados a los 21s, 51s y 81s
-        if (i == 20000 || i== 51000 || i== 81000) {
-          Escuadron escEpsilon = new EscuadronEpsilon(this);
-          //escEpsilon.añadirEnemigo(3);
-          escEpsilon.añadirEnemigoEspejo(3);
-          escEpsilon.mandar(i);
-        }
+        escBeta.añadirEnemigo(2);
+        escBeta.mandar(i);
       }
+
+      escuadronEpsilon(5,22000);
 
       break;
 

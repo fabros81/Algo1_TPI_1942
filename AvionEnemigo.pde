@@ -6,7 +6,8 @@ abstract class AvionEnemigo extends Avion
     this.puntos = puntos;
   }
   
-    
+  //public float getTiempoActivacion(){};
+  public void setTiempoActivacion(){};
   abstract void mover();
   abstract void dibujar();
   abstract void disparar();

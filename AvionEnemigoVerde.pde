@@ -2,12 +2,14 @@ class AvionEnemigoVerde extends AvionEnemigo
 {
   private float tiempoActivacion;
   private float tiempoInicioNivel;
+  private boolean perteneceEscuadron;
  
   public AvionEnemigoVerde(int x, int y)
   {
     super(x, y, 15, 4.5, 10, 50); 
     this.tiempoActivacion = 0;
     this.tiempoInicioNivel = 0;
+    this.perteneceEscuadron = false;
   }
   
   public void dibujar()
@@ -32,7 +34,8 @@ class AvionEnemigoVerde extends AvionEnemigo
  {
 
  }
-
+  public float getTiempoActivacion(){return this.tiempoActivacion;}
+  public void setPerteneceEscuadron(boolean t){this.perteneceEscuadron = t;}
   public void setTiempoInicioNivel(float t) { this.tiempoInicioNivel = t; }
   public void setTiempoActivacion(float t) { this.tiempoActivacion = t; }
  
