@@ -229,7 +229,7 @@ class Partida {
 
 
     // 1 minute 30 seconds = 90,000 milliseconds
-    if (duracionNivel >= 90_000 && nivel == 1)
+    if (duracionNivel >= 30000 && nivel == 1)
     {
 
       nivel = 2;
@@ -240,7 +240,7 @@ class Partida {
       tiempoTransicionNivel = millis();
       generarEnemigos();
     }
-    if (duracionNivel >= 90000 && nivel == 2)
+    if (duracionNivel >= 31000 && nivel == 2)
     {
       nivel = 3;
       tiempoInicioNivel = millis();
@@ -387,24 +387,35 @@ class Partida {
       //int[] tiempoSpawnEnemigos = {3000, 7000, 10000};
       //for (int i : tiempoSpawnEnemigos) {}
       
-      escuadronVerde(2,2000);
-      escuadronAlfa(2,4000);
-      escuadronBeta(2,6000);
-      escuadronVerde(6,9000);
-      escuadronDelta(4,12000);
-      escuadronVerde(10,12000);
-      escuadronGamma(3,13000);
-      escuadronEpsilon(3,15000);
-
-
+     escuadronVerde(2,2000);
+     escuadronAlfa(2,4000);
+     escuadronBeta(2,5000);
+     escuadronVerde(4,6000);
+     escuadronVerde(5,7000);
+     escuadronAlfa(6,10000);
+     escuadronBeta(6,10000);
+     escuadronAlfa(2,20000);
+     escuadronAlfa(2,22000);
+     escuadronAlfa(2,24000);
+    
 
       break;
 
     case 2:
-      escuadronBeta(10,2000);
-      escuadronVerde(80,4000);
-
-      println("nivel 2"); //imprime en consola
+      escuadronVerde(4,2000);
+     escuadronAlfa(4,4000);
+     escuadronBeta(4,5000);
+     escuadronDelta(3,6000);
+     escuadronGamma(3,7000);
+      escuadronVerde(6,10000);
+      escuadronEpsilon(3,12000);
+      escuadronDelta(4,14000);
+      escuadronGamma(4,14000);
+      escuadronVerde(3,17000);
+      escuadronEpsilon(2,18000);
+      escuadronVerde(3,20000);
+      escuadronEpsilon(3,22000);
+      //println("nivel 2"); //imprime en consola
 
       break;
     case 3:

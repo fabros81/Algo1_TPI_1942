@@ -37,6 +37,11 @@ class PantallaEstadistica extends Pantalla
     fill(255);
     textAlign(CENTER, CENTER);
 
+     textFont(fontTexto);
+    fill(150); 
+    textAlign(RIGHT, BOTTOM);
+    text("Pulse 'R' para ir a menú", width - 20, height - 20);
+
     // ─── Header ─────────────────────────────
     String[] headers = {"MAX", "MIN", "AVG", "SD"};
     float startX = width/2 -60;  // center alignment anchor
