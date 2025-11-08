@@ -169,4 +169,3 @@ class AvionEnemigoJefeFinal extends AvionEnemigo {
     }
 }
 
-}
