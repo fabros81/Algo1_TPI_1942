@@ -137,7 +137,7 @@ class Partida {
     //cada x puntos active un power up random
     if (this.puntaje - this.puntajeUltimoPowUp >= intervaloPowUp)
     {
-      int r = int(random(3));
+      int r = (int) random(3);
       if (r == 0) powUp.escudo();
       else if (r == 1) powUp.instakill();
       else powUp.multidisparo();
@@ -365,67 +365,55 @@ class Partida {
   void generarEnemigos() {
     switch (nivel) {
     case 1:
+      // --- FASE 1
+      escuadronVerde(2, 2000);  
+      escuadronAlfa(2, 5000);   
+      escuadronBeta(2, 7000);   
 
-      
-      /*escuadronVerde(2,2000);
-      escuadronAlfa(2,4000);
-      escuadronBeta(2,6000);
-      escuadronVerde(6,9000);
-      escuadronDelta(4,12000);
-      escuadronVerde(10,12000);
-      escuadronGamma(3,13000);
-      escuadronEpsilon(3,15000);*/
-    escuadronVerde(2, 2000);   // par de enemigos simples
-    escuadronAlfa(2, 5000);    // diagonal izquierda-derecha
-    escuadronBeta(2, 7000);    // diagonal derecha-izquierda
+      // --- FASE 2
+      escuadronVerde(4, 11000); 
+      escuadronDelta(3, 15000);
+      escuadronGamma(3, 17000); 
+      escuadronEpsilon(3, 20000);   
 
-    // --- FASE 2: CALENTAMIENTO (10–25 s)
-    escuadronVerde(4, 11000);  // 4 verticales, baja velocidad
-    escuadronDelta(3, 15000); // parábola derecha, con delay de 0.5 s entre enemigos
-    escuadronGamma(3, 17000); // parábola izquierda, delay 0.5 s
-    escuadronEpsilon(3, 20000);    // bajan en línea recta
+      // --- FASE 3
+      escuadronVerde(6, 23000);
+      escuadronAlfa(3, 26000);
+      escuadronBeta(3, 26000);
+      escuadronDelta(4, 30000); 
+      escuadronGamma(4, 30000);
 
-    // --- FASE 3: MITAD DEL NIVEL (25–40 s)
-    escuadronVerde(6, 23000);
-    escuadronAlfa(3, 26000);
-    escuadronBeta(3, 26000);
-    escuadronDelta(4, 30000); // curva derecha
-    escuadronGamma(4, 30000); // curva izquierda
+      // --- FASE 4
+      escuadronEpsilon(4, 42000);
+      escuadronVerde(8, 43000);
+      escuadronAlfa(4, 46000);
+      escuadronEpsilon(4, 49000);
+      escuadronBeta(4, 50000);
+      escuadronVerde(10, 50000);
 
-    // --- FASE 4: CIERRE INTENSO (40–60 s)
-    escuadronEpsilon(4, 42000);
-    escuadronVerde(8, 43000);
-    escuadronAlfa(4, 46000);
-    escuadronEpsilon(4, 49000);
-    escuadronBeta(4, 50000);
-    escuadronVerde(10, 50000);
-    
-
-
-
-      break;
+    break;
 
     case 2:
       // --- FASE 1
-      escuadronAlfa(4, 2000);       // izquierda -> derecha (diagonal)
-      escuadronBeta(4, 2000);       // derecha -> izquierda (diagonal)
-      escuadronVerde(3, 3000);      // dispersión central (gauss vertical)
+      escuadronAlfa(4, 2000);      
+      escuadronBeta(4, 2000);       
+      escuadronVerde(3, 3000);     
 
       // --- FASE 2
-      escuadronDelta(3, 8000);     // parábola derecha (entrada suave)
-      escuadronGamma(3, 8000);     // parábola invertida (simétrica)
-      escuadronEpsilon(2, 9500);   // bajan en línea recta (columna)
+      escuadronDelta(3, 8000); 
+      escuadronGamma(3, 8000);   
+      escuadronEpsilon(2, 9500);  
 
       // --- FASE 3
       escuadronAlfa(5, 13000);
       escuadronBeta(5, 13000);
-      escuadronVerde(9, 12000);     // ráfaga gaussiana
+      escuadronVerde(9, 12000);     
 
       // --- FASE 4
-      escuadronEpsilon(4, 19000);   // líneas espejo
-      escuadronGamma(4, 23000);     // parábola invertida
-      escuadronDelta(4, 23000);     // parábola normal
-      escuadronVerde(6, 22000);     // última oleada vertical rápida
+      escuadronEpsilon(4, 19000);   
+      escuadronGamma(4, 23000);     
+      escuadronDelta(4, 23000);     
+      escuadronVerde(6, 22000);     
       escuadronEpsilon(3, 26000);
 
       // --- FASE 5
@@ -446,12 +434,13 @@ class Partida {
       escuadronEpsilon(4, 35000);
       escuadronEpsilon(4, 45000);
       escuadronEpsilon(4, 50000);
+      escuadronEpsilon(4, 52000);
       escuadronVerde(10, 50000);   
       break;
+
     case 3:
-      
-      escuadronFinal(5000); // genero el jefe final
-      
+      // ─── JEFE FINAL ──────────────────────────────
+      escuadronFinal(5000); 
       break;
     }
   }
