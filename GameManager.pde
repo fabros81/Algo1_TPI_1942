@@ -117,16 +117,16 @@ class GameManager {
         }
         break;
       case 3: // ESTADÍSTICAS
-        if (key == 'r') {
-          menu.resetearEstado();
-          estado = 0;
-        }
+        this.estadisticas.keyPressed();
         break;
     }
   }
   public void keyTyped() {
     if (this.estado == 0 && this.menu.isIngresandoID()) {
       this.menu.keyTyped();
+    }
+    if (this.estado == 3 && this.estadisticas.isIngresandoID()) {
+      this.estadisticas.keyTyped();
     }
   }
   
@@ -179,6 +179,15 @@ class GameManager {
           break;
       }
       break;
+    case "estadisticas":
+      switch(opcion) {
+        case 0: // Volver al menú
+          menu.resetearEstado();
+          estado = 0;
+          break;
+      }
+      break;
+    
   }
 }
 
