@@ -76,7 +76,10 @@ class GameManager {
   //MODIFICACION TEO
   public void finalizarPartida(boolean ganada) {
     this.partidaGanada = ganada;
-    this.fin.resetearEstado();
+    if (this.partida != null) {
+      this.partida.guardarEstadisticas(); 
+    }
+    this.fin.resetearEstado();   
     this.estado = 2; // Ir a pantalla final
   }
 

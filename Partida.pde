@@ -252,29 +252,6 @@ class Partida {
     }
 
     this.duracion = millis() - tiempoInicio;
-
-    // Si muere el jugador → pasar a pantalla final
-    if (!jugador.isAlive || gm.getPartidaGanada()) {
-      // Guardar puntaje en CSV
-      TableRow newRow = table.addRow();
-      newRow.setInt("id", this.partidaId);
-      newRow.setFloat("puntaje", jugador.puntaje);
-      newRow.setFloat("tiempo", this.duracion); //carga los milisegundos q duro la partida
-      newRow.setInt("enemigos derrotados", this.enemigosDerrotados);
-      newRow.setInt("enemigos rojos derrotados", this.enemigosRojosDerrotados);
-      newRow.setInt("enemigos verdes derrotados", this.enemigosVerdesDerrotados);
-      newRow.setString("player_id", this.playerID);
-
-      if (balasDisparadas > 0) {
-        precisionDisparo = (float) balasImpactadas / balasDisparadas * 100;
-      } else {
-        precisionDisparo = 0;
-      }
-      newRow.setFloat("precision disparo", precisionDisparo);
-      saveTable(table, "data/prueba.csv");
-
-      gm.estado = 2;
-    }
     
   }
     public void reiniciarNivel()
@@ -323,6 +300,20 @@ class Partida {
       nivelCompletado = true;
       gm.finalizarPartida(true);
     }
+  }
+  public void guardarEstadisticas() {
+    TableRow newRow = table.addRow();
+    newRow.setInt("id", this.partidaId);
+    newRow.setFloat("puntaje", jugador.puntaje);
+    newRow.setFloat("tiempo", this.duracion);
+    newRow.setInt("enemigos derrotados", this.enemigosDerrotados);
+    newRow.setInt("enemigos rojos derrotados", this.enemigosRojosDerrotados);
+    newRow.setInt("enemigos verdes derrotados", this.enemigosVerdesDerrotados);
+    newRow.setString("player_id", this.playerID);
+    newRow.setFloat("precision disparo",
+      balasDisparadas > 0 ? (float) balasImpactadas / balasDisparadas * 100 : 0);
+    newRow.setInt("win", gm.getPartidaGanada() ? 1 : 0);
+    saveTable(table, "data/prueba.csv");
   }
 
   // ─── ENEMIGOS ────────────────────────────────────────
