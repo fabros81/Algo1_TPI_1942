@@ -15,7 +15,7 @@ class AvionEnemigoJefeFinal extends AvionEnemigo {
 
   public AvionEnemigoJefeFinal(float x, float y) {
     //super(x, y, 60, 1.2, 500, 1000);
-    super(x, y, 60, 1.2, 200, 1000);
+    super(x, y, 60, 1.2, 500, 1000);
   }
 
   public void dibujar() {
@@ -147,7 +147,7 @@ class AvionEnemigoJefeFinal extends AvionEnemigo {
             this.posicion.y + 40,
             dir.x,  
             dir.y,
-            5, 9, 1
+            5, 9, 33.4
         );
     }
 }
