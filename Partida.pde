@@ -298,7 +298,6 @@ class Partida {
     } else if (nivel == 3) {
       println("PARTIDA COMPLETADA CON TECLA K");
       nivelCompletado = true;
-      gm.finalizarPartida(true);
     }
   }
   public void guardarEstadisticas() {
