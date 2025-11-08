@@ -1,13 +1,22 @@
 import java.io.FileNotFoundException;
 
+<<<<<<< HEAD
 class PantallaInicial
 {
   private GameManager gm;
+=======
+class PantallaInicial extends Pantalla
+{
+>>>>>>> origin/main
   //private PFont font;
   private PImage imgInicio;
   private PImage flecha;
   private int posicionFlecha;
+<<<<<<< HEAD
   private int[][] posiciones = {{250, 320},{250, 360}, {250, 410}, {250, 450}};
+=======
+  private int[][] posiciones = {{250, 320},{250, 360}, {250, 410} };
+>>>>>>> origin/main
   private int x;
   private int y;
   PFont fontID, fontTexto, fontOpciones;
@@ -16,7 +25,11 @@ class PantallaInicial
     
   PantallaInicial(GameManager gm)
   {
+<<<<<<< HEAD
     this.gm = gm;
+=======
+    super(gm);
+>>>>>>> origin/main
     //this.font = createFont("data/fonts/PressStart2P-Regular.ttf", 32);
     this.posicionFlecha = 0; // esto puede ser 0,1 o 2 (actualizar lo ajusta cuando se toca tecla)
     //this.estado = 0;
@@ -137,12 +150,20 @@ void dibujar()
     }
     if (gm.getDownPressed() && frameCount % 9 == 0){
       this.posicionFlecha = this.posicionFlecha +1 ;
+<<<<<<< HEAD
       if (this.posicionFlecha >3){this.posicionFlecha = 0;}
+=======
+      if (this.posicionFlecha >2){this.posicionFlecha = 0;}
+>>>>>>> origin/main
       actualizarPosicionFlecha();
     }
      if (gm.getUpPressed()&& frameCount % 9 == 0){
       this.posicionFlecha = this.posicionFlecha -1 ;
+<<<<<<< HEAD
       if (this.posicionFlecha <0){this.posicionFlecha = 3;}
+=======
+      if (this.posicionFlecha <0){this.posicionFlecha = 2;}
+>>>>>>> origin/main
       actualizarPosicionFlecha(); 
     }
  }

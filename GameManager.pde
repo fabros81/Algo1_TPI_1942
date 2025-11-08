@@ -8,7 +8,11 @@ class GameManager {
   private String playerID; 
   private boolean kPressed = false; 
   private boolean kPressedThisFrame = false;
+<<<<<<< HEAD
   boolean altPresionado = false;
+=======
+
+>>>>>>> origin/main
 
   // ─── ESTADO DEL JUEGO ─────────────────────────────────
   private int estado; // 0 = menú, 1 = jugando, 2 = fin, 3 = estadísticas
@@ -17,7 +21,11 @@ class GameManager {
   private PantallaJuego juego;
   private PantallaFinal fin;
   private PantallaEstadistica estadisticas;
+<<<<<<< HEAD
   private PantallaRanking ranking;
+=======
+
+>>>>>>> origin/main
   private Partida partida;
   private boolean partidaGanada = false; 
   // ─── CONSTRUCTOR ──────────────────────────────────────
@@ -26,7 +34,10 @@ class GameManager {
     this.juego = new PantallaJuego(this);
     this.fin = new PantallaFinal(this);
     this.estadisticas = new PantallaEstadistica(this);
+<<<<<<< HEAD
     this.ranking = new PantallaRanking(this);
+=======
+>>>>>>> origin/main
     this.estado = 0; // empieza en menú
   }
 
@@ -46,9 +57,12 @@ class GameManager {
       case 3:
         this.estadisticas.actualizar();
         break;
+<<<<<<< HEAD
       case 4: 
         this.ranking.actualizar();
         break;
+=======
+>>>>>>> origin/main
     }
   }
 
@@ -67,9 +81,12 @@ class GameManager {
       case 3:
         this.estadisticas.dibujar();
         break;
+<<<<<<< HEAD
       case 4: 
         this.ranking.dibujar();
         break;
+=======
+>>>>>>> origin/main
     }
   }
 
@@ -83,7 +100,14 @@ class GameManager {
   //MODIFICACION TEO
   public void finalizarPartida(boolean ganada) {
     this.partidaGanada = ganada;
+<<<<<<< HEAD
     //this.fin.resetearEstado();
+=======
+    if (this.partida != null) {
+      this.partida.guardarEstadisticas(); 
+    }
+    this.fin.resetearEstado();   
+>>>>>>> origin/main
     this.estado = 2; // Ir a pantalla final
   }
 
@@ -121,6 +145,7 @@ class GameManager {
         }
         break;
       case 3: // ESTADÍSTICAS
+<<<<<<< HEAD
         if (key == 'r') {
           menu.resetearEstado();
           estado = 0;
@@ -132,11 +157,17 @@ class GameManager {
   }
      if (altPresionado && (key== 'g' || key=='G')) {
         resetearDatosGlobal();}
+=======
+        this.estadisticas.keyPressed();
+        break;
+    }
+>>>>>>> origin/main
   }
   public void keyTyped() {
     if (this.estado == 0 && this.menu.isIngresandoID()) {
       this.menu.keyTyped();
     }
+<<<<<<< HEAD
   }
 void resetearDatosGlobal() {
     Table tablaVacia = new Table();
@@ -152,6 +183,13 @@ void resetearDatosGlobal() {
     saveTable(tablaVacia, "data/prueba.csv");
     println("=== DATOS RESETEADOS ===");
 }
+=======
+    if (this.estado == 3 && this.estadisticas.isIngresandoID()) {
+      this.estadisticas.keyTyped();
+    }
+  }
+  
+>>>>>>> origin/main
 
   public void keyReleased() {
     if (keyCode == LEFT) this.leftPressed = false;
@@ -183,10 +221,13 @@ void resetearDatosGlobal() {
         case 2: // "Ver estadísticas"
           estado = 3;
           break;
+<<<<<<< HEAD
         case 3: 
           this.ranking.cargarDatos();
           estado = 4;   // 🚀 IR A LA PANTALLA RANKING
           break;
+=======
+>>>>>>> origin/main
       }
     }
       break;
@@ -205,6 +246,18 @@ void resetearDatosGlobal() {
           break;
       }
       break;
+<<<<<<< HEAD
+=======
+    case "estadisticas":
+      switch(opcion) {
+        case 0: // Volver al menú
+          menu.resetearEstado();
+          estado = 0;
+          break;
+      }
+      break;
+    
+>>>>>>> origin/main
   }
 }
 

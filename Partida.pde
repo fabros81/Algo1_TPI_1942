@@ -137,7 +137,11 @@ class Partida {
     //cada x puntos active un power up random
     if (this.puntaje - this.puntajeUltimoPowUp >= intervaloPowUp)
     {
+<<<<<<< HEAD
       int r = int(random(3));
+=======
+      int r = (int) random(3);
+>>>>>>> origin/main
       if (r == 0) powUp.escudo();
       else if (r == 1) powUp.instakill();
       else powUp.multidisparo();
@@ -237,10 +241,18 @@ class Partida {
       listaBalasEnemigas.clear();
       mostrandoPantallaNivel = true;
       tiempoTransicionNivel = millis();
+<<<<<<< HEAD
       generarEnemigos();
     }
     //1 minuto
     if (duracionNivel >= 60_000 && nivel == 2)
+=======
+      jugador.setPos(width / 2, height - 50);
+      generarEnemigos();
+    }
+    //1 minuto
+    if (duracionNivel >= 61_000 && nivel == 2)
+>>>>>>> origin/main
     {
       nivel = 3;
       tiempoInicioNivel = millis();
@@ -248,10 +260,15 @@ class Partida {
       listaBalasEnemigas.clear();
       mostrandoPantallaNivel = true;
       tiempoTransicionNivel = millis();
+<<<<<<< HEAD
+=======
+      jugador.setPos(width / 2, height - 50);
+>>>>>>> origin/main
       generarEnemigos();
     }
 
     this.duracion = millis() - tiempoInicio;
+<<<<<<< HEAD
 
     // Si muere el jugador → pasar a pantalla final
     if (!jugador.isAlive || gm.getPartidaGanada()) {
@@ -275,6 +292,8 @@ class Partida {
 
       gm.estado = 2;
     }
+=======
+>>>>>>> origin/main
     
   }
     public void reiniciarNivel()
@@ -321,15 +340,35 @@ class Partida {
     } else if (nivel == 3) {
       println("PARTIDA COMPLETADA CON TECLA K");
       nivelCompletado = true;
+<<<<<<< HEAD
       gm.finalizarPartida(true);
     }
   }
+=======
+    }
+  }
+  public void guardarEstadisticas() {
+    this.precisionDisparo = (balasDisparadas > 0) ? (float) balasImpactadas / balasDisparadas * 100 : 0;
+    TableRow newRow = table.addRow();
+    newRow.setInt("id", this.partidaId);
+    newRow.setFloat("puntaje", jugador.puntaje);
+    newRow.setFloat("tiempo", this.duracion);
+    newRow.setInt("enemigos derrotados", this.enemigosDerrotados);
+    newRow.setInt("enemigos rojos derrotados", this.enemigosRojosDerrotados);
+    newRow.setInt("enemigos verdes derrotados", this.enemigosVerdesDerrotados);
+    newRow.setString("player_id", this.playerID);
+    newRow.setFloat("precision disparo", this.precisionDisparo);
+    newRow.setInt("win", gm.getPartidaGanada() ? 1 : 0);
+    saveTable(table, "data/prueba.csv");
+  }
+>>>>>>> origin/main
 
   // ─── ENEMIGOS ────────────────────────────────────────
   void escuadronVerde(int cant, float tAct){
     EscuadronVerde verde1 = new EscuadronVerde(this);
       verde1.añadirEnemigo(cant);
       verde1.mandar(tAct);
+<<<<<<< HEAD
 
     for (int j = 0; j <cant ; j++) {
           int x = int(randomGaussian() * 100 + width / 2); // centrado en el medio de la pantalla
@@ -343,6 +382,8 @@ class Partida {
 
           listaEnemigos.add(verde);
         }
+=======
+>>>>>>> origin/main
       }
       
     void escuadronAlfa(int cant,float tAct){
@@ -386,6 +427,7 @@ class Partida {
   void generarEnemigos() {
     switch (nivel) {
     case 1:
+<<<<<<< HEAD
       //int[] tiempoSpawnEnemigos = {3000, 7000, 10000};
       //for (int i : tiempoSpawnEnemigos) {}
       
@@ -412,10 +454,51 @@ class Partida {
       escuadronDelta(3, 8000);     // parábola derecha (entrada suave)
       escuadronGamma(3, 8000);     // parábola invertida (simétrica)
       escuadronEpsilon(2, 9500);   // bajan en línea recta (columna)
+=======
+      // --- FASE 1
+      escuadronVerde(2, 2000);  
+      escuadronAlfa(2, 5000);   
+      escuadronBeta(2, 7000);   
+
+      // --- FASE 2
+      escuadronVerde(4, 11000); 
+      escuadronDelta(3, 15000);
+      escuadronGamma(3, 17000); 
+      escuadronEpsilon(3, 20000);   
+
+      // --- FASE 3
+      escuadronVerde(6, 23000);
+      escuadronAlfa(3, 26000);
+      escuadronBeta(3, 26000);
+      escuadronDelta(4, 30000); 
+      escuadronGamma(4, 30000);
+
+      // --- FASE 4
+      escuadronEpsilon(4, 42000);
+      escuadronVerde(8, 43000);
+      escuadronAlfa(4, 46000);
+      escuadronEpsilon(4, 49000);
+      escuadronBeta(4, 50000);
+      escuadronVerde(10, 50000);
+
+    break;
+
+    case 2:
+      // --- FASE 1
+      escuadronAlfa(4, 2000);      
+      escuadronBeta(4, 2000);       
+      escuadronVerde(3, 3000);     
+
+      // --- FASE 2
+      escuadronDelta(3, 8000); 
+      escuadronGamma(3, 8000);   
+      escuadronEpsilon(2, 9500);  
+>>>>>>> origin/main
 
       // --- FASE 3
       escuadronAlfa(5, 13000);
       escuadronBeta(5, 13000);
+<<<<<<< HEAD
       escuadronVerde(9, 12000);     // ráfaga gaussiana
 
       // --- FASE 4
@@ -423,6 +506,15 @@ class Partida {
       escuadronGamma(4, 23000);     // parábola invertida
       escuadronDelta(4, 23000);     // parábola normal
       escuadronVerde(6, 22000);     // última oleada vertical rápida
+=======
+      escuadronVerde(9, 12000);     
+
+      // --- FASE 4
+      escuadronEpsilon(4, 19000);   
+      escuadronGamma(4, 23000);     
+      escuadronDelta(4, 23000);     
+      escuadronVerde(6, 22000);     
+>>>>>>> origin/main
       escuadronEpsilon(3, 26000);
 
       // --- FASE 5
@@ -440,10 +532,20 @@ class Partida {
       escuadronVerde(9, 46000);
       escuadronGamma(5, 48000);
       escuadronDelta(5, 50000);
+<<<<<<< HEAD
       escuadronEpsilon(4, 52000);
       escuadronVerde(10, 54000);   // ráfaga final
 
       break;
+=======
+      escuadronEpsilon(4, 35000);
+      escuadronEpsilon(4, 45000);
+      escuadronEpsilon(4, 50000);
+      escuadronEpsilon(4, 52000);
+      escuadronVerde(10, 50000);   
+      break;
+
+>>>>>>> origin/main
     case 3:
 
       escuadronFinal(5000);
@@ -500,4 +602,8 @@ class Partida {
   public void setMostrandoPantallaNivel(boolean i) {
     this.mostrandoPantallaNivel = i;
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/main

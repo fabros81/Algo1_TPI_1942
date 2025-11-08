@@ -158,3 +158,7 @@ PVector parabolaParametricaInv(float ox, float oy, float velocidadT) {
 
   
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/main
