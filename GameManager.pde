@@ -92,32 +92,32 @@ class GameManager {
         this.kPressed = true;
         this.kPressedThisFrame = true; // ← Solo true en el frame inicial
     }
-    if (this.estado == 0 && this.spacePressed)
+    switch (estado) 
     {
-      if (this.menu.isIngresandoID()) {
-        this.menu.keyPressed();
-      } else {
-        switch(this.menu.getPosicionFlecha()){
-          case 0:
-            this.menu.iniciarIngresoID(); 
-            break;
-          case 1:
-            // implementar 2 jugadores
-            break;
-          case 2:
-            this.estado = 3; // ir a estadísticas
-            break;           
+      case 0: // MENÚ
+        if (spacePressed) {
+          if (menu.isIngresandoID()) {
+            menu.keyPressed();
+          } else {
+            opcionSeleccionada("inicial", menu.getPosicionFlecha());
+          }
         }
-      }
-    }
-    if (this.estado == 0 && this.menu.isIngresandoID() && (key == TAB || key == BACKSPACE)) {
-      this.menu.keyPressed();
-    }
-  
-    if ((this.estado == 2 || this.estado == 3) && key == 'r') 
-    {
-      this.menu.resetearEstado();
-      this.estado = 0; 
+        if (menu.isIngresandoID() && (key == TAB || key == BACKSPACE)) {
+          menu.keyPressed();
+        }
+        break;
+
+      case 2: // FINAL
+        if (spacePressed) {
+          opcionSeleccionada("final", fin.getPosicionFlecha());
+        }
+        break;
+      case 3: // ESTADÍSTICAS
+        if (key == 'r') {
+          menu.resetearEstado();
+          estado = 0;
+        }
+        break;
     }
   }
   public void keyTyped() {
@@ -139,6 +139,39 @@ class GameManager {
   public void resetFrameInput() {
     this.kPressedThisFrame = false;
   }
+
+  public void opcionSeleccionada(String pantalla, int opcion)
+  {
+    switch(pantalla) {
+    case "inicial":
+      switch(opcion) {
+        case 0: // "1 jugador"
+          menu.iniciarIngresoID();
+          break;
+        case 1: // "2 jugadores" (future)
+          break;
+        case 2: // "Ver estadísticas"
+          estado = 3;
+          break;
+      }
+      break;
+
+    case "final":
+      switch(opcion) {
+        case 0: // Reintentar
+          iniciarPartida();
+          break;
+        case 1: // Ver estadísticas
+          estado = 3;
+          break;
+        case 2: // Menú principal
+          menu.resetearEstado();
+          estado = 0;
+          break;
+      }
+      break;
+  }
+}
 
   // ─── GETTERS ─────────────────────────────────────────
   public boolean getLeftPressed() { return this.leftPressed; }

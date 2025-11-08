@@ -49,8 +49,7 @@ class PantallaInicial
     this.ingresandoID = false;
     this.playerID = "";
     this.posicionFlecha = 0;
-    this.x = posiciones[this.posicionFlecha][0];
-    this.y = posiciones[this.posicionFlecha][1];
+    actualizarPosicionFlecha();
   }
 
 void dibujar()
@@ -65,7 +64,7 @@ void dibujar()
         return;
       } else 
       {
-        if ((millis() / 350) % 2 == 1) 
+        if ((millis() / 350) % 2 == 1) //flecha parpadeante
         {
          image(flecha, x + 10, y + 15, 30, 30);
         }

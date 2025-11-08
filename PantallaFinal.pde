@@ -5,8 +5,6 @@ class PantallaFinal
   private PFont fontTexto;
   private PFont fontOpciones;
   private PImage flecha;
-  private boolean flechaVisible;
-  private int contadorParpadeo;
   private int posicionFlecha;
   private int[][] posiciones = {
     {276, 378}, 
@@ -15,8 +13,6 @@ class PantallaFinal
   };
   private int x;
   private int y;
-  private int delayTecla;
-  private int ultimoMillisTecla;
   private Table tablaEstadisticas;
   
   PantallaFinal(GameManager gm)  
@@ -25,11 +21,7 @@ class PantallaFinal
     fontTitulo = createFont("data/fonts/PressStart2P-Regular.ttf", 36);
     fontTexto = createFont("data/fonts/PressStart2P-Regular.ttf", 16);
     fontOpciones = createFont("data/fonts/PressStart2P-Regular.ttf", 20);
-    
-    this.delayTecla = 300;
-    this.ultimoMillisTecla = 0;
-    this.flechaVisible = true;
-    this.contadorParpadeo = 0;
+  
     this.posicionFlecha = 0;
     
     // Cargar imágenes
@@ -92,7 +84,12 @@ class PantallaFinal
     textFont(fontTexto);
     fill(255); // Blanco para las estadísticas
     textAlign(CENTER, CENTER);
-    
+
+    //Flecha parpadeante
+    if ((millis() / 350) % 2 == 1) 
+    {
+      image(flecha, x + 10, y + 15, 30, 30);
+    }
     if (gm.getPartida() != null) {
       Partida p = gm.getPartida();
       float puntaje = p.getPuntos();
@@ -132,23 +129,6 @@ class PantallaFinal
     text("ESTADÍSTICAS", width/2, 420);
     text("MENÚ PRINCIPAL", width/2, 470);
     
-    // Flecha parpadeante
-    contadorParpadeo++;
-    if (contadorParpadeo >= 30 && contadorParpadeo <= 50) {
-      flechaVisible = true;
-    } else {
-      flechaVisible = false;
-    }
-    
-    if (flechaVisible && this.flecha != null) {
-      image(flecha, x, y - 10, 25, 25);
-    }
-    
-    if (contadorParpadeo > 40) {
-      contadorParpadeo = 0;
-      flechaVisible = false;
-    }
-    
     // Instrucciones
     fill(255, 255, 0); // Amarillo para instrucciones
     textAlign(CENTER, CENTER);
@@ -157,59 +137,22 @@ class PantallaFinal
   }
   
   void actualizar()
-  {
-    int tiempoActual = millis();
-    
+  {    
     // Navegación con flechas
-    if (gm.getDownPressed() && tiempoActual - ultimoMillisTecla >= delayTecla) {
+    if (gm.getDownPressed()&& frameCount % 9 == 0) {
       this.posicionFlecha = (this.posicionFlecha + 1) % posiciones.length;
       actualizarPosicionFlecha();
-      ultimoMillisTecla = tiempoActual;
     }
     
-    if (gm.getUpPressed() && tiempoActual - ultimoMillisTecla >= delayTecla) {
+    if (gm.getUpPressed()&& frameCount % 9 == 0) {
       this.posicionFlecha = (this.posicionFlecha - 1 + posiciones.length) % posiciones.length;
       actualizarPosicionFlecha();
-      ultimoMillisTecla = tiempoActual;
-    }
-    
-    // Selección con espacio o enter
-    if ((gm.getSpacePressed() || key == ENTER) && tiempoActual - ultimoMillisTecla >= delayTecla) {
-      ejecutarSeleccion();
-      ultimoMillisTecla = tiempoActual;
     }
   }
   
-  private void actualizarPosicionFlecha() {
+  public void actualizarPosicionFlecha() {
     this.x = posiciones[this.posicionFlecha][0];
     this.y = posiciones[this.posicionFlecha][1];
   }
-  
-  private void ejecutarSeleccion() {
-    switch(this.posicionFlecha) {
-      case 0: // REINTENTAR
-        gm.iniciarPartida();  
-        break;
-      case 1: // ESTADÍSTICAS
-        gm.estado = 3;  
-        break;
-      case 2: // MENÚ PRINCIPAL  
-        gm.menu.resetearEstado();
-        gm.estado = 0;
-        break;
-    }
-  }
-  
-  private float obtenerMejorPuntaje() {
-    float mejorPuntaje = 0;
-    if (tablaEstadisticas != null && tablaEstadisticas.getRowCount() > 0) {
-      for (TableRow row : tablaEstadisticas.rows()) {
-        float puntaje = row.getFloat("puntaje");
-        if (puntaje > mejorPuntaje) {
-          mejorPuntaje = puntaje;
-        }
-      }
-    }
-    return mejorPuntaje;
-  }
+  public int getPosicionFlecha(){return this.posicionFlecha;}
 } 

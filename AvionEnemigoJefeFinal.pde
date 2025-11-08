@@ -1,11 +1,7 @@
 class AvionEnemigoJefeFinal extends AvionEnemigo {
   private int fase = 1;
-  private float tMovimiento;
   private float vidaMax = this.hp;
   private float hpActual = vidaMax;
-
-  private int ancho = 120;
-  private int alto = 80;
 
   private float tiempoUltimoDisparo = 0;
   private float delayDisparo = 1500;
@@ -23,6 +19,8 @@ class AvionEnemigoJefeFinal extends AvionEnemigo {
   public void dibujar() {
     if (!isAlive) return;
 
+    int ancho = 120;
+    int alto = 80 ;
     // --- cuerpo del jefe ---
     imageMode(CENTER);
     image(boss, this.posicion.x, this.posicion.y, ancho, alto);
@@ -55,7 +53,6 @@ class AvionEnemigoJefeFinal extends AvionEnemigo {
   }
 
   public void go() {
-    tMovimiento = millis() - tiempoInicioNivel;
     float alturaBase = 100;
 
 
