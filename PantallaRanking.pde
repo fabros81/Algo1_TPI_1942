@@ -62,7 +62,7 @@ class PantallaRanking extends Pantalla {
 
     // Encabezados
     text("Jugador", 60, startY);
-    text("Partida", 250, startY);
+    text("ID Partida", 230, startY);
     text("Precision", 430, startY);
     text("Puntos", 640, startY);
 
