@@ -97,7 +97,7 @@ class Estadísticas
         }
 
         if (cantidadPartidas == 0) {
-            println("No hay datos disponibles para calcular estadísticas del jugador: " + playerID);
+            println("No hay datos disponibles para calcular estadisticas del jugador: " + playerID);
             return;
         }
 

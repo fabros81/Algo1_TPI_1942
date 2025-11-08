@@ -4,7 +4,6 @@ class PantallaEstadistica extends Pantalla
   private PFont fontTexto;
   private PFont fontOpciones;
   private Estadísticas estadisticas;
-  private GameManager gm;
   
   private String playerID = "ALL";
   private boolean ingresandoID = false;
@@ -12,7 +11,6 @@ class PantallaEstadistica extends Pantalla
   PantallaEstadistica(GameManager gm)
   {
     super(gm);
-    this.gm = gm;
     fontTitulo = createFont("data/fonts/PressStart2P-Regular.ttf", 36);
     fontTexto = createFont("data/fonts/PressStart2P-Regular.ttf", 12);
     fontOpciones = createFont("data/fonts/PressStart2P-Regular.ttf", 20);
