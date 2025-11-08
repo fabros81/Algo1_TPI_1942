@@ -29,9 +29,7 @@ class PantallaInicial
         this.imgInicio = loadImage("background_inicio.jpg");  
         if (this.imgInicio == null) {
             throw new FileNotFoundException("No se pudo cargar la imagen de inicio");
-        } else {
-            this.imgInicio.resize(800, 600); 
-        }
+        } 
     } catch (Exception e) {
         System.err.println("Error cargando imagen: " + e.getMessage());
         this.imgInicio = null;
@@ -67,10 +65,17 @@ void dibujar()
         return;
       } else 
       {
-        if ((millis() / 350) % 2 == 0) return; // simple flicker
-        image(flecha, x + 10, y+15, 30, 30);  
+        if ((millis() / 350) % 2 == 1) 
+        {
+         image(flecha, x + 10, y + 15, 30, 30);
+        }
+        // Instrucciones
+        fill(255, 255, 0); // Amarillo para instrucciones
+        textAlign(CENTER, CENTER);
+        textSize(16);
+        text("Usa ↑ ↓ para navegar, ESPACIO para seleccionar", width/2, height-15);
       }
-    } else 
+    } else //si no estan las imagenes
     {
       background(0); 
       fill(255);
@@ -85,11 +90,7 @@ void dibujar()
   }
 
  void dibujarPantallaID() {
-    // Fondo transparente
     
-   // noStroke();
-   // fill(30, 30, 30, 200); // darker background, more transparent
-    //rect(width/2, (height/2) + 50, 600, 300, 20); // rounded corners make it feel softer
     noStroke();
     fill(0, 0, 0, 80);
     rect(width/2, (height/2) + 50, 600, 300, 20); // shadow offset
@@ -125,7 +126,7 @@ void dibujar()
   }
   
   void actualizar()
-  { int tiempoActual = millis();
+  { 
     if (ingresandoID) {
       
       if (playerID.length() == 3 && gm.getSpacePressed()) {
@@ -134,17 +135,15 @@ void dibujar()
       }
       return;
     }
-    if (gm.getDownPressed() && frameCount % 7 == 0){
+    if (gm.getDownPressed() && frameCount % 9 == 0){
       this.posicionFlecha = this.posicionFlecha +1 ;
       if (this.posicionFlecha >2){this.posicionFlecha = 0;}
-      this.x = posiciones[this.posicionFlecha][0];
-      this.y = posiciones[this.posicionFlecha][1];
+      actualizarPosicionFlecha();
     }
-     if (gm.getUpPressed()&& frameCount % 7 == 0){
+     if (gm.getUpPressed()&& frameCount % 9 == 0){
       this.posicionFlecha = this.posicionFlecha -1 ;
       if (this.posicionFlecha <0){this.posicionFlecha = 2;}
-      this.x = posiciones[this.posicionFlecha][0];
-      this.y = posiciones[this.posicionFlecha][1];
+      actualizarPosicionFlecha(); 
     }
  }
 
@@ -179,4 +178,11 @@ void dibujar()
   public boolean isIngresandoID() {
     return ingresandoID;
   }
+
+  private void actualizarPosicionFlecha() 
+  {
+    this.x = posiciones[this.posicionFlecha][0];
+    this.y = posiciones[this.posicionFlecha][1];
+  }
+  
 }
