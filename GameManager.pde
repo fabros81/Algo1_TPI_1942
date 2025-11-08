@@ -76,6 +76,7 @@ class GameManager {
   //MODIFICACION TEO
   public void finalizarPartida(boolean ganada) {
     this.partidaGanada = ganada;
+    this.fin.resetearEstado();
     this.estado = 2; // Ir a pantalla final
   }
 
@@ -108,7 +109,7 @@ class GameManager {
         break;
 
       case 2: // FINAL
-        if (spacePressed) {
+        if (spacePressed && this.fin.puedeRecibirInput()) {
           opcionSeleccionada("final", fin.getPosicionFlecha());
         }
         break;
@@ -144,6 +145,10 @@ class GameManager {
   {
     switch(pantalla) {
     case "inicial":
+      if (opcion == -1) { // Iniciar partida con ID ingresado
+          this.playerID = menu.getPlayerID();
+          iniciarPartida();
+      }else{
       switch(opcion) {
         case 0: // "1 jugador"
           menu.iniciarIngresoID();
@@ -154,6 +159,7 @@ class GameManager {
           estado = 3;
           break;
       }
+    }
       break;
 
     case "final":
@@ -184,5 +190,4 @@ class GameManager {
   public boolean getPartidaGanada() { return this.partidaGanada; }
   public Partida getPartida() {return this.partida;}
   public String getPlayerID(){return this.playerID;}
-  public void setPlayerID(String id){this.playerID = id;}
 }

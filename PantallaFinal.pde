@@ -15,6 +15,8 @@ class PantallaFinal
   private int y;
   private Table tablaEstadisticas;
   
+  private int tiempoEntrada;   // when we entered this screen
+  private int delayEntrada = 2000; // milliseconds to wait before enabling input
   PantallaFinal(GameManager gm)  
   {
     this.gm = gm;
@@ -88,7 +90,7 @@ class PantallaFinal
     //Flecha parpadeante
     if ((millis() / 350) % 2 == 1) 
     {
-      image(flecha, x + 10, y + 15, 30, 30);
+      image(flecha, x, y - 10, 30, 30);
     }
     if (gm.getPartida() != null) {
       Partida p = gm.getPartida();
@@ -137,7 +139,8 @@ class PantallaFinal
   }
   
   void actualizar()
-  {    
+  { 
+     if (millis() - tiempoEntrada < delayEntrada) return; 
     // Navegación con flechas
     if (gm.getDownPressed()&& frameCount % 9 == 0) {
       this.posicionFlecha = (this.posicionFlecha + 1) % posiciones.length;
@@ -155,4 +158,14 @@ class PantallaFinal
     this.y = posiciones[this.posicionFlecha][1];
   }
   public int getPosicionFlecha(){return this.posicionFlecha;}
+
+  public void resetearEstado() 
+  {
+    this.posicionFlecha = 0;
+    actualizarPosicionFlecha();
+    this.tiempoEntrada = millis();  // record entry time
+  }
+  public boolean puedeRecibirInput() {
+    return millis() - tiempoEntrada >= delayEntrada;
+  }
 } 

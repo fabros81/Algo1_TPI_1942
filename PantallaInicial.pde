@@ -128,9 +128,9 @@ void dibujar()
   { 
     if (ingresandoID) {
       
+      // avisa a GameManager si se presiona espacio y el ID tiene 3 caracteres
       if (playerID.length() == 3 && gm.getSpacePressed()) {
-        gm.setPlayerID(playerID);
-        gm.iniciarPartida();
+        gm.opcionSeleccionada("inicial", -1);
       }
       return;
     }
@@ -154,20 +154,18 @@ void dibujar()
    }
  }
 
- void keyPressed() {
-   if (ingresandoID) {
-     if (key == ' ') {
-       if (playerID.length() == 3) {
-         gm.setPlayerID(playerID);
-         gm.iniciarPartida();
-       }
-     } else if (key == TAB) {
-       ingresandoID = false;
-     } else if (key == BACKSPACE && playerID.length() > 0) {
-       playerID = playerID.substring(0, playerID.length() - 1);
-     }
-   }
- }
+  void keyPressed() 
+  {
+    if (ingresandoID) 
+    {
+      if (key == TAB) {
+        ingresandoID = false;
+      } else if (key == BACKSPACE && playerID.length() > 0) {
+        playerID = playerID.substring(0, playerID.length() - 1);
+      }
+    }
+  }
+
   public int getPosicionFlecha(){return this.posicionFlecha;}
   
   public void iniciarIngresoID() {
@@ -183,5 +181,6 @@ void dibujar()
     this.x = posiciones[this.posicionFlecha][0];
     this.y = posiciones[this.posicionFlecha][1];
   }
-  
+  public String getPlayerID() { return this.playerID; }
+
 }
