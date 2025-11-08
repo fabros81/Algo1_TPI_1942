@@ -1,9 +1,5 @@
 import gifAnimation.*;
-<<<<<<< HEAD
-//import processing.video.*;
-=======
 import processing.video.*;
->>>>>>> origin/main
 private GameManager gm;
 Gif avionJugadorGIF;
 PImage corazon;
@@ -57,12 +53,7 @@ void keyReleased() {
 void keyTyped() {
   gm.keyTyped();
 }
-<<<<<<< HEAD
-//void movieEvent(Movie m) {
-  //m.read(); // sin esto no se actualiza el frame
-=======
 void movieEvent(Movie m) {
   m.read(); // sin esto no se actualiza el frame
 }
 
->>>>>>> origin/main

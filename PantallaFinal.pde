@@ -1,18 +1,8 @@
-<<<<<<< HEAD
-class PantallaFinal
-{
-  private GameManager gm;
-  private PFont fontTitulo, fontTexto, fontOpciones;
-  private PImage flecha;
-  private int posicionFlecha;
-  boolean estadoInicializado = false;
-=======
 class PantallaFinal extends Pantalla
 {
   private PFont fontTitulo, fontTexto, fontOpciones;
   private PImage flecha;
   private int posicionFlecha;
->>>>>>> origin/main
   private int[][] posiciones = {
     {276, 378}, 
     {257, 428},  
@@ -22,24 +12,15 @@ class PantallaFinal extends Pantalla
   private int y;
   private Table tablaEstadisticas;
   
-<<<<<<< HEAD
-  private int tiempoEntrada;   
-  private int delayEntrada = 2000; 
-=======
   private int tiempoEntrada;   // when we entered this screen
   private int delayEntrada = 2000; // milliseconds to wait before enabling input
->>>>>>> origin/main
   private String textoPuntaje, textoTiempo, textoPrecision;
   private int enemigos, enemigosRojos, enemigosVerdes, partidaId;
   private boolean ganada;
 
   PantallaFinal(GameManager gm)  
   {
-<<<<<<< HEAD
-    this.gm = gm;
-=======
     super(gm);
->>>>>>> origin/main
     fontTitulo = createFont("data/fonts/PressStart2P-Regular.ttf", 36);
     fontTexto = createFont("data/fonts/PressStart2P-Regular.ttf", 16);
     fontOpciones = createFont("data/fonts/PressStart2P-Regular.ttf", 20);
@@ -79,11 +60,7 @@ class PantallaFinal extends Pantalla
   textAlign(CENTER, CENTER);
 
   // ─── TÍTULO ────────────────────────────────────────────────
-<<<<<<< HEAD
-  boolean ganada = this.ganada; 
-=======
   boolean ganada = this.ganada; // preloaded in resetearEstado()
->>>>>>> origin/main
   int colorResultado = ganada ? color(0, 255, 0) : color(255, 0, 0);
 
   textFont(fontTitulo);
@@ -147,13 +124,6 @@ class PantallaFinal extends Pantalla
       this.posicionFlecha = (this.posicionFlecha - 1 + posiciones.length) % posiciones.length;
       actualizarPosicionFlecha();
     }
-<<<<<<< HEAD
-    if (!estadoInicializado) {
-    resetearEstado();
-    estadoInicializado = true;
-}
-=======
->>>>>>> origin/main
   }
   
   public void actualizarPosicionFlecha() {
@@ -173,11 +143,7 @@ class PantallaFinal extends Pantalla
 
     if (p != null) {
       float puntaje = p.getPuntos();
-<<<<<<< HEAD
-      float tiempoSegundos = p.getDuracion() / 1000.0;
-=======
       float tiempoSegundos = p.getDuracion() / 1000;
->>>>>>> origin/main
       this.enemigos = p.getEnemigosDerrotados();
       this.enemigosRojos = p.getEnemigosRojosDerrotados();
       this.enemigosVerdes = p.getEnemigosVerdesDerrotados();
@@ -194,8 +160,4 @@ class PantallaFinal extends Pantalla
   public boolean puedeRecibirInput() {
     return millis() - tiempoEntrada >= delayEntrada;
   }
-<<<<<<< HEAD
 } 
-=======
-} 
->>>>>>> origin/main

@@ -6,10 +6,7 @@ class AvionEnemigoJefeFinal extends AvionEnemigo {
   private float tiempoUltimoDisparo = 0;
   private float delayDisparo = 1500;
   private boolean invulnerable = true;
-<<<<<<< HEAD
-=======
   private boolean modoFuria = false;
->>>>>>> origin/main
 
   private int vueltasOcho = 0;
   private int idasHorizontales = 0;
@@ -17,12 +14,8 @@ class AvionEnemigoJefeFinal extends AvionEnemigo {
 
 
   public AvionEnemigoJefeFinal(float x, float y) {
-<<<<<<< HEAD
-    super(x, y, 60, 1.2, 500, 1000);
-=======
     //super(x, y, 60, 1.2, 500, 1000);
     super(x, y, 60, 1.2, 200, 1000);
->>>>>>> origin/main
   }
 
   public void dibujar() {
@@ -64,13 +57,10 @@ class AvionEnemigoJefeFinal extends AvionEnemigo {
   public void go() {
     float alturaBase = 100;
 
-<<<<<<< HEAD
-=======
     if (!modoFuria && this.hp <= vidaMax * 0.3) {
       modoFuria = true;
       this.velocidad = this.velocidad * 2;
     }
->>>>>>> origin/main
 
     switch(fase) {
       case 1: // ENTRADA LENTA
@@ -102,12 +92,6 @@ class AvionEnemigoJefeFinal extends AvionEnemigo {
           }
         }
         break;
-<<<<<<< HEAD
-
-
-      
-=======
->>>>>>> origin/main
     }
   }
 
@@ -121,14 +105,6 @@ class AvionEnemigoJefeFinal extends AvionEnemigo {
 
     switch(fase) {
       case 2:
-<<<<<<< HEAD
-        disparoDobleHaciaJugador(jugadorX, jugadorY);
-        delayDisparo = 750;
-        break;
-      case 3:
-        disparoQuintupleRecto();
-        delayDisparo = 1000;
-=======
         if (modoFuria) {
           disparoDobleHaciaJugador(jugadorX,jugadorY);
           delayDisparo = 450;
@@ -147,7 +123,6 @@ class AvionEnemigoJefeFinal extends AvionEnemigo {
           disparoQuintupleRecto();
           delayDisparo = 900;
         }
->>>>>>> origin/main
         break;
     }
     tiempoUltimoDisparo = tiempoActual;
@@ -163,26 +138,16 @@ class AvionEnemigoJefeFinal extends AvionEnemigo {
     }
 
     dir.normalize();
-<<<<<<< HEAD
-    dir.mult(3); // velocidad de la bala (antes lo hacías al multiplicar por 3)
-=======
     dir.mult(3); // ajustar velocidad de las balas
->>>>>>> origin/main
 
     // Disparo doble con leve separación lateral
     for (int offset : new int[]{-15, 15}) {
         partida.crearBalasEnemigas(
             this.posicion.x + offset,
             this.posicion.y + 40,
-<<<<<<< HEAD
-            dir.x,  // ⚠️ no convertir a int: mantiene la dirección exacta
-            dir.y,
-            5, 9, 33.4
-=======
             dir.x,  
             dir.y,
             5, 9, 1
->>>>>>> origin/main
         );
     }
 }
@@ -203,7 +168,4 @@ class AvionEnemigoJefeFinal extends AvionEnemigo {
     this.hp -= i;
     }
 }
-<<<<<<< HEAD
-=======
 
->>>>>>> origin/main

@@ -1,29 +1,18 @@
 class PantallaEstadistica extends Pantalla
 {
-<<<<<<< HEAD
-  private PFont fontTitulo;
-  private PFont fontTexto;
-  private PFont fontOpciones;
-  private Estadísticas estadisticas;
-  private GameManager gm;
-=======
   private PFont fontTitulo, fontTexto, fontOpciones, fontSubtitulo;
   private Estadísticas estadisticas;
   
   private String playerID = "ALL";
   private boolean ingresandoID = false;
   
->>>>>>> origin/main
   PantallaEstadistica(GameManager gm)
   {
     super(gm);
     fontTitulo = createFont("data/fonts/PressStart2P-Regular.ttf", 36);
     fontTexto = createFont("data/fonts/PressStart2P-Regular.ttf", 12);
     fontOpciones = createFont("data/fonts/PressStart2P-Regular.ttf", 20);
-<<<<<<< HEAD
-=======
     fontSubtitulo = createFont("data/fonts/PressStart2P-Regular.ttf", 18);
->>>>>>> origin/main
     
 
     estadisticas = new Estadísticas();
@@ -45,23 +34,6 @@ class PantallaEstadistica extends Pantalla
     fill(255, 255, 255);
     textAlign(CENTER, CENTER);
     text("ESTADISTICAS", width / 2, 80);
-<<<<<<< HEAD
-
-    textFont(fontTexto);
-    fill(255);
-    textAlign(CENTER, CENTER);
-
-     textFont(fontTexto);
-    fill(150); 
-    textAlign(RIGHT, BOTTOM);
-    text("Pulse 'R' para ir a menú", width - 20, height - 20);
-
-    // ─── Header ─────────────────────────────
-    String[] headers = {"MAX", "MIN", "AVG", "SD"};
-    float startX = width/2 -60;  // center alignment anchor
-    float spacing = 120;           // distance between columns
-
-=======
     textFont(fontSubtitulo);
 
     if (!isIngresandoID()){
@@ -95,16 +67,11 @@ class PantallaEstadistica extends Pantalla
     String[] headers = {"MAX", "MIN", "AVG", "SD"};
     float startX = width/2 -110;  // center alignment anchor
     float spacing = 120;           // distance between columns
->>>>>>> origin/main
     for (int i = 0; i < headers.length; i++) {
       text("|  " + headers[i] + "  ", startX + i * spacing, 200);
     }
     text("|", startX + headers.length  * spacing - 50, 200); // closing pipe
 
-<<<<<<< HEAD
-    // ─── Puntaje ───────────────────────────
-    estadisticas.calcularEstadisticas("puntaje");
-=======
     // ─── Estadísticas ──────────────────────
     dibujarEstadisticas();
   }
@@ -115,7 +82,6 @@ class PantallaEstadistica extends Pantalla
 
       // ─── Puntaje ───────────────────────────
     estadisticas.calcularEstadisticas(playerID, "puntaje");
->>>>>>> origin/main
     float[] puntaje = {
     estadisticas.getMax(),
     estadisticas.getMin(),
@@ -130,11 +96,7 @@ class PantallaEstadistica extends Pantalla
     }
 
     // ─── Tiempo ───────────────────────────
-<<<<<<< HEAD
-    estadisticas.calcularEstadisticas("tiempo");
-=======
     estadisticas.calcularEstadisticas(playerID, "tiempo");
->>>>>>> origin/main
     float[] tiempo = {
     estadisticas.getMax(),
     estadisticas.getMin(),
@@ -148,11 +110,7 @@ class PantallaEstadistica extends Pantalla
       text(nf(tiempo[i]/1000, 1, 2), startX + i * spacing, 280);
     }
     // ─── Enemigos Derrotados ──────────────
-<<<<<<< HEAD
-    estadisticas.calcularEstadisticas("enemigos derrotados");
-=======
     estadisticas.calcularEstadisticas(playerID, "enemigos derrotados");
->>>>>>> origin/main
     float[] enemigosDerrotados = {
     estadisticas.getMax(),
     estadisticas.getMin(),
@@ -166,11 +124,7 @@ class PantallaEstadistica extends Pantalla
       text(nf(enemigosDerrotados[i], 1, 2), startX + i * spacing, 320);
     }
     // ─── Enemigos Rojos Derrotados ────────
-<<<<<<< HEAD
-    estadisticas.calcularEstadisticas("enemigos rojos derrotados");
-=======
     estadisticas.calcularEstadisticas(playerID, "enemigos rojos derrotados");
->>>>>>> origin/main
     float[] enemigosRojosDerrotados = {
     estadisticas.getMax(),
     estadisticas.getMin(),
@@ -184,11 +138,7 @@ class PantallaEstadistica extends Pantalla
       text(nf(enemigosRojosDerrotados[i], 1, 2), startX + i * spacing, 360);
     }
     // ─── Enemigos Verdes Derrotados ───────
-<<<<<<< HEAD
-    estadisticas.calcularEstadisticas("enemigos verdes derrotados");
-=======
     estadisticas.calcularEstadisticas(playerID, "enemigos verdes derrotados");
->>>>>>> origin/main
     float[] enemigosVerdesDerrotados = {
     estadisticas.getMax(),
     estadisticas.getMin(),
@@ -202,11 +152,7 @@ class PantallaEstadistica extends Pantalla
         text(nf(enemigosVerdesDerrotados[i], 1, 2), startX + i * spacing, 400);
     }
     // ─── Precisión Disparo ─────────────────
-<<<<<<< HEAD
-    estadisticas.calcularEstadisticas("precision disparo");
-=======
     estadisticas.calcularEstadisticas(playerID, "precision disparo");
->>>>>>> origin/main
     float[] precisionDisparo = {
     estadisticas.getMax(),
     estadisticas.getMin(),
@@ -220,12 +166,6 @@ class PantallaEstadistica extends Pantalla
       text(nf(precisionDisparo[i], 1, 2), startX + i * spacing, 440);
     }
 
-<<<<<<< HEAD
-}
-  void actualizar()
-  {
-
-=======
   }
     // ─── PANTALLA DE INGRESO DE ID ─────────────────────────
   void dibujarPantallaID() {
@@ -292,6 +232,5 @@ class PantallaEstadistica extends Pantalla
 
   public boolean isIngresandoID() {
     return ingresandoID;
->>>>>>> origin/main
   }
 }

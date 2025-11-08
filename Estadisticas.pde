@@ -1,11 +1,7 @@
 class Estadísticas
 {
    //Estadisticas globales
-<<<<<<< HEAD
-    
-=======
     private String playerID;
->>>>>>> origin/main
     private Table tablaEstadisticas;
     private float max;
     private float min;
@@ -25,14 +21,9 @@ class Estadísticas
         this.tablaEstadisticas.addColumn("enemigos rojos derrotados");
         this.tablaEstadisticas.addColumn("enemigos verdes derrotados");
         this.tablaEstadisticas.addColumn("precision disparo");
-<<<<<<< HEAD
-        this.tablaEstadisticas.addColumn("player");
-      }
-=======
         this.tablaEstadisticas.addColumn("player_id");
         this.tablaEstadisticas.addColumn("win");
         }
->>>>>>> origin/main
         
     }
 
@@ -74,18 +65,12 @@ class Estadísticas
             desvioEstandar = sqrt(sumaCuadrados / (cantidadPartidas - 1));
         } else {
             desvioEstandar = 0;
-<<<<<<< HEAD
-}
-=======
         }
->>>>>>> origin/main
         this.max = max;
         this.min = min;
         this.media = media;
         this.desvioEstandar = desvioEstandar;
     }
-<<<<<<< HEAD
-=======
     public void calcularEstadisticas(String playerID, String columna) 
     {
         this.tablaEstadisticas = loadTable("data/prueba.csv", "header");
@@ -141,7 +126,6 @@ class Estadísticas
     }
 
     
->>>>>>> origin/main
     // ─── Getters ───────────────────────────────
     float getMax() { return this.max; }
     float getMin() { return this.min; }
