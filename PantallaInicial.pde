@@ -5,11 +5,7 @@ class PantallaInicial
   private GameManager gm;
   //private PFont font;
   private PImage imgInicio;
-  private int delayTecla;
-  private int ultimoMillisTecla;
   private PImage flecha;
-  private boolean flechaVisible;
-  private int contadorParpadeo;
   private int posicionFlecha;
   private int[][] posiciones = {{250, 320},{250, 360}, {250, 410} };
   private int x;
@@ -22,10 +18,6 @@ class PantallaInicial
   {
     this.gm = gm;
     //this.font = createFont("data/fonts/PressStart2P-Regular.ttf", 32);
-    this.delayTecla = 300;
-    this.ultimoMillisTecla =0;
-    this.flechaVisible =true;
-    this.contadorParpadeo = 0;
     this.posicionFlecha = 0; // esto puede ser 0,1 o 2 (actualizar lo ajusta cuando se toca tecla)
     //this.estado = 0;
     this.x = posiciones[this.posicionFlecha][0];
@@ -66,44 +58,32 @@ class PantallaInicial
 void dibujar()
   {
     if (this.imgInicio != null && this.flecha != null) 
-    { background(0);
+    { 
+      background(0);
       image(this.imgInicio, width/2, height/2, width, height); 
-      contadorParpadeo++; 
-      if (ingresandoID) {
-      dibujarPantallaID();
-      return;
-      } 
-      else {
-      dibujarMenuNormal();
+      if (ingresandoID) 
+      {
+        dibujarPantallaID();
+        return;
+      } else 
+      {
+        if ((millis() / 350) % 2 == 0) return; // simple flicker
+        image(flecha, x + 10, y+15, 30, 30);  
       }
-        
     } else 
-    {background(0); 
-    fill(255);
-    text("Error: Imagen/es de pantalla de inicio no encontrada", 50, height/2);
-    
-    // Msj
-    if (this.imgInicio == null) 
-    {text("• Fondo no cargado", 70, height/2 + 20);}
-    
-    if (this.flecha == null) {text("• Flecha no cargada", 70, height/2 + 40);}
+    {
+      background(0); 
+      fill(255);
+      text("Error: Imagen/es de pantalla de inicio no encontrada", 50, height/2);
+      
+      // Msj
+      if (this.imgInicio == null) 
+      {text("• Fondo no cargado", 70, height/2 + 20);}
+      
+      if (this.flecha == null) {text("• Flecha no cargada", 70, height/2 + 40);}
     }
   }
-void dibujarMenuNormal() {
-    contadorParpadeo++; 
-     
-    if ( contadorParpadeo >= 30 && contadorParpadeo <=100)
-    {flechaVisible = true;
-    } else {flechaVisible = false;}
-    
-    if (flechaVisible == true)
-    {image(flecha, x + 10, y+15, 30, 30);}
-    
-    if (contadorParpadeo >70) 
-    {contadorParpadeo = 0;
-     flechaVisible = false;}
- }
- 
+
  void dibujarPantallaID() {
     // Fondo transparente
     
@@ -134,7 +114,6 @@ void dibujarMenuNormal() {
     text(idMostrar, width/2 - 30, height/2);
     
     // Instrucciones
-    //fill(255);
     fill(255, 255, 0);
     if (playerID.length() == 3) 
     {
@@ -144,11 +123,7 @@ void dibujarMenuNormal() {
     fill(255, 255, 0);
     text("Presiona TAB para volver al menú", width/2 - 30, height/2 + 100);
   }
-
-
- 
- 
-   
+  
   void actualizar()
   { int tiempoActual = millis();
     if (ingresandoID) {
@@ -159,21 +134,17 @@ void dibujarMenuNormal() {
       }
       return;
     }
-    if (gm.getDownPressed() && tiempoActual - ultimoMillisTecla >= delayTecla ){
+    if (gm.getDownPressed() && frameCount % 7 == 0){
       this.posicionFlecha = this.posicionFlecha +1 ;
-        if (this.posicionFlecha >2){this.posicionFlecha = 0;
-        }
+      if (this.posicionFlecha >2){this.posicionFlecha = 0;}
       this.x = posiciones[this.posicionFlecha][0];
       this.y = posiciones[this.posicionFlecha][1];
-      ultimoMillisTecla = tiempoActual;
     }
-     if (gm.getUpPressed() && tiempoActual - ultimoMillisTecla >= delayTecla ){
+     if (gm.getUpPressed()&& frameCount % 7 == 0){
       this.posicionFlecha = this.posicionFlecha -1 ;
-        if (this.posicionFlecha <0){this.posicionFlecha = 2;
-        }
+      if (this.posicionFlecha <0){this.posicionFlecha = 2;}
       this.x = posiciones[this.posicionFlecha][0];
       this.y = posiciones[this.posicionFlecha][1];
-      ultimoMillisTecla = tiempoActual;
     }
  }
 
@@ -201,7 +172,7 @@ void dibujarMenuNormal() {
  }
   public int getPosicionFlecha(){return this.posicionFlecha;}
   
-   public void iniciarIngresoID() {
+  public void iniciarIngresoID() {
     this.ingresandoID = true;
     this.playerID = "";
   }
