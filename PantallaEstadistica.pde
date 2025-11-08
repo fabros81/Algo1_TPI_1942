@@ -1,10 +1,11 @@
 class PantallaEstadistica extends Pantalla
 {
-  private PFont fontTitulo;
-  private PFont fontTexto;
-  private PFont fontOpciones;
+  private PFont fontTitulo, fontTexto, fontOpciones;
   private Estadísticas estadisticas;
-  private GameManager gm;
+  
+  private String playerID = "ALL";
+  private boolean ingresandoID = false;
+  
   PantallaEstadistica(GameManager gm)
   {
     super(gm);
@@ -33,11 +34,16 @@ class PantallaEstadistica extends Pantalla
     textAlign(CENTER, CENTER);
     text("ESTADISTICAS", width / 2, 80);
 
-    textFont(fontTexto);
-    fill(255);
-    textAlign(CENTER, CENTER);
+    
+    if (ingresandoID)
+    {
+      dibujarPantallaID();
+      return;
+    }
+  
 
-     textFont(fontTexto);
+
+    textFont(fontTexto);
     fill(150); 
     textAlign(RIGHT, BOTTOM);
     text("Pulse 'R' para ir a menú", width - 20, height - 20);
@@ -46,14 +52,21 @@ class PantallaEstadistica extends Pantalla
     String[] headers = {"MAX", "MIN", "AVG", "SD"};
     float startX = width/2 -60;  // center alignment anchor
     float spacing = 120;           // distance between columns
-
     for (int i = 0; i < headers.length; i++) {
       text("|  " + headers[i] + "  ", startX + i * spacing, 200);
     }
     text("|", startX + headers.length  * spacing - 50, 200); // closing pipe
 
-    // ─── Puntaje ───────────────────────────
-    estadisticas.calcularEstadisticas("puntaje");
+    // ─── Estadísticas ──────────────────────
+    dibujarEstadisticas();
+  }
+  public void dibujarEstadisticas()
+  {
+    float startX = width/2 -60;  // center alignment anchor
+    float spacing = 120;           // distance between columns
+
+      // ─── Puntaje ───────────────────────────
+    estadisticas.calcularEstadisticas(playerID, "puntaje");
     float[] puntaje = {
     estadisticas.getMax(),
     estadisticas.getMin(),
@@ -68,7 +81,7 @@ class PantallaEstadistica extends Pantalla
     }
 
     // ─── Tiempo ───────────────────────────
-    estadisticas.calcularEstadisticas("tiempo");
+    estadisticas.calcularEstadisticas(playerID, "tiempo");
     float[] tiempo = {
     estadisticas.getMax(),
     estadisticas.getMin(),
@@ -82,7 +95,7 @@ class PantallaEstadistica extends Pantalla
       text(nf(tiempo[i]/1000, 1, 2), startX + i * spacing, 280);
     }
     // ─── Enemigos Derrotados ──────────────
-    estadisticas.calcularEstadisticas("enemigos derrotados");
+    estadisticas.calcularEstadisticas(playerID, "enemigos derrotados");
     float[] enemigosDerrotados = {
     estadisticas.getMax(),
     estadisticas.getMin(),
@@ -96,7 +109,7 @@ class PantallaEstadistica extends Pantalla
       text(nf(enemigosDerrotados[i], 1, 2), startX + i * spacing, 320);
     }
     // ─── Enemigos Rojos Derrotados ────────
-    estadisticas.calcularEstadisticas("enemigos rojos derrotados");
+    estadisticas.calcularEstadisticas(playerID, "enemigos rojos derrotados");
     float[] enemigosRojosDerrotados = {
     estadisticas.getMax(),
     estadisticas.getMin(),
@@ -110,7 +123,7 @@ class PantallaEstadistica extends Pantalla
       text(nf(enemigosRojosDerrotados[i], 1, 2), startX + i * spacing, 360);
     }
     // ─── Enemigos Verdes Derrotados ───────
-    estadisticas.calcularEstadisticas("enemigos verdes derrotados");
+    estadisticas.calcularEstadisticas(playerID, "enemigos verdes derrotados");
     float[] enemigosVerdesDerrotados = {
     estadisticas.getMax(),
     estadisticas.getMin(),
@@ -124,7 +137,7 @@ class PantallaEstadistica extends Pantalla
         text(nf(enemigosVerdesDerrotados[i], 1, 2), startX + i * spacing, 400);
     }
     // ─── Precisión Disparo ─────────────────
-    estadisticas.calcularEstadisticas("precision disparo");
+    estadisticas.calcularEstadisticas(playerID, "precision disparo");
     float[] precisionDisparo = {
     estadisticas.getMax(),
     estadisticas.getMin(),
@@ -138,9 +151,72 @@ class PantallaEstadistica extends Pantalla
       text(nf(precisionDisparo[i], 1, 2), startX + i * spacing, 440);
     }
 
-}
+  }
+    // ─── PANTALLA DE INGRESO DE ID ─────────────────────────
+  void dibujarPantallaID() {
+    noStroke();
+    fill(0, 0, 0, 80);
+    rect(width/2, (height/2) + 50, 600, 300, 20);
+    fill(30, 30, 30, 150);
+    rect(width/2, (height/2) + 50, 600, 300, 20);
+
+    fill(255);
+    textAlign(CENTER, CENTER);
+    textFont(fontTexto);
+    text("INGRESA UN ID PARA FILTRAR", width/2, height/2 - 50);
+
+    String idMostrar = playerID;
+    while (idMostrar.length() < 3) idMostrar += "_";
+    text(idMostrar, width/2, height/2);
+
+    fill(255, 255, 0);
+    if (playerID.length() == 3) {
+      text("Presiona ENTER para confirmar", width/2, height/2 + 50);
+    }
+    text("Presiona TAB para cancelar", width/2, height/2 + 100);
+  }
   void actualizar()
   {
+  }
 
+   // ─── INPUT ─────────────────────────────────────────────
+  void keyTyped() {
+    if (ingresandoID && playerID.length() < 3) {
+      if ((key >= 'A' && key <= 'Z') || (key >= 'a' && key <= 'z')) {
+        playerID += Character.toUpperCase(key);
+      }
+    }
+  }
+
+  void keyPressed() {
+    if (!ingresandoID) {
+      // Enter ID mode
+      if (key == ' ') {
+        ingresandoID = true;
+        playerID = "";
+      } else if (key == 'r' || key == 'R') {
+        gm.opcionSeleccionada("estadisticas", 0); // volver al menú
+      }
+      return;
+    }
+
+    // While typing the ID
+    if (ingresandoID) {
+      if (key == BACKSPACE && playerID.length() > 0) {
+        playerID = playerID.substring(0, playerID.length() - 1);
+      } else if (key == TAB) {
+        // Cancel input
+        ingresandoID = false;
+        playerID = "ALL";
+      } else if (keyCode == ENTER && playerID.length() == 3) {
+        // Confirm and apply
+        ingresandoID = false;
+        println("📊 Filtrando estadísticas para: " + playerID);
+      }
+    }
+  }
+
+  public boolean isIngresandoID() {
+    return ingresandoID;
   }
 }
