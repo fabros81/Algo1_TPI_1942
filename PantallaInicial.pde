@@ -141,7 +141,7 @@ void dibujar()
     }
      if (gm.getUpPressed()&& frameCount % 9 == 0){
       this.posicionFlecha = this.posicionFlecha -1 ;
-      if (this.posicionFlecha <0){this.posicionFlecha = 2;}
+      if (this.posicionFlecha <0){this.posicionFlecha = 3;}
       actualizarPosicionFlecha(); 
     }
  }

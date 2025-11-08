@@ -21,7 +21,7 @@ class PantallaEstadistica extends Pantalla
   void dibujar()
   {
     // Fond
-    
+    noStroke();
     background(0);
     
     
@@ -233,4 +233,12 @@ class PantallaEstadistica extends Pantalla
   public boolean isIngresandoID() {
     return ingresandoID;
   }
+
+  public void resetearEstado() {
+  this.ingresandoID = false;
+  this.playerID = "ALL";
+  background(0);
+  }
+
+
 }

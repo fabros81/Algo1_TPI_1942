@@ -43,8 +43,8 @@ class PantallaRanking extends Pantalla {
   // ───────────────────────────────────────────────────────────────
   void actualizar(){
     // si queres volver al menú:
-    if(key == 'r' || key == 'R'){ 
-      gm.estado = 0;
+    if (key == 'r' || key == 'R') {
+    gm.opcionSeleccionada("ranking", 0);
     }
   }
 

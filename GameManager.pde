@@ -166,9 +166,12 @@ class GameManager {
         case 1: // "2 jugadores" (future)
           break;
         case 2: // "Ver estadísticas"
+          background(0);
+          this.estadisticas.resetearEstado();
           estado = 3;
           break;
         case 3: 
+          background(0);
           this.ranking.cargarDatos();
           estado = 4;   //IR A LA PANTALLA RANKING
           break;
@@ -182,6 +185,7 @@ class GameManager {
           iniciarPartida();
           break;
         case 1: // Ver estadísticas
+          this.estadisticas.resetearEstado();
           estado = 3;
           break;
         case 2: // Menú principal
@@ -198,6 +202,14 @@ class GameManager {
           break;
       }
       break;
+      case "ranking":
+        switch (opcion) {
+          case 0: // Volver al menú
+            menu.resetearEstado();
+            estado = 0;
+            break;
+          }
+        break;
     
   }
 }
