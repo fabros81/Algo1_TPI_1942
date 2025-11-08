@@ -1,9 +1,7 @@
 class PantallaFinal
 {
   private GameManager gm;
-  private PFont fontTitulo;
-  private PFont fontTexto;
-  private PFont fontOpciones;
+  private PFont fontTitulo, fontTexto, fontOpciones;
   private PImage flecha;
   private int posicionFlecha;
   private int[][] posiciones = {
@@ -17,6 +15,10 @@ class PantallaFinal
   
   private int tiempoEntrada;   // when we entered this screen
   private int delayEntrada = 2000; // milliseconds to wait before enabling input
+  private String textoPuntaje, textoTiempo, textoPrecision;
+  private int enemigos, enemigosRojos, enemigosVerdes, partidaId;
+  private boolean ganada;
+
   PantallaFinal(GameManager gm)  
   {
     this.gm = gm;
@@ -50,94 +52,66 @@ class PantallaFinal
     this.y = posiciones[this.posicionFlecha][1];
   }
   
-  void dibujar()
-  {
-    // Fondo
-    background(0);
-    
-    // Overlay oscuro
-    fill(0, 0, 0, 200);
-    rect(width/2, height/2, 800, 500);
-    
-    textFont(fontTitulo);
-    textAlign(CENTER, CENTER);
-        
-    // Título GAME OVER O WIN - CORREGIDO
-    if (gm.getPartidaGanada()) {
-      fill(0, 255, 0); // VERDE para victoria
-      text("YOU WIN", width / 2, 80);
-    } else {
-      fill(255, 0, 0); // ROJO para derrota
-      text("GAME OVER", width / 2, 80);
-    }
-    
-    // Línea decorativa - color según resultado
-    stroke(255);
-    if (gm.getPartidaGanada()) {
-      stroke(0, 255, 0); // Verde para victoria
-    } else {
-      stroke(255, 0, 0); // Rojo para derrota
-    }
-    strokeWeight(2);
-    line(width/2 - 150, 110, width/2 + 150, 110);
-    noStroke();
-    
-    // Estadísticas
-    textFont(fontTexto);
-    fill(255); // Blanco para las estadísticas
-    textAlign(CENTER, CENTER);
+  void dibujar() {
+  // Fondo y overlay
+  background(0);
+  fill(0, 0, 0, 200);
+  rect(width/2, height/2, 800, 500);
 
-    //Flecha parpadeante
-    if ((millis() / 350) % 2 == 1) 
-    {
-      image(flecha, x, y - 10, 30, 30);
-    }
-    if (gm.getPartida() != null) {
-      Partida p = gm.getPartida();
-      float puntaje = p.getPuntos();
-      float tiempoSegundos = p.getDuracion() / 1000.0;
-      
-      // Formatear puntaje si es muy grande
-      String textoPuntaje;
-      if (puntaje > 9999) {
-        textoPuntaje = nf(puntaje/1000, 0, 1) + "K";
-      } else {
-        textoPuntaje = nf(puntaje, 0, 2);
-      }
-      
-      text("PUNTAJE FINAL: " + textoPuntaje, width/2, 140);
-      text("TIEMPO: " + nf(tiempoSegundos, 0, 2) + "s", width/2, 170);
-      
-      int partidaId = p.getPartidaId();
-      text("ID: " + partidaId, width/2, 200);
+  textAlign(CENTER, CENTER);
 
-      text("ENEMIGOS DERROTADOS: " + p.getEnemigosDerrotados(), width/2, 230);
-      text("ENEMIGOS ROJOS DERROTADOS: " + p.getEnemigosRojosDerrotados(), width/2, 260);
-      text("ENEMIGOS VERDES DERROTADOS: " + p.getEnemigosVerdesDerrotados(), width/2, 290);
-      text("PRECISIÓN DISPARO: " + nf(p.getPrecisionDisparo(), 0, 2) + "%", width/2, 320);
-    }
-    
-    // Línea separadora
-    stroke(150);
-    strokeWeight(1);
-    line(width/2 - 150, 340, width/2 + 150, 340);
-    noStroke();
-    
-    // Opciones del menú
-    textFont(fontOpciones);
-    fill(255); // Blanco para las opciones
-    textAlign(CENTER, CENTER);
-    text("REINTENTAR", width/2, 370);
-    text("ESTADÍSTICAS", width/2, 420);
-    text("MENÚ PRINCIPAL", width/2, 470);
-    
-    // Instrucciones
-    fill(255, 255, 0); // Amarillo para instrucciones
-    textAlign(CENTER, CENTER);
-    textSize(14);
-    text("Usa ↑ ↓ para navegar, ESPACIO para seleccionar", width/2, 550);
+  // ─── TÍTULO ────────────────────────────────────────────────
+  boolean ganada = this.ganada; // preloaded in resetearEstado()
+  int colorResultado = ganada ? color(0, 255, 0) : color(255, 0, 0);
+
+  textFont(fontTitulo);
+  fill(colorResultado);
+  text(ganada ? "YOU WIN" : "GAME OVER", width / 2, 80);
+
+  stroke(colorResultado);
+  strokeWeight(2);
+  line(width/2 - 150, 110, width/2 + 150, 110);
+  noStroke();
+
+  // ─── ESTADÍSTICAS ───────────────────────────────────────────
+  textFont(fontTexto);
+  fill(255);
+  textAlign(CENTER, CENTER);
+
+  if (textoPuntaje != null) { // valores ya calculados en resetearEstado()
+    text("PUNTAJE FINAL: " + textoPuntaje, width/2, 140);
+    text("TIEMPO: " + textoTiempo, width/2, 170);
+    text("ID: " + partidaId, width/2, 200);
+    text("ENEMIGOS DERROTADOS: " + enemigos, width/2, 230);
+    text("ENEMIGOS ROJOS DERROTADOS: " + enemigosRojos, width/2, 260);
+    text("ENEMIGOS VERDES DERROTADOS: " + enemigosVerdes, width/2, 290);
+    text("PRECISIÓN DISPARO: " + textoPrecision, width/2, 320);
   }
-  
+
+  // Línea separadora
+  stroke(150);
+  strokeWeight(1);
+  line(width/2 - 150, 340, width/2 + 150, 340);
+  noStroke();
+
+  // ─── FLECHA PARPADEANTE ────────────────────────────────────
+  if ((millis() / 350) % 2 == 1) {
+    image(flecha, x, y - 10, 30, 30);
+  }
+
+  // ─── OPCIONES DEL MENÚ ─────────────────────────────────────
+  textFont(fontOpciones);
+  fill(255);
+  text("REINTENTAR", width/2, 370);
+  text("ESTADÍSTICAS", width/2, 420);
+  text("MENÚ PRINCIPAL", width/2, 470);
+
+  // ─── INSTRUCCIONES ─────────────────────────────────────────
+  fill(255, 255, 0);
+  textSize(14);
+  text("Usa ↑ ↓ para navegar, ESPACIO para seleccionar", width/2, 550);
+}
+
   void actualizar()
   { 
      if (millis() - tiempoEntrada < delayEntrada) return; 
@@ -163,7 +137,26 @@ class PantallaFinal
   {
     this.posicionFlecha = 0;
     actualizarPosicionFlecha();
-    this.tiempoEntrada = millis();  // record entry time
+    this.tiempoEntrada = millis();
+
+    Partida p = gm.getPartida();
+    this.ganada = gm.getPartidaGanada();
+
+    if (p != null) {
+      float puntaje = p.getPuntos();
+      float tiempoSegundos = p.getDuracion() / 1000.0;
+      this.enemigos = p.getEnemigosDerrotados();
+      this.enemigosRojos = p.getEnemigosRojosDerrotados();
+      this.enemigosVerdes = p.getEnemigosVerdesDerrotados();
+      this.partidaId = p.getPartidaId();
+
+      this.textoPuntaje = (puntaje > 9999) ? nf(puntaje / 1000, 0, 1) + "K" : nf(puntaje, 0, 2);
+      this.textoTiempo = nf(tiempoSegundos, 0, 2) + "s";
+      this.textoPrecision = nf(p.getPrecisionDisparo(), 0, 2) + "%";
+    } else {
+      this.textoPuntaje = this.textoTiempo = this.textoPrecision = null;
+      this.enemigos = this.enemigosRojos = this.enemigosVerdes = this.partidaId = 0;
+    }
   }
   public boolean puedeRecibirInput() {
     return millis() - tiempoEntrada >= delayEntrada;
