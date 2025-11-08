@@ -1,8 +1,7 @@
 import java.io.FileNotFoundException;
 
-class PantallaInicial
+class PantallaInicial extends Pantalla
 {
-  private GameManager gm;
   //private PFont font;
   private PImage imgInicio;
   private PImage flecha;
@@ -16,7 +15,7 @@ class PantallaInicial
     
   PantallaInicial(GameManager gm)
   {
-    this.gm = gm;
+    super(gm);
     //this.font = createFont("data/fonts/PressStart2P-Regular.ttf", 32);
     this.posicionFlecha = 0; // esto puede ser 0,1 o 2 (actualizar lo ajusta cuando se toca tecla)
     //this.estado = 0;

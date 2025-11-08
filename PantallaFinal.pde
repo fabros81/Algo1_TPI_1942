@@ -1,6 +1,5 @@
-class PantallaFinal
+class PantallaFinal extends Pantalla
 {
-  private GameManager gm;
   private PFont fontTitulo, fontTexto, fontOpciones;
   private PImage flecha;
   private int posicionFlecha;
@@ -21,7 +20,7 @@ class PantallaFinal
 
   PantallaFinal(GameManager gm)  
   {
-    this.gm = gm;
+    super(gm);
     fontTitulo = createFont("data/fonts/PressStart2P-Regular.ttf", 36);
     fontTexto = createFont("data/fonts/PressStart2P-Regular.ttf", 16);
     fontOpciones = createFont("data/fonts/PressStart2P-Regular.ttf", 20);
@@ -144,7 +143,7 @@ class PantallaFinal
 
     if (p != null) {
       float puntaje = p.getPuntos();
-      float tiempoSegundos = p.getDuracion() / 1000.0;
+      float tiempoSegundos = p.getDuracion() / 1000;
       this.enemigos = p.getEnemigosDerrotados();
       this.enemigosRojos = p.getEnemigosRojosDerrotados();
       this.enemigosVerdes = p.getEnemigosVerdesDerrotados();

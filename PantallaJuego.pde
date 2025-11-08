@@ -1,7 +1,6 @@
 class PantallaJuego extends Pantalla
 {
   private Partida partida;
-  private GameManager gm;
   private PFont fontUI;
   private PFont fontNumeros;
   PantallaJuego(GameManager gm)

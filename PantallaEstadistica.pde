@@ -1,8 +1,6 @@
 class PantallaEstadistica extends Pantalla
 {
-  private PFont fontTitulo;
-  private PFont fontTexto;
-  private PFont fontOpciones;
+  private PFont fontTitulo, fontTexto, fontOpciones;
   private Estadísticas estadisticas;
   
   private String playerID = "ALL";
