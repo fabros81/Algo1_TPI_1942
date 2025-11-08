@@ -1,6 +1,6 @@
 class PantallaEstadistica extends Pantalla
 {
-  private PFont fontTitulo, fontTexto, fontOpciones;
+  private PFont fontTitulo, fontTexto, fontOpciones, fontSubtitulo;
   private Estadísticas estadisticas;
   
   private String playerID = "ALL";
@@ -12,6 +12,7 @@ class PantallaEstadistica extends Pantalla
     fontTitulo = createFont("data/fonts/PressStart2P-Regular.ttf", 36);
     fontTexto = createFont("data/fonts/PressStart2P-Regular.ttf", 12);
     fontOpciones = createFont("data/fonts/PressStart2P-Regular.ttf", 20);
+    fontSubtitulo = createFont("data/fonts/PressStart2P-Regular.ttf", 18);
     
 
     estadisticas = new Estadísticas();
@@ -33,11 +34,23 @@ class PantallaEstadistica extends Pantalla
     fill(255, 255, 255);
     textAlign(CENTER, CENTER);
     text("ESTADISTICAS", width / 2, 80);
+    textFont(fontSubtitulo);
 
-    
-    if (ingresandoID)
-    {
+    if (!isIngresandoID()){
+      if (playerID.equals("ALL")){
+      text("GLOBALES", width / 2, 130);
+      }
+      else
+      {
+        text("DE: " + playerID, width / 2, 130);
+      }
+    }
+    else{
       dibujarPantallaID();
+      textFont(fontTexto);
+      fill(150); 
+      textAlign(LEFT, BOTTOM);
+      text("Si quiere ver las estadisticas globales ingrese 'ALL'", 20, height - 20);
       return;
     }
   
@@ -45,12 +58,14 @@ class PantallaEstadistica extends Pantalla
 
     textFont(fontTexto);
     fill(150); 
-    textAlign(RIGHT, BOTTOM);
-    text("Pulse 'R' para ir a menú", width - 20, height - 20);
+    textAlign(LEFT, BOTTOM);
+    text("Pulse 'R' para ir a menú", 20, height - 20);
+    text("Pulse 'SPACE' para filtrar por jugador", 20, height - 40);
+
 
     // ─── Header ─────────────────────────────
     String[] headers = {"MAX", "MIN", "AVG", "SD"};
-    float startX = width/2 -60;  // center alignment anchor
+    float startX = width/2 -110;  // center alignment anchor
     float spacing = 120;           // distance between columns
     for (int i = 0; i < headers.length; i++) {
       text("|  " + headers[i] + "  ", startX + i * spacing, 200);
@@ -200,7 +215,7 @@ class PantallaEstadistica extends Pantalla
       return;
     }
 
-    // While typing the ID
+    // mientras ingresas ID
     if (ingresandoID) {
       if (key == BACKSPACE && playerID.length() > 0) {
         playerID = playerID.substring(0, playerID.length() - 1);
@@ -211,7 +226,6 @@ class PantallaEstadistica extends Pantalla
       } else if (keyCode == ENTER && playerID.length() == 3) {
         // Confirm and apply
         ingresandoID = false;
-        println("📊 Filtrando estadísticas para: " + playerID);
       }
     }
   }

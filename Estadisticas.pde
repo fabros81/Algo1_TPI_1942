@@ -97,7 +97,10 @@ class Estadísticas
         }
 
         if (cantidadPartidas == 0) {
-            println("No hay datos disponibles para calcular estadisticas del jugador: " + playerID);
+            this.max = 0;
+            this.min = 0;
+            this.media = 0;
+            this.desvioEstandar = 0;
             return;
         }
 
