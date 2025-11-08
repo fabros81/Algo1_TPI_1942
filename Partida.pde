@@ -237,10 +237,11 @@ class Partida {
       listaBalasEnemigas.clear();
       mostrandoPantallaNivel = true;
       tiempoTransicionNivel = millis();
+      jugador.setPos(width / 2, height - 50);
       generarEnemigos();
     }
     //1 minuto
-    if (duracionNivel >= 60_000 && nivel == 2)
+    if (duracionNivel >= 61_000 && nivel == 2)
     {
       nivel = 3;
       tiempoInicioNivel = millis();
@@ -248,6 +249,7 @@ class Partida {
       listaBalasEnemigas.clear();
       mostrandoPantallaNivel = true;
       tiempoTransicionNivel = millis();
+      jugador.setPos(width / 2, height - 50);
       generarEnemigos();
     }
 
@@ -301,6 +303,7 @@ class Partida {
     }
   }
   public void guardarEstadisticas() {
+    this.precisionDisparo = (balasDisparadas > 0) ? (float) balasImpactadas / balasDisparadas * 100 : 0;
     TableRow newRow = table.addRow();
     newRow.setInt("id", this.partidaId);
     newRow.setFloat("puntaje", jugador.puntaje);
@@ -309,8 +312,7 @@ class Partida {
     newRow.setInt("enemigos rojos derrotados", this.enemigosRojosDerrotados);
     newRow.setInt("enemigos verdes derrotados", this.enemigosVerdesDerrotados);
     newRow.setString("player_id", this.playerID);
-    newRow.setFloat("precision disparo",
-      balasDisparadas > 0 ? (float) balasImpactadas / balasDisparadas * 100 : 0);
+    newRow.setFloat("precision disparo", this.precisionDisparo);
     newRow.setInt("win", gm.getPartidaGanada() ? 1 : 0);
     saveTable(table, "data/prueba.csv");
   }
@@ -320,19 +322,6 @@ class Partida {
     EscuadronVerde verde1 = new EscuadronVerde(this);
       verde1.añadirEnemigo(cant);
       verde1.mandar(tAct);
-
-    for (int j = 0; j <cant ; j++) {
-          int x = int(randomGaussian() * 100 + width / 2); // centrado en el medio de la pantalla
-          int y = int(randomGaussian() * 100 - 600);       // aparecen arriba con algo de variación
-
-          AvionEnemigoVerde verde = new AvionEnemigoVerde(x, y);
-
-          // 🔸 Agregar activación escalonada
-          verde.setTiempoInicioNivel(this.tiempoInicioNivel);
-          verde.setTiempoActivacion(tAct + j * 800); // uno cada ~0.8s después del tiempo i
-
-          listaEnemigos.add(verde);
-        }
       }
       
     void escuadronAlfa(int cant,float tAct){
@@ -376,17 +365,41 @@ class Partida {
   void generarEnemigos() {
     switch (nivel) {
     case 1:
-      //int[] tiempoSpawnEnemigos = {3000, 7000, 10000};
-      //for (int i : tiempoSpawnEnemigos) {}
+
       
-      escuadronVerde(2,2000);
+      /*escuadronVerde(2,2000);
       escuadronAlfa(2,4000);
       escuadronBeta(2,6000);
       escuadronVerde(6,9000);
       escuadronDelta(4,12000);
       escuadronVerde(10,12000);
       escuadronGamma(3,13000);
-      escuadronEpsilon(3,15000);
+      escuadronEpsilon(3,15000);*/
+    escuadronVerde(2, 2000);   // par de enemigos simples
+    escuadronAlfa(2, 5000);    // diagonal izquierda-derecha
+    escuadronBeta(2, 7000);    // diagonal derecha-izquierda
+
+    // --- FASE 2: CALENTAMIENTO (10–25 s)
+    escuadronVerde(4, 11000);  // 4 verticales, baja velocidad
+    escuadronDelta(3, 15000); // parábola derecha, con delay de 0.5 s entre enemigos
+    escuadronGamma(3, 17000); // parábola izquierda, delay 0.5 s
+    escuadronEpsilon(3, 20000);    // bajan en línea recta
+
+    // --- FASE 3: MITAD DEL NIVEL (25–40 s)
+    escuadronVerde(6, 23000);
+    escuadronAlfa(3, 26000);
+    escuadronBeta(3, 26000);
+    escuadronDelta(4, 30000); // curva derecha
+    escuadronGamma(4, 30000); // curva izquierda
+
+    // --- FASE 4: CIERRE INTENSO (40–60 s)
+    escuadronEpsilon(4, 42000);
+    escuadronVerde(8, 43000);
+    escuadronAlfa(4, 46000);
+    escuadronEpsilon(4, 49000);
+    escuadronBeta(4, 50000);
+    escuadronVerde(10, 50000);
+    
 
 
 
@@ -430,14 +443,15 @@ class Partida {
       escuadronVerde(9, 46000);
       escuadronGamma(5, 48000);
       escuadronDelta(5, 50000);
-      escuadronEpsilon(4, 52000);
-      escuadronVerde(10, 54000);   // ráfaga final
-
+      escuadronEpsilon(4, 35000);
+      escuadronEpsilon(4, 45000);
+      escuadronEpsilon(4, 50000);
+      escuadronVerde(10, 50000);   
       break;
     case 3:
-
-      escuadronFinal(5000);
-      println("nivel 3"); //imprime en consola
+      
+      escuadronFinal(5000); // genero el jefe final
+      
       break;
     }
   }
