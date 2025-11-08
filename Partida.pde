@@ -439,8 +439,9 @@ class Partida {
       break;
 
     case 3:
-      // ─── JEFE FINAL ──────────────────────────────
-      escuadronFinal(5000); 
+
+      escuadronFinal(5000);
+      println("nivel 3"); //imprime en consola
       break;
     }
   }
@@ -494,4 +495,3 @@ class Partida {
     this.mostrandoPantallaNivel = i;
   }
 }
-

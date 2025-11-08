@@ -167,9 +167,6 @@ class AvionEnemigoJefeFinal extends AvionEnemigo {
     if (invulnerable) return;
     this.hp -= i;
     }
-
-  public boolean getModoFuria() {
-    return this.modoFuria;
-  }
+}
 
 }
