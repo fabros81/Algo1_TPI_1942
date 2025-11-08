@@ -213,6 +213,7 @@ class Partida {
     if (this.debeReiniciarNivel)
     {
       reiniciarNivel();
+      jugador.setPos(width / 2, height - 50);
       this.jugador.activarInvulnerabilidad();
       this.debeReiniciarNivel = false;
     }
