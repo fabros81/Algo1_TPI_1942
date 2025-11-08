@@ -10,7 +10,7 @@ class PantallaInicial
   private int[][] posiciones = {{250, 320},{250, 360}, {250, 410} };
   private int x;
   private int y;
-  PFont fontID;
+  PFont fontID, fontTexto, fontOpciones;
   private boolean ingresandoID;
   private String playerID;
     
@@ -23,6 +23,7 @@ class PantallaInicial
     this.x = posiciones[this.posicionFlecha][0];
     this.y = posiciones[this.posicionFlecha][1];
     fontID = createFont("data/fonts/PressStart2P-Regular.ttf", 16);
+    fontTexto = createFont("data/fonts/PressStart2P-Regular.ttf", 14);
     this.ingresandoID = false;
     this.playerID = "";
     try {
@@ -69,9 +70,9 @@ void dibujar()
          image(flecha, x + 10, y + 15, 30, 30);
         }
         // Instrucciones
+        textFont(fontTexto);
         fill(255, 255, 0); // Amarillo para instrucciones
         textAlign(CENTER, CENTER);
-        textSize(16);
         text("Usa ↑ ↓ para navegar, ESPACIO para seleccionar", width/2, height-15);
       }
     } else //si no estan las imagenes
