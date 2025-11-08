@@ -26,7 +26,7 @@ class PantallaRanking extends Pantalla {
 
     for (TableRow row : t.rows()) {
 
-      String usuario = row.getString("player");
+      String usuario = row.getString("player_id");
       int id = row.getInt("id");
       float precision = row.getFloat("precision disparo");
       float puntaje = row.getFloat("puntaje");

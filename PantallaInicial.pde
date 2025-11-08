@@ -7,7 +7,7 @@ class PantallaInicial
   private PImage imgInicio;
   private PImage flecha;
   private int posicionFlecha;
-  private int[][] posiciones = {{250, 320},{250, 360}, {250, 410}, {250, 460}};
+  private int[][] posiciones = {{250, 320},{250, 360}, {250, 410}, {250, 450}};
   private int x;
   private int y;
   PFont fontID, fontTexto, fontOpciones;
