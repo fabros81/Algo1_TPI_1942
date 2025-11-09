@@ -7,7 +7,7 @@ class Estadísticas
     private float min;
     private float media;
     private float desvioEstandar;
-
+    private float winRate;
     Estadísticas()
     {
         try {
@@ -124,6 +124,26 @@ class Estadísticas
         this.media = media;
         this.desvioEstandar = desvioEstandar;
     }
+    public void winRate(String playerID)
+    {
+        this.tablaEstadisticas = loadTable("data/prueba.csv", "header");
+        int wins = 0;
+        int total = 0;
+
+        Iterable<TableRow> filas = playerID.equals("ALL")
+            ? tablaEstadisticas.rows()
+            : tablaEstadisticas.findRows(playerID, "player_id");
+
+        for (TableRow row : filas) {
+            total++;
+            if (row.getInt("win") == 1) {
+                wins++;
+            }
+        }
+
+        float winRate = total > 0 ? (float) wins / total * 100 : 0;
+        this.winRate = winRate;
+    }
 
     
     // ─── Getters ───────────────────────────────
@@ -131,7 +151,7 @@ class Estadísticas
     float getMin() { return this.min; }
     float getMedia() { return this.media; }
     float getDesvioEstandar() { return this.desvioEstandar; }
-
+    float getWinRate(){return this.winRate;}
 
 
 }

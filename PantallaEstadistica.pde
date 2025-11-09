@@ -166,6 +166,13 @@ class PantallaEstadistica extends Pantalla
       text(nf(precisionDisparo[i], 1, 2), startX + i * spacing, 440);
     }
 
+    // ─── Win Rate ─────────────────────────
+    
+    textAlign(LEFT);
+    text("WIN RATE: ", 10, 500);
+    estadisticas.winRate(playerID);
+    text(nf(estadisticas.getWinRate(),1,2) + " %", 150, 500);
+    
   }
     // ─── PANTALLA DE INGRESO DE ID ─────────────────────────
   void dibujarPantallaID() {
