@@ -15,7 +15,7 @@ class AvionEnemigoJefeFinal extends AvionEnemigo {
 
   public AvionEnemigoJefeFinal(float x, float y) {
     //super(x, y, 60, 1.2, 500, 1000);
-    super(x, y, 60, 1.2, 500, 1000);
+    super(x, y, 60, 1.2, 500, 6000);
   }
 
   public void dibujar() {
