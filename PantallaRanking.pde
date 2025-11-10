@@ -17,10 +17,10 @@ class PantallaRanking extends Pantalla {
   void cargarDatos(){
     ranking.clear();
 
-    Table t = loadTable("prueba.csv", "header");
+    Table t = loadTable("data.csv", "header");
 
     if(t == null){
-      println("ERROR: No se pudo leer prueba.csv");
+      println("ERROR: No se pudo leer data.csv");
       return;
     }
 

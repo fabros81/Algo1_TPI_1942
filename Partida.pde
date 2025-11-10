@@ -58,7 +58,7 @@ class Partida {
 
 
     // Cargar o crear tabla de puntajes
-    this.table = loadTable("data/prueba.csv", "header");
+    this.table = loadTable("data/data.csv", "header");
     this.partidaId = table.getRowCount(); // ID basado en la cantidad de filas existentes
     // Iniciar pantalla nivel 1 y Generar enemigos iniciales
     this.tiempoTransicionNivel = millis();
@@ -315,7 +315,7 @@ class Partida {
     newRow.setString("player_id", this.playerID);
     newRow.setFloat("precision disparo", this.precisionDisparo);
     newRow.setInt("win", gm.getPartidaGanada() ? 1 : 0);
-    saveTable(table, "data/prueba.csv");
+    saveTable(table, "data/data.csv");
   }
 
   // ─── ENEMIGOS ────────────────────────────────────────

@@ -11,7 +11,7 @@ class Estadísticas
     Estadísticas()
     {
         try {
-          this.tablaEstadisticas = loadTable("data/prueba.csv", "header");
+          this.tablaEstadisticas = loadTable("data/data.csv", "header");
         } catch (Exception e) {
         this.tablaEstadisticas = new Table();
         this.tablaEstadisticas.addColumn("id");
@@ -30,7 +30,7 @@ class Estadísticas
 
     public void calcularEstadisticas(String columna)
     {
-        this.tablaEstadisticas = loadTable("data/prueba.csv", "header");
+        this.tablaEstadisticas = loadTable("data/data.csv", "header");
         float sumaTotal = 0;
         float max = Float.NEGATIVE_INFINITY;
         float min = Float.POSITIVE_INFINITY;
@@ -73,7 +73,7 @@ class Estadísticas
     }
     public void calcularEstadisticas(String playerID, String columna) 
     {
-        this.tablaEstadisticas = loadTable("data/prueba.csv", "header");
+        this.tablaEstadisticas = loadTable("data/data.csv", "header");
 
         float sumaTotal = 0;
         float max = Float.NEGATIVE_INFINITY;
@@ -126,7 +126,7 @@ class Estadísticas
     }
     public void winRate(String playerID)
     {
-        this.tablaEstadisticas = loadTable("data/prueba.csv", "header");
+        this.tablaEstadisticas = loadTable("data/data.csv", "header");
         int wins = 0;
         int total = 0;
 

@@ -36,7 +36,7 @@ class PantallaFinal extends Pantalla
     
     // Cargar tabla de estadísticas
     try {
-      this.tablaEstadisticas = loadTable("data/prueba.csv", "header");
+      this.tablaEstadisticas = loadTable("data/data.csv", "header");
     } catch (Exception e) {
       this.tablaEstadisticas = new Table();
       this.tablaEstadisticas.addColumn("id");
