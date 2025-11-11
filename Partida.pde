@@ -491,6 +491,9 @@ class Partida {
   public int getTiempoTransicionNivel() {
     return this.tiempoTransicionNivel;
   }
+  public ArrayList<AvionEnemigo> getListaEnemigos() {
+    return this.listaEnemigos;
+  }
 
   public void setMostrandoPantallaNivel(boolean i) {
     this.mostrandoPantallaNivel = i;
