@@ -6,17 +6,21 @@ public class EscuadronVerde extends Escuadron{
     }
 
     public void añadirEnemigo(int cant) {
-            for (int j = 0; j <cant ; j++) {
-            int x = int(randomGaussian() * 100 + width / 2); // centrado en el medio de la pantalla
-            int y = int(randomGaussian() * 100 - 600);       // aparecen arriba con algo de variación
-            AvionEnemigoVerde e = new AvionEnemigoVerde(x, y);
-            e.setPartida(this.partida);
-            e.setCurva("gaussVertical");
-            e.setTiempoInicioNivel(this.tiempoInicioNivel);
-            this.enemigos.add(e);
+        if (cant <= 0) {
+            println("Advertencia: La cantidad de enemigos debe ser mayor a cero.");
+            return;
+        }
+        for (int j = 0; j <cant ; j++) {
+        int x = int(randomGaussian() * 100 + width / 2); // centrado en el medio de la pantalla
+        int y = int(randomGaussian() * 100 - 600);       // aparecen arriba con algo de variación
+        AvionEnemigoVerde e = new AvionEnemigoVerde(x, y);
+        e.setPartida(this.partida);
+        e.setCurva("gaussVertical");
+        e.setTiempoInicioNivel(this.tiempoInicioNivel);
+        this.enemigos.add(e);
         }
     
-        partida.listaEnemigos.addAll(this.enemigos);
+        partida.getListaEnemigos().addAll(this.enemigos);
     
     }
 

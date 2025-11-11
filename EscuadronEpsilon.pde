@@ -5,6 +5,10 @@ public class EscuadronEpsilon extends Escuadron{
     }
 
     public void añadirEnemigo(int cant) {
+        if (cant <= 0) {
+            println("Advertencia: La cantidad de enemigos debe ser mayor a cero.");
+            return;
+        }
         for (int i = 0; i < cant; i++) {
             AvionEnemigoRojo e = new AvionEnemigoRojo(100 + i * 100, 0);
             e.setPartida(this.partida);    
@@ -13,11 +17,15 @@ public class EscuadronEpsilon extends Escuadron{
             this.enemigos.add(e);
         }
     
-        partida.listaEnemigos.addAll(this.enemigos);
+        partida.getListaEnemigos().addAll(this.enemigos);
     
     }
 
     public void añadirEnemigoEspejo(int cant) {
+        if (cant <= 0) {
+            println("Advertencia: La cantidad de enemigos debe ser mayor a cero.");
+            return;
+        }
         for (int i = 0; i < cant; i++) {
             //primera linea
             AvionEnemigoRojo e = new AvionEnemigoRojo(100 + i * 100, 0);    
@@ -36,7 +44,7 @@ public class EscuadronEpsilon extends Escuadron{
 
         }
     
-        partida.listaEnemigos.addAll(this.enemigos);
+        partida.getListaEnemigos().addAll(this.enemigos);
     
     }
 

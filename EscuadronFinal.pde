@@ -5,11 +5,14 @@ public class EscuadronFinal extends Escuadron{
     }
 
     public void añadirEnemigo(int cant) {
-        
+        if (cant != 1) {
+            println("Advertencia: La cantidad de enemigos debe ser 1.");
+            return;
+        }
         AvionEnemigoJefeFinal e = new AvionEnemigoJefeFinal(400, -200);  
         e.setPartida(this.partida);
         e.setTiempoInicioNivel(millis());
-        partida.listaEnemigos.add(e);
+        partida.getListaEnemigos().add(e);
         
     
     }

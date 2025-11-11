@@ -5,6 +5,10 @@ public class EscuadronDelta extends Escuadron{
     }
 
     public void añadirEnemigo(int cant) {
+        if (cant <= 0) {
+            println("Advertencia: La cantidad de enemigos debe ser mayor a cero.");
+            return;
+        }
         for (int i = 0; i < cant; i++) {
             AvionEnemigoRojo e = new AvionEnemigoRojo(100, -20);    
             e.setPartida(this.partida);
@@ -13,7 +17,7 @@ public class EscuadronDelta extends Escuadron{
             this.enemigos.add(e);
         }
     
-        partida.listaEnemigos.addAll(this.enemigos);
+        partida.getListaEnemigos().addAll(this.enemigos);
     
     }
 
