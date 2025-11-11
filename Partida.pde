@@ -8,7 +8,7 @@ class Partida {
   private ArrayList<Explosion> explosiones = new ArrayList<Explosion>();
 
 
-  private Colision colision;
+
   private Table table;
 
   private GameManager gm;
@@ -52,7 +52,6 @@ class Partida {
     this.listaBalasAliadas = new ArrayList<Bala>();
     this.listaBalasEnemigas = new ArrayList<Bala>();
     this.listaEnemigos = new ArrayList<AvionEnemigo>();
-    this.colision = new Colision();
     this.playerID = gm.getPlayerID();
 
 
@@ -148,6 +147,7 @@ class Partida {
     jugador.actualizarMultidisparo();
 // ─── COLISIONES ──────────────────────────────
     //impacto bala aliada con nave enemiga, resto vida y sumo puntos
+    Colision colision = new Colision();
     for (Bala b : listaBalasAliadas)
     {
       for (AvionEnemigo e : listaEnemigos)
