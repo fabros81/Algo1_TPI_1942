@@ -1,5 +1,6 @@
 abstract class AvionEnemigo extends Avion
 {
+  // Atributos 
   protected int puntos;
   protected int direccion = 1;
   protected float tiempoActivacion; 
@@ -15,17 +16,20 @@ abstract class AvionEnemigo extends Avion
     this.puntos = puntos;
     this.recorrido = new Curva();
   }
-  
-    
+
+  // Métodos abstractos implementados por cada tipo de enemigo
   abstract void mover();
   abstract void dibujar();
   abstract void disparar();
   abstract void go();
+
+  // Getters y setters
   public int getPuntos(){return this.puntos;}
   public float getTiempoActivacion(){return this.tiempoActivacion;}
+
   public void setTiempoActivacion(float tAct) {
     this.tiempoActivacion = tAct;
-    // resetear tiempoUltimoDisparo al activarse el avión para evitar disparos inmediatos
+    // Evita que el enemigo dispare instantáneamente al aparecer
     this.tiempoUltimoDisparo = millis() + int(random(1000, 4000)); 
   }
 
@@ -33,5 +37,4 @@ abstract class AvionEnemigo extends Avion
   public void setRecorrido(Curva r){this.recorrido = r;}
   public void setCurva(String c){this.curva = c;}
   public void setPartida(Partida p){this.partida = p;}
-
 }

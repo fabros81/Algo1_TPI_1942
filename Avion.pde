@@ -6,7 +6,6 @@ abstract class Avion
   protected boolean isAlive = true;
   protected float hp;
 
-
   public Avion(float x, float y,float rad, float vel, float hp){
     this.posicion = new PVector(x,y);
     this.radio = rad;
@@ -19,10 +18,12 @@ abstract class Avion
   public float getVel(){return this.velocidad;}
   public float getR(){return  this.radio;}
   
-  
+  // Métodos a implementar según el tipo de avión
   abstract void mover();
   abstract void dibujar();
   abstract void disparar();
+
+  // Control de vida
   void restarVida(float i){this.hp -= i;}
   void murio(){this.isAlive = false;}
 }

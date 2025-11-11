@@ -1,31 +1,33 @@
-public class EscuadronBeta extends Escuadron{
+public class EscuadronBeta extends Escuadron {
 
-    public EscuadronBeta(Partida p){
-        super(p);
+  // Constructor: asocia el escuadrón a la partida actual
+  public EscuadronBeta(Partida p) {
+    super(p);
+  }
+
+  // Crea y añade enemigos rojos que entran desde el lado derecho en trayectoria diagonal
+  public void añadirEnemigo(int cant) {
+    if (cant <= 0) {
+      println("Advertencia: La cantidad de enemigos debe ser mayor a cero.");
+      return;
     }
 
-    public void añadirEnemigo(int cant) {
-        if (cant <= 0) {
-            println("Advertencia: La cantidad de enemigos debe ser mayor a cero.");
-            return;
-        }
-        for (int i = 0; i < cant; i++) {
-            AvionEnemigoRojo e = new AvionEnemigoRojo(820 + i * 60, -120 - i * 30);    
-            e.setPartida(this.partida);
-            e.setCurva("diagInv");
-            e.setTiempoInicioNivel(millis());
-            this.enemigos.add(e);
-        }
-    
-        partida.getListaEnemigos().addAll(this.enemigos);
-    
+    for (int i = 0; i < cant; i++) {
+      AvionEnemigoRojo e = new AvionEnemigoRojo(820 + i * 60, -120 - i * 30);
+      e.setPartida(this.partida);
+      e.setCurva("diagInv");
+      e.setTiempoInicioNivel(millis());
+      this.enemigos.add(e);
     }
 
-    public void mandar(float tAct){
-        //int cont = 0;;
-        for (AvionEnemigoRojo e : enemigos) {
-            //cont += 1;
-            e.setTiempoActivacion(tAct);
-        }
-   }
+    // Registra todos los enemigos generados en la lista global de la partida
+    partida.getListaEnemigos().addAll(this.enemigos);
+  }
+
+  // Configura el tiempo de activación para todos los enemigos del escuadrón
+  public void mandar(float tAct) {
+    for (AvionEnemigoRojo e : enemigos) {
+      e.setTiempoActivacion(tAct);
+    }
+  }
 }

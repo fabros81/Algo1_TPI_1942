@@ -7,7 +7,6 @@ PImage boss;
 Gif explode;
 PImage enemigoR;
 PImage enemigoV;
-// Movie fondoJuego;
 PImage fondoJuego;
 PGraphics fondoBuffer;
 
@@ -26,8 +25,6 @@ void setup()
   enemigoR = loadImage("EnemigoRojo.png");
   enemigoV = loadImage("EnemigoVerde.png");
   boss = loadImage("Boss_Green.png");
-  // fondoJuego = new Movie(this, "output.mp4");
-  // fondoJuego.loop();
   fondoJuego = loadImage("fondo_sin_alpha.png");
   fondoBuffer = createGraphics(width, height);
   fondoBuffer.beginDraw();
@@ -52,8 +49,5 @@ void keyReleased() {
 }
 void keyTyped() {
   gm.keyTyped();
-}
-void movieEvent(Movie m) {
-  m.read(); // sin esto no se actualiza el frame
 }
 
