@@ -1,5 +1,5 @@
 import gifAnimation.*;
-import processing.video.*;
+
 private GameManager gm;
 Gif avionJugadorGIF;
 PImage corazon;
